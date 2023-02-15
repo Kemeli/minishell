@@ -1,5 +1,5 @@
 SRC =		main.c \
-
+			lexer.c \
 
 LIBFT =		libft/libft.a
 
