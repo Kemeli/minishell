@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/15 14:35:29 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:05:23 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,36 @@
 #include <readline/history.h>
 #include "libft/libft.h"
 
-# define COMMAND
-# define ARGUMENT
-# define IN_REDIRECT "<"
-# define OUT_REDIRECT ">"
-# define PIPE "|"
-# define INFILE
-# define OUTFILE
+// # define COMMAND
+// # define ARGUMENT
+// # define IN_REDIRECT "<"
+// # define OUT_REDIRECT ">"
+// # define PIPE "|"
+// # define HEREDOC "<<"
+// # define APPEND ">>"
+// # define INFILE
+// # define OUTFILE
+
+
+enum e_token_type
+{
+	COMMAND,
+	ARGUMENT,
+	IN_REDIRECT,
+	OUT_REDIRECT,
+	PIPE,
+	HEREDOC,
+	APPEND,
+	OUTFILE,
+	INFILE
+};
 
 typedef struct s_token
 {
 	char	*cmd;
-	char	*type;
+	int		type;
 	struct s_token	*next;
+	struct s_token	*prev;
 } t_token;
 
 int main();
