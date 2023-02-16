@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/15 23:05:23 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:33:32 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,21 @@
 #include <readline/history.h>
 #include "libft/libft.h"
 
-// # define COMMAND
-// # define ARGUMENT
-// # define IN_REDIRECT "<"
-// # define OUT_REDIRECT ">"
-// # define PIPE "|"
-// # define HEREDOC "<<"
-// # define APPEND ">>"
-// # define INFILE
-// # define OUTFILE
-
-
+//vou deixar flags (-l) como argumento por enquanto, se nos builtins precisar
+// especificamos depois
+// conflito: variavel de ambiente também pode ser argumento de comando 	ENV_VAR, então 
+//acho melhor deixar fora por enquanto
 enum e_token_type
 {
-	COMMAND,
+	ZERO,
+	SYS_CMD,
+	BUILTIN,
 	ARGUMENT,
 	IN_REDIRECT,
 	OUT_REDIRECT,
 	PIPE,
 	HEREDOC,
+	HERE_ARG,
 	APPEND,
 	OUTFILE,
 	INFILE
@@ -51,6 +47,6 @@ typedef struct s_token
 } t_token;
 
 int main();
-void	lexer(char *input, t_token *list);
+t_token	*lexer(char *input, t_token *list);
 
 #endif

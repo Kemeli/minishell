@@ -13,12 +13,27 @@ void	print_list(t_token *list)
 	}
 }
 
-//antes de checar isso aqui, perciso checar se está ou não entre aspas
-void	get_type(t_token *token)
+int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd))) //aqui o próximo é entendido como infile, tratar isso
+	char *builtins[] = {"echo", "pwd", "export", "unset" , "env", "exit", NULL};
+	int i;
+
+	i = 0;
+	while (builtins[i])
+	{
+		if (!ft_strncmp(cmd, builtins[i], ft_strlen(cmd)))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+//antes de checar isso aqui, perciso checar se está ou não entre aspas
+void	check_type(t_token *token)
+{
+	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
 		token->type = IN_REDIRECT;
-	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd))) //aqui o próximo é entendido como outfile, tratar isso
+	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
 		token->type = OUT_REDIRECT;
 	else if (!ft_strncmp(token->cmd, "|", ft_strlen(token->cmd)))
 		token->type = PIPE;
@@ -26,15 +41,22 @@ void	get_type(t_token *token)
 		token->type = HEREDOC;
 	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
 		token->type = APPEND;
-	//falta todos os outros símbolos, quais? como?
-	//falta os argumentos e comandos tb
+	else if ((token->prev && token->prev->type == SYS_CMD) || (token->prev && token->prev->type == BUILTIN))
+		token->type = ARGUMENT;
+	else if (is_builtin(token->cmd))
+		token->type = BUILTIN;
+	else
+		token->type = SYS_CMD;
+
+	// else if (!ft_strncmp(token->cmd[0], "$", ft_strlen(token->cmd)))
+	// 	token->type = ENV_VAR;
 }
 
 t_token	*get_list(t_token *new_token, t_token *list)
 {
 	t_token	*aux;
 
-	if (list == NULL) //setar como null na main, esse é o inicio da lista
+	if (list == NULL)
 		list = new_token;
 	else
 	{
@@ -47,7 +69,20 @@ t_token	*get_list(t_token *new_token, t_token *list)
 	return list;
 }
 
-void	lexer(char *input, t_token *list)
+void	free_matrix(char **input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		free(input[i]);
+		i++;
+	}
+	free(input);
+}
+
+t_token	*lexer(char *input, t_token *list)
 {
 	t_token	*new;
 	char	**temp;
@@ -66,9 +101,13 @@ void	lexer(char *input, t_token *list)
 			new->type = OUTFILE;
 		else if (new->prev && new->prev->type == APPEND)
 			new->type = OUTFILE;
-		else //e o heredoc, entra aqui?
-			get_type(new);
+		else if (new->prev && new->prev->type == HEREDOC)
+			new->type = HERE_ARG;
+		else
+			check_type(new);
 		i++;
 	}
+	free_matrix(temp);
 	print_list(list);
+	return (list);
 }
