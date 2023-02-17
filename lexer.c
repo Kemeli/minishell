@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-void	print_list(t_token *list)
+void	print_list(t_token *list) //essa função vai sair
 {
 	t_token *aux;
 
@@ -15,13 +15,13 @@ void	print_list(t_token *list)
 
 int	is_builtin(char *cmd)
 {
-	char *builtins[] = {"echo", "pwd", "export", "unset" , "env", "exit", NULL};
+	const char *built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
 	int i;
 
 	i = 0;
-	while (builtins[i])
+	while (i < 6)
 	{
-		if (!ft_strncmp(cmd, builtins[i], ft_strlen(cmd)))
+		if (!ft_strncmp(cmd, built[i], ft_strlen(cmd)))
 			return (1);
 		i++;
 	}
@@ -41,13 +41,14 @@ void	check_type(t_token *token)
 		token->type = HEREDOC;
 	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
 		token->type = APPEND;
-	else if ((token->prev && token->prev->type == SYS_CMD) || (token->prev && token->prev->type == BUILTIN))
+	else if (token->prev && token->prev->type == SYS_CMD)
+		token->type = ARGUMENT;
+	else if (token->prev && token->prev->type == BUILTIN)
 		token->type = ARGUMENT;
 	else if (is_builtin(token->cmd))
 		token->type = BUILTIN;
 	else
 		token->type = SYS_CMD;
-
 	// else if (!ft_strncmp(token->cmd[0], "$", ft_strlen(token->cmd)))
 	// 	token->type = ENV_VAR;
 }
@@ -69,32 +70,19 @@ t_token	*get_list(t_token *new_token, t_token *list)
 	return list;
 }
 
-void	free_matrix(char **input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		free(input[i]);
-		i++;
-	}
-	free(input);
-}
-
-t_token	*lexer(char *input, t_token *list)
+t_token	*lexer(char *input, t_token *list) //talvez refatorar aqui
 {
 	t_token	*new;
 	char	**temp;
 	int		i;
 
-	temp = ft_split(input, ' ');
+	temp = get_input_matrix(input);
 	i = 0;
 	while(temp[i])
 	{
 		new = ft_calloc(sizeof(t_token), 1);
 		list = get_list(new, list);
-		new->cmd = temp[i];
+		new->cmd = temp[i]; //talvez strdup aqui pra perder a conexão com a temp
 		if (new->prev && new->prev->type == IN_REDIRECT)
 			new->type = INFILE;
 		else if (new->prev && new->prev->type == OUT_REDIRECT)
@@ -107,7 +95,7 @@ t_token	*lexer(char *input, t_token *list)
 			check_type(new);
 		i++;
 	}
-	free_matrix(temp);
-	print_list(list);
+	print_list(list); //tirar
+	free_matrix(temp); //talvez esse free de problema na lista, talvez colocar ele no final
 	return (list);
 }

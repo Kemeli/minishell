@@ -1,5 +1,7 @@
 SRC =		main.c \
 			lexer.c \
+			input_handler.c \
+			free.c \
 
 LIBFT =		libft/libft.a
 
