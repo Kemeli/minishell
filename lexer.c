@@ -70,7 +70,7 @@ t_token	*get_list(t_token *new_token, t_token *list)
 	return list;
 }
 
-t_token	*lexer(char *input, t_token *list) //talvez refatorar aqui
+t_token	*lexer(char *input, t_token *list, t_env *env_var) //talvez refatorar aqui
 {
 	t_token	*new;
 	char	**temp;
@@ -95,6 +95,7 @@ t_token	*lexer(char *input, t_token *list) //talvez refatorar aqui
 			check_type(new);
 		i++;
 	}
+	env_var_checker(list, env_var);
 	print_list(list); //tirar
 	free_matrix(temp); //talvez esse free de problema na lista, talvez colocar ele no final
 	return (list);
