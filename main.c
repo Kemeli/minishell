@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/18 20:37:23 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:10:28 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ char	*get_input()
 	char	*prompt;
 
 	prompt = "minishell> ";
-	input = readline(prompt);
-	if (!input)
-		exit (0);
+	input = readline(prompt); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str 
+	// if (input == ft_strdup("")) //isso aqui n funcionou
+	// 	exit (0);
+
 	//print input -- tirar depois
 	printf("%s\n", input);
 	return (input);
@@ -41,10 +42,6 @@ int	main()
 		return (0);
 	}
 	list = lexer(input, list, env_var);
-	free_list(list); //da free na lista // rodar com make runrl pra suprimir os leaks da readline()
+	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
+	free(env_var);
 }
-
-
-//status, falta testar a env_var_checker, inclusive não está printando o cmd, deve ser coisa de free antes da hora
-//God help me
-//depois de fazer ela funcionar a prioridade vai ser refaotorar tudo

@@ -28,7 +28,6 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-//antes de checar isso aqui, perciso checar se está ou não entre aspas
 void	check_type(t_token *token)
 {
 	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
@@ -82,7 +81,7 @@ t_token	*lexer(char *input, t_token *list, t_env *env_var) //talvez refatorar aq
 	{
 		new = ft_calloc(sizeof(t_token), 1);
 		list = get_list(new, list);
-		new->cmd = temp[i]; //talvez strdup aqui pra perder a conexão com a temp
+		new->cmd = ft_strdup(temp[i]); //talvez strdup aqui pra perder a conexão com a temp
 		if (new->prev && new->prev->type == IN_REDIRECT)
 			new->type = INFILE;
 		else if (new->prev && new->prev->type == OUT_REDIRECT)
