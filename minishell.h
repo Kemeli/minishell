@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/19 21:55:20 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/20 22:09:12 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,17 @@ enum e_token_type
 	INFILE
 };
 
+
+typedef struct s_env_utils
+{
+	char	*env_var;
+	char	*test;
+	char	*pointer;
+	char	*new_input;
+	char	*temp;
+}	t_env_utils;
+
+
 typedef struct s_token
 {
 	char	*cmd;
@@ -57,10 +68,12 @@ typedef struct s_env
 } t_env;
 
 int main();
-t_token	*lexer(char *input, t_token *list, t_env *env_var);
-char	**get_input_matrix(char *input);
+t_token	*lexer(char **input, t_token *list);
+char	**get_input(t_env *env_var);
+// char	**get_input_matrix(char *input);
 void	env_var_checker(t_token *list, t_env *env_var);
 int		opened_quotes(char *input, t_env *env_var);
+char	*get_expanded_var(char *input, t_env *env_var);
 
 
 void	free_matrix(char **input);

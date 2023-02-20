@@ -1,150 +1,118 @@
 
 #include "minishell.h"
 
-char	*get_expanded_var(char *cmd) 
-{
-	int	i;
-	char	**aux_matrix;
-	char	*var_value;
-	char	*aux_str;
+//precisa lidar com o caso de ser invalid
+//precisa lidar com o caso de estar entre aspas e cheio de espaços
 
-	char	*expand_cmd;
-	char	*temp_str;
-	char	*new_str;
-
-	aux_matrix = ft_split(cmd, ' ');  
-	i = 0;
-	while (aux_matrix[i])
-	{
-		aux_str = ft_strtrim(aux_matrix[i], "\""); //ver aqui, pois talves precise voltar as aspas no
-		if (aux_str[0] == '$')
-		{
-			var_value = ft_strtrim(aux_str, "$");
-			free (aux_str);
-			aux_str = getenv(var_value); //se for null? ver o que fazer
-			if (var_value != NULL)
-			{
-				free(aux_matrix[i]);
-				aux_matrix[i] = ft_strdup(aux_str);
-				free (var_value);
-			}
-		}
-		i++;
-	}
-	i = 0;
-	while (aux_matrix[i])
-	{
-		if (i == 0)
-			expand_cmd = ft_strdup(aux_matrix[i]);
-		else
-		{
-			temp_str = ft_strjoin(expand_cmd, " ");
-			new_str = ft_strjoin(expand_cmd, aux_matrix[i]);
-			free (temp_str);
-			free (expand_cmd);
-			expand_cmd = new_str;
-		}
-		i++;
-	}
-	free_matrix(aux_matrix);
-	return(expand_cmd);
-}
-
-void	env_var_checker(t_token *list, t_env *env_var)
-{
-	t_token	*aux;
-	int		i;
-	char	*expanded_cmd;
-
-	aux = list;
-	while (aux)
-	{
-		i = 0;
-		while (aux->cmd && aux->cmd[i])
-		{
-			if (aux->cmd[i] == '$' && env_var->expand_var)
-			{
-				expanded_cmd = get_expanded_var(aux->cmd);
-				free (aux->cmd);
-				aux->cmd = ft_strdup(expanded_cmd); //strdup aqui tava dando leak pois to realocando em cima
-				free(expanded_cmd);
-				break ;
-			}
-			i++; //ele volta a olhar no msm cmd mas ja foi expandido e n encontra, o ideal seria ppara de olhar
-		}
-		aux = aux->next;
-	}
-}
-
-
-//splitar / procurar o $ / expandir / concatenar /retornar
-/*
-char	*get_expanded_var(char *cmd) 
-{
-	int	i;
-	char	**aux_matrix;
-	char	*var_value;
-	char	*expand_cmd;
-
-	char	*temp_str;
-	char	*new_str;
-
-	aux_matrix = ft_split(cmd, ' ');  
-	i = 0;
-	while (aux_matrix[i])
-	{
-		aux_matrix[i] = ft_strtrim(aux_matrix[i], "\""); //ver aqui, pois talves precise voltar as aspas no
-		if (aux_matrix[i][0] == '$')
-		{
-			aux_matrix[i] = ft_strtrim(aux_matrix[i], "$");
-			var_value = getenv(aux_matrix[i]); //se for null? ver o que fazer
-			if (var_value != NULL)
-				aux_matrix[i] = ft_strdup(var_value);
-		}
-		i++;
-	}
-	i = 0;
-	while (aux_matrix[i])
-	{
-		if (i == 0)
-			expand_cmd = ft_strdup(aux_matrix[i]);
-		else
-		{
-			temp_str = ft_strjoin(expand_cmd, " ");
-			new_str = ft_strjoin(expand_cmd, aux_matrix[i]);
-			free (temp_str);
-			free (expand_cmd);
-			expand_cmd = new_str;
-		}
-		i++;
-	}
-	free_matrix(aux_matrix);
-	return(expand_cmd);
-}
-*/
-
-// void	env_var_checker(t_token *list, t_env *env_var)
+//está colocando caracteres invalidos dentro da saída em alguns casos específicos
+//esta printando aspas quando mandado apenas uma var, e não deveria
+// char *get_expanded_var(char *input, t_env *env_var)
 // {
-// 	t_token	*aux;
-// 	int		i;
-// 	char	*expanded_cmd;
+// 	int i;
+// 	int j;
+// 	char *expanded_input;
+// 	t_utils *utils;
 
-// 	aux = list;
-// 	while (aux)
+// 	if (!env_var->expand_var) 
+// 		return input;
+
+// 	i = 0;
+// 	j = 0;
+// 	expanded_input = ft_calloc(strlen(input) + 1, sizeof(char));
+// 	utils = ft_calloc(sizeof(t_utils), 1);
+// 	while (input[i]) 
 // 	{
-// 		i = 0;
-// 		while (aux->cmd && aux->cmd[i])
+// 		if (input[i] == '$')
 // 		{
-// 			if (aux->cmd[i] == '$' && env_var->expand_var)
+// 			utils->teste4 = ft_split(&input[i], ' ');
+// 			utils->teste2 = ft_strtrim(utils->teste4[0], "$\"");
+// 			utils->teste3 = getenv(utils->teste2);
+// 			if (utils->teste3 != NULL)
 // 			{
-// 				expanded_cmd = get_expanded_var(aux->cmd);
-// 				free (aux->cmd);
-// 				aux->cmd = expanded_cmd; //strdup aqui tava dando leak pois to realocando em cima
-// 				free(expanded_cmd);
-// 				break ;
+// 				utils->teste = ft_strjoin(expanded_input, utils->teste3);
+// 				free (expanded_input);
+// 				expanded_input = ft_strjoin(expanded_input, utils->teste);
+// 				free (utils->teste);
+// 				i += ft_strlen(utils->teste2) + 1; //1 do $ e 1 do i++
+// 				j = strlen(expanded_input);
 // 			}
-// 			i++; //ele volta a olhar no msm cmd mas ja foi expandido e n encontra, o ideal seria ppara de olhar
+// 			free_matrix(utils->teste4);
+// 			free(utils->teste2);
 // 		}
-// 		aux = aux->next;
+// 		expanded_input[j] = input[i];
+// 		j++;
+// 		i++;
 // 	}
+// 	expanded_input[j] = '\0';
+
+// 	free(utils);
+
+// 	return expanded_input;
 // }
+
+
+
+char	*get_split(char *input)
+{
+	char **matrix = ft_split(input, ' ');
+	char *trim = ft_strtrim(matrix[0], "$");
+	free_matrix(matrix);
+	return (trim);
+}
+
+//char	*expand_input(char *input)
+
+char	*make_char(char c)
+{
+	char character[] = {c, '\0'};
+	char *ret = character;
+	return (ret);
+}
+
+//new_input sempre tem algo dentro dele
+//$PATH $USER expande o user e some com o path
+//$PATH expande o path com caracteres a mais no começo
+char *get_expanded_var(char *input, t_env *env)
+{
+	int		i = 0;
+	char	*env_var;
+	// char	test[1024];
+	char	*test;
+	char	*new_input = ft_calloc(ft_strlen(input), 1);
+	char	*temp;
+	char	*temp2;
+	char	*temp3;
+
+	if (!env->expand_var)
+		return input;
+
+	while (input[i])
+	{
+		// ft_bzero (test, 1024);
+		while (input[i] != '$')
+		{
+			temp3 = ft_substr(input, i, 1);
+			temp2 = ft_strjoin(new_input, temp3); //joinfree
+			free(temp3);
+			free(new_input);
+			new_input = temp2;
+			i++;
+		}
+		if (input[i] == '$')
+		{
+			env_var = get_split(&input[i]);
+			i += ft_strlen(env_var) + 1;
+			test = getenv(env_var);
+			free(env_var);
+		}
+		if (test)
+		{
+			temp = ft_strjoin(new_input, test);
+			test = NULL;
+			free (new_input);
+			new_input = ft_strdup(temp);
+			free (temp);
+		}
+	}
+	return (new_input);
+}

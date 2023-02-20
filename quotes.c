@@ -39,6 +39,8 @@ int	open_single_quotes(t_env *env_var, char *input)//bad name
 
 	i = 0;
 	env_var->expand_var = 1;
+	if (!ft_strchr(input, '$'))
+		env_var->expand_var = 0;
 	open_quotes = 0;
 		while (input[i])
 	{

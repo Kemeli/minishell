@@ -22,6 +22,7 @@ void	free_list(t_token *list)
 	{
 		aux = list;
 		list = list->next;
+		free(aux->cmd);
 		free(aux);
 	}
 	free(list);

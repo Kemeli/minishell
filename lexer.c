@@ -1,18 +1,6 @@
 
 #include "minishell.h"
 
-void	print_list(t_token *list) //essa função vai sair
-{
-	t_token *aux;
-
-	aux = list;
-	while (aux)
-	{
-		printf("cmd: %s, type: %d\n", aux->cmd, aux->type);
-		aux = aux->next;
-	}
-}
-
 int	is_builtin(char *cmd)
 {
 	const char *built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
@@ -69,19 +57,17 @@ t_token	*get_list(t_token *new_token, t_token *list)
 	return list;
 }
 
-t_token	*lexer(char *input, t_token *list, t_env *env_var) //talvez refatorar aqui
+t_token	*lexer(char **input, t_token *list) //talvez refatorar aqui
 {
 	t_token	*new;
-	char	**temp;
 	int		i;
 
-	temp = get_input_matrix(input);
 	i = 0;
-	while(temp[i])
+	while(input[i])
 	{
 		new = ft_calloc(sizeof(t_token), 1);
 		list = get_list(new, list);
-		new->cmd = ft_strdup(temp[i]); //talvez strdup aqui pra perder a conexão com a temp
+		new->cmd = ft_strdup(input[i]); //talvez strdup aqui pra perder a conexão com a input
 		if (new->prev && new->prev->type == IN_REDIRECT)
 			new->type = INFILE;
 		else if (new->prev && new->prev->type == OUT_REDIRECT)
@@ -94,8 +80,6 @@ t_token	*lexer(char *input, t_token *list, t_env *env_var) //talvez refatorar aq
 			check_type(new);
 		i++;
 	}
-	env_var_checker(list, env_var);
-	print_list(list); //tirar
-	free_matrix(temp); //talvez esse free de problema na lista, talvez colocar ele no final
+	// env_var_checker(list, env_var);
 	return (list);
 }
