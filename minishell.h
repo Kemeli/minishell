@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/21 01:09:49 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:45:33 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,18 @@ typedef	struct s_input_utils
 	int		open_quotes;
 }	t_input_utils;
 
+
 typedef struct s_env_utils
 {
+	int		i;
+	int		expand_var;
+	int		var_size;
 	char	*env_var;
 	char	*test;
-	char	*pointer;
-	char	*new_input;
 	char	*temp;
-	int		expand_var;
+	char	*ch_join;
+	char	*ch_cpy;
+	char	*get_ret;
 }	t_env_utils;
 
 

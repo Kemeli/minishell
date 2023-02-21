@@ -4,7 +4,6 @@
 //precisa lidar com o caso de ser invalid
 //precisa lidar com o caso de estar entre aspas e cheio de espaços
 
-
 char	*get_split(char *input)
 {
 	char **matrix = ft_split(input, ' ');
@@ -13,60 +12,51 @@ char	*get_split(char *input)
 	return (trim);
 }
 
-//char	*expand_input(char *input)
-
-char	*make_char(char c)
+char	*getenv_check(char *input, t_env_utils *env)
 {
-	char character[] = {c, '\0'};
-	char *ret = character;
-	return (ret);
+	env->env_var = get_split(&input[env->i]);
+	env->var_size = ft_strlen(env->env_var);
+	env->test = getenv(env->env_var);
+	free(env->env_var);
+	env->i++;
+	return (env->test);
+}
+
+char	*input_expansor(char *new_input, t_env_utils *env)
+{
+	env->i += env->var_size;
+	env->temp = ft_strjoin(new_input, env->test);
+	env->test = NULL;
+	free (new_input);
+	new_input = ft_strdup(env->temp);
+	free (env->temp);
+	return (new_input);
 }
 
 //PROBLEM -- não está expandindo com caractere grudado ex: $PATH<  deveria expandir normal
 char *get_expanded_var(char *input, t_env_utils *env)
 {
-	int		i = 0;
-	char	*env_var;
-	// char	test[1024];
-	char	*test;
-	char	*new_input = ft_calloc(ft_strlen(input), 1);
-	char	*temp;
-	char	*temp2;
-	char	*temp3;
-	int		var_size = 0;
+	char	*new_input;
 
+	new_input = ft_calloc(ft_strlen(input), 1);
 	if (!env->expand_var)
 		return input;
-
-	while (input[i])
+	while (input[env->i])
 	{
-		// ft_bzero (test, 1024);
-		while (input[i] && input[i] != '$')
+		while (input[env->i] && input[env->i] != '$')
 		{
-			temp3 = ft_substr(input, i, 1); //joinfree talvez fosse melhor
-			temp2 = ft_strjoin(new_input, temp3);
-			free(temp3);
+			env->ch_cpy = ft_substr(input, env->i, 1); //joinfree talvez fosse melhor
+			env->ch_join = ft_strjoin(new_input, env->ch_cpy);
+			free(env->ch_cpy);
 			free(new_input);
-			new_input = temp2;
-			i++;
+			new_input = env->ch_join;
+			env->i++;
 		}
-		if (input[i] == '$')
-		{
-			env_var = get_split(&input[i]);
-			var_size = ft_strlen(env_var);
-			test = getenv(env_var);
-			free(env_var);
-			i++;
-		}
-		if (test)
-		{
-			i += var_size;
-			temp = ft_strjoin(new_input, test);
-			test = NULL;
-			free (new_input);
-			new_input = ft_strdup(temp);
-			free (temp);
-		}
+		if (input[env->i] == '$')
+			env->get_ret = getenv_check(input, env);
+		if (env->get_ret) //n foi inicializado pra null mas se n tiver $ n é pra chegar até aqui
+			new_input = input_expansor(new_input, env);
 	}
+	free (env);
 	return (new_input);
 }

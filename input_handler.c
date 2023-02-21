@@ -128,6 +128,7 @@ char	**get_input(t_env_utils *env_var)
 
 	prompt = "minishell> ";
 	input = readline(prompt); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str 
+	env_var = ft_calloc(sizeof (t_env_utils), 1);
 	if (opened_quotes(input, env_var))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
