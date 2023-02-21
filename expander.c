@@ -22,9 +22,7 @@ char	*make_char(char c)
 	return (ret);
 }
 
-//new_input sempre tem algo dentro dele
-//$PATH $USER expande o user e some com o path
-//$PATH expande o path com caracteres a mais no começo
+//PROBLEM -- não está expandindo com caractere grudado ex: $PATH<  deveria expandir normal
 char *get_expanded_var(char *input, t_env_utils *env)
 {
 	int		i = 0;
@@ -35,6 +33,7 @@ char *get_expanded_var(char *input, t_env_utils *env)
 	char	*temp;
 	char	*temp2;
 	char	*temp3;
+	int		var_size = 0;
 
 	if (!env->expand_var)
 		return input;
@@ -54,12 +53,14 @@ char *get_expanded_var(char *input, t_env_utils *env)
 		if (input[i] == '$')
 		{
 			env_var = get_split(&input[i]);
-			i += ft_strlen(env_var) + 1;
+			var_size = ft_strlen(env_var);
 			test = getenv(env_var);
 			free(env_var);
+			i++;
 		}
 		if (test)
 		{
+			i += var_size;
 			temp = ft_strjoin(new_input, test);
 			test = NULL;
 			free (new_input);
