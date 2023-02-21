@@ -1,5 +1,9 @@
 SRC =		main.c \
 			lexer.c \
+			input_handler.c \
+			free.c \
+			expander.c \
+			quotes.c \
 
 LIBFT =		libft/libft.a
 
@@ -29,5 +33,9 @@ fclean: clean
 	make fclean -sC libft/
 
 re: fclean all
+
+runrl:	$(NAME)
+	make re
+	@valgrind --suppressions=./local.supp --leak-check=full ./minishell
 
 PHONY: all clean fclean re

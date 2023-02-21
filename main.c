@@ -6,62 +6,39 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/15 14:20:28 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:42:44 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	not_regex(char *str)
-// {
-// 	if (ft_strchr("?$><|&", str)) 
-// 		return (0);
-// 	return (1);
-// }
-// //ideia: criar aqui uma chave que ligaria quando um regex é encontrado, para depois
-// //checar a chave e tratar caso necessário
 
-
-
-// //separa em tokens
-// // falta tratar casos de cmd e caracteres sem espaço.
-// void	parser(char *input)
-// {
-// 	t_token	*token;
-// 	char	**temp;
-
-// 	temp = ft_split(input, ' ');
-// 	while (not_regex(temp[i]))
-// 	{
-// 		token->cmd[i] = temp[i];
-// 		i++;
-// 	}
-
-// 	//print matriz
-// 	for (int j = 0; token->cmd[j]; j++)
-// 		printf ("%s\n", token->cmd[j]);
-// }
-
-char	*get_input()
+void	print_list(t_token *list) //essa função vai sair
 {
-    char    *input;
-    char    *prompt;
+	t_token *aux;
 
-    prompt = "minishell> ";
-    input = readline(prompt);
-
-    //print input -- tirar depois
-    printf("%s\n", input);
-	//chama a função que vai separar tudo em tokens
-	return (input);
+	aux = list;
+	while (aux)
+	{
+		printf("cmd: %s, type: %d\n", aux->cmd, aux->type);
+		aux = aux->next;
+	}
 }
 
-int main()
+int	main()
 {
-	t_token *list;
-	char	*input;
+	t_token	*list;
+	t_env_utils	*env;
+	char	**input;
 
 	list = NULL;
-    input = get_input();
-	lexer(input, list);
+	env = ft_calloc(sizeof(t_env_utils), 1);
+	input = get_input(env);
+
+	
+	list = lexer(input, list);
+	print_list(list); //tirar
+	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
+	free(env);
+	free_matrix(input); //talvez esse free de problema na lista, talvez colocar ele no final
 }

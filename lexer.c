@@ -1,35 +1,50 @@
 
 #include "minishell.h"
 
-void	print_list(t_token *list)
+int	is_builtin(char *cmd)
 {
-	t_token *aux;
+	const char *built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
+	int i;
 
-	aux = list;
-	while (aux)
+	i = 0;
+	while (i < 6)
 	{
-		printf("cmd: %s, type: %s\n", aux->cmd, aux->type);
-		aux = aux->next;
+		if (!ft_strncmp(cmd, built[i], ft_strlen(cmd)))
+			return (1);
+		i++;
 	}
+	return (0);
 }
 
-void	get_type(t_token *token)
+void	check_type(t_token *token)
 {
-	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd))) //aqui o próximo é entendido como infile, tratar isso
+	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
 		token->type = IN_REDIRECT;
-	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd))) //aqui o próximo é entendido como outfile, tratar isso
+	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
 		token->type = OUT_REDIRECT;
 	else if (!ft_strncmp(token->cmd, "|", ft_strlen(token->cmd)))
 		token->type = PIPE;
-	//falta todos os outros símbolos, quais? como?
-	//falta os argumentos e comandos tb
+	else if (!ft_strncmp(token->cmd, "<<", ft_strlen(token->cmd)))
+		token->type = HEREDOC;
+	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
+		token->type = APPEND;
+	else if (token->prev && token->prev->type == SYS_CMD)
+		token->type = ARGUMENT;
+	else if (token->prev && token->prev->type == BUILTIN)
+		token->type = ARGUMENT;
+	else if (is_builtin(token->cmd))
+		token->type = BUILTIN;
+	else
+		token->type = SYS_CMD;
+	// else if (!ft_strncmp(token->cmd[0], "$", ft_strlen(token->cmd)))
+	// 	token->type = ENV_VAR;
 }
 
 t_token	*get_list(t_token *new_token, t_token *list)
 {
 	t_token	*aux;
 
-	if (list == NULL) //setar como null na main, esse é o inicio da lista
+	if (list == NULL)
 		list = new_token;
 	else
 	{
@@ -37,25 +52,34 @@ t_token	*get_list(t_token *new_token, t_token *list)
 		while (aux->next)
 			aux = aux->next;
 		aux->next = new_token;
+		new_token->prev = aux; 
 	}
 	return list;
 }
 
-void	lexer(char *input, t_token *list)
+t_token	*lexer(char **input, t_token *list) //talvez refatorar aqui
 {
-	t_token	*new_token;
-	char	**temp;
+	t_token	*new;
 	int		i;
 
-	temp = ft_split(input, ' ');
 	i = 0;
-	while(temp[i])
+	while(input[i])
 	{
-		new_token = ft_calloc(sizeof(t_token), 1);
-		new_token->cmd = temp[i];
-		get_type(new_token);
-		list = get_list(new_token, list);
+		new = ft_calloc(sizeof(t_token), 1);
+		list = get_list(new, list);
+		new->cmd = ft_strdup(input[i]); //talvez strdup aqui pra perder a conexão com a input
+		if (new->prev && new->prev->type == IN_REDIRECT)
+			new->type = INFILE;
+		else if (new->prev && new->prev->type == OUT_REDIRECT)
+			new->type = OUTFILE;
+		else if (new->prev && new->prev->type == APPEND)
+			new->type = OUTFILE;
+		else if (new->prev && new->prev->type == HEREDOC)
+			new->type = HERE_ARG;
+		else
+			check_type(new);
 		i++;
 	}
-	print_list(list);
+	// env_var_checker(list, env_var);
+	return (list);
 }
