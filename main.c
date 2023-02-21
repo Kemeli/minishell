@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/20 14:35:38 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:42:44 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void	print_list(t_token *list) //essa função vai sair
 int	main()
 {
 	t_token	*list;
-	t_env	*env_var;
+	t_env_utils	*env;
 	char	**input;
 
 	list = NULL;
-	env_var = ft_calloc(sizeof(t_env), 1);
-	input = get_input(env_var);
+	env = ft_calloc(sizeof(t_env_utils), 1);
+	input = get_input(env);
 
 	
 	list = lexer(input, list);
 	print_list(list); //tirar
 	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
-	free(env_var);
+	free(env);
 	free_matrix(input); //talvez esse free de problema na lista, talvez colocar ele no final
 }

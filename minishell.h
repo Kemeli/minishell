@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/20 22:09:12 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:09:49 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ enum e_token_type
 	INFILE
 };
 
+typedef	struct s_input_utils
+{
+	int		i;
+	int		j;
+	int		open_quotes;
+}	t_input_utils;
 
 typedef struct s_env_utils
 {
@@ -51,6 +57,7 @@ typedef struct s_env_utils
 	char	*pointer;
 	char	*new_input;
 	char	*temp;
+	int		expand_var;
 }	t_env_utils;
 
 
@@ -62,18 +69,14 @@ typedef struct s_token
 	struct s_token	*prev;
 } t_token;
 
-typedef struct s_env
-{
-	int	expand_var;
-} t_env;
 
 int main();
 t_token	*lexer(char **input, t_token *list);
-char	**get_input(t_env *env_var);
+char	**get_input(t_env_utils *env);
 // char	**get_input_matrix(char *input);
-void	env_var_checker(t_token *list, t_env *env_var);
-int		opened_quotes(char *input, t_env *env_var);
-char	*get_expanded_var(char *input, t_env *env_var);
+void	env_var_checker(t_token *list, t_env_utils *env);
+int		opened_quotes(char *input, t_env_utils *env);
+char	*get_expanded_var(char *input, t_env_utils *env);
 
 
 void	free_matrix(char **input);
