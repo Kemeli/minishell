@@ -18,18 +18,22 @@ char	*getenv_check(char *input, t_env_utils *env)
 	env->var_size = ft_strlen(env->env_var);
 	env->test = getenv(env->env_var);
 	free(env->env_var);
-	env->i++;
+	if (!env->test)
+		return (&input[env->i]);
+	env->i++; //checar a necessidade
 	return (env->test);
 }
 
-char	*input_expansor(char *new_input, t_env_utils *env)
+char	*input_expander(char *new_input, t_env_utils *env)
 {
 	env->i += env->var_size;
-	env->temp = ft_strjoin(new_input, env->test);
+	env->temp = ft_strjoin(new_input, env->get_ret);
 	env->test = NULL;
 	free (new_input);
 	new_input = ft_strdup(env->temp);
 	free (env->temp);
+	if(!env->i) //aqui é por causa do $ e do $NADA
+		env->i++;
 	return (new_input);
 }
 
@@ -53,10 +57,16 @@ char *get_expanded_var(char *input, t_env_utils *env)
 			env->i++;
 		}
 		if (input[env->i] == '$')
+		{
 			env->get_ret = getenv_check(input, env);
-		if (env->get_ret) //n foi inicializado pra null mas se n tiver $ n é pra chegar até aqui
-			new_input = input_expansor(new_input, env);
+			if (!env->test) //aqui é por causa do $ e do $NADA
+				env->i++;
+			new_input = input_expander(new_input, env);
+			env->get_ret = NULL;
+		}	
 	}
 	free (env);
 	return (new_input);
 }
+
+//"$PATH" quando termina de copiar ele volta a entrar na linha 57 pois afinal ele ainda está com o valor
