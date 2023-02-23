@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/21 01:09:49 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/23 01:30:38 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,19 @@ typedef	struct s_input_utils
 	int		open_quotes;
 }	t_input_utils;
 
+
 typedef struct s_env_utils
 {
+	int		i;
+	int		expand_var;
+	int		var_size;
+	int		open_quotes;
 	char	*env_var;
 	char	*test;
-	char	*pointer;
-	char	*new_input;
 	char	*temp;
-	int		expand_var;
+	char	*ch_join;
+	char	*ch_cpy;
+	char	*get_ret;
 }	t_env_utils;
 
 
@@ -73,9 +78,8 @@ typedef struct s_token
 int main();
 t_token	*lexer(char **input, t_token *list);
 char	**get_input(t_env_utils *env);
-// char	**get_input_matrix(char *input);
 void	env_var_checker(t_token *list, t_env_utils *env);
-int		opened_quotes(char *input, t_env_utils *env);
+int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
 
 

@@ -71,15 +71,37 @@ char	*input_separator(char *input)
 	return (str);
 }
 
+char	**trim(char **input_matrix)
+{
+	int	i;
+	char **ret;
+
+	i = 0;
+	while (input_matrix[i])
+		i++;
+	ret = malloc((i + 1) * sizeof(char *));
+	ret[i] = NULL;
+	i = 0;
+	while (input_matrix[i])
+	{
+		ret[i] = ft_strtrim(input_matrix[i], "\"\'");
+		i++;
+	}
+	return (ret);
+}
+
 char	**get_input_matrix(char *input)
 {
 	char	**input_matrix;
 	char	*handled_input;
+	char	**ret;
 
 	handled_input = input_separator(input);
 	input_matrix = ft_split(handled_input, SEPARATOR);
+	ret = trim(input_matrix);
 	free(handled_input);
-	return (input_matrix);
+	free_matrix(input_matrix);
+	return (ret);
 }
 
 char	**get_input(t_env_utils *env_var)
@@ -90,7 +112,8 @@ char	**get_input(t_env_utils *env_var)
 
 	prompt = "minishell> ";
 	input = readline(prompt); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str 
-	if (opened_quotes(input, env_var))
+	env_var = ft_calloc(sizeof (t_env_utils), 1);
+	if (opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
 		return (0);

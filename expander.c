@@ -1,71 +1,77 @@
 
 #include "minishell.h"
 
-//precisa lidar com o caso de ser invalid
-//precisa lidar com o caso de estar entre aspas e cheio de espaços
-
-
-char	*get_split(char *input)
+int	is_env_char(int c) //1º char só letra, arrumar depois
 {
-	char **matrix = ft_split(input, ' ');
-	char *trim = ft_strtrim(matrix[0], "$\"");
-	free_matrix(matrix);
-	return (trim);
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')
+	{
+		return (1);
+	}
+	return (0);
 }
 
-//char	*expand_input(char *input)
-
-char	*make_char(char c)
+char	*getenv_check(char *input, t_env_utils *env)
 {
-	char character[] = {c, '\0'};
-	char *ret = character;
-	return (ret);
+	char	*sub;
+	char	*trim;
+	int		j;
+	
+	j = env->i;
+	while (is_env_char(input[j]))
+		j++;
+	sub = ft_substr(input, env->i, j - env->i);
+	trim = ft_strtrim(sub, "$");
+	env->test = getenv(trim);
+	env->i = j;
+	free (trim);
+	if (!env->test)
+		return (sub); //isso aqui esta causando leak, consegui dar free no retorno, como resolver?
+	free (sub); 
+	return (env->test);
+
 }
 
-//new_input sempre tem algo dentro dele
-//$PATH $USER expande o user e some com o path
-//$PATH expande o path com caracteres a mais no começo
+char	*input_expander(char *new_input, t_env_utils *env)
+{
+	env->temp = ft_strjoin(new_input, env->get_ret);
+	env->test = NULL;
+	free (new_input);
+	new_input = ft_strdup(env->temp);
+	free (env->temp);
+	if(!env->i)
+		env->i++;
+	return (new_input);
+}
+
 char *get_expanded_var(char *input, t_env_utils *env)
 {
-	int		i = 0;
-	char	*env_var;
-	// char	test[1024];
-	char	*test;
-	char	*new_input = ft_calloc(ft_strlen(input), 1);
-	char	*temp;
-	char	*temp2;
-	char	*temp3;
+	char *new_input;
+	int in_quotes = 0;
 
-	if (!env->expand_var)
-		return input;
+	new_input = ft_calloc(ft_strlen(input), 1);
 
-	while (input[i])
+	while (input[env->i])
 	{
-		// ft_bzero (test, 1024);
-		while (input[i] && input[i] != '$')
+		if (input[env->i] == '\'')
+			in_quotes = !in_quotes;
+
+		if (input[env->i] != '$' || in_quotes)
 		{
-			temp3 = ft_substr(input, i, 1); //joinfree talvez fosse melhor
-			temp2 = ft_strjoin(new_input, temp3);
-			free(temp3);
+			env->ch_cpy = ft_substr(input, env->i, 1);
+			env->ch_join = ft_strjoin(new_input, env->ch_cpy);
+			free(env->ch_cpy);
 			free(new_input);
-			new_input = temp2;
-			i++;
+			new_input = env->ch_join;
+			env->i++;
 		}
-		if (input[i] == '$')
+
+		else if (input[env->i] == '$' && !in_quotes)
 		{
-			env_var = get_split(&input[i]);
-			i += ft_strlen(env_var) + 1;
-			test = getenv(env_var);
-			free(env_var);
-		}
-		if (test)
-		{
-			temp = ft_strjoin(new_input, test);
-			test = NULL;
-			free (new_input);
-			new_input = ft_strdup(temp);
-			free (temp);
+			env->get_ret = getenv_check(input, env);
+			new_input = input_expander(new_input, env);
+			env->get_ret = NULL; //precisa disso?
 		}
 	}
+	free(env);
 	return (new_input);
 }

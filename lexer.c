@@ -67,7 +67,7 @@ t_token	*lexer(char **input, t_token *list) //talvez refatorar aqui
 	{
 		new = ft_calloc(sizeof(t_token), 1);
 		list = get_list(new, list);
-		new->cmd = ft_strdup(input[i]); //talvez strdup aqui pra perder a conexão com a input
+		new->cmd = ft_strdup(input[i]);
 		if (new->prev && new->prev->type == IN_REDIRECT)
 			new->type = INFILE;
 		else if (new->prev && new->prev->type == OUT_REDIRECT)
@@ -80,6 +80,5 @@ t_token	*lexer(char **input, t_token *list) //talvez refatorar aqui
 			check_type(new);
 		i++;
 	}
-	// env_var_checker(list, env_var);
 	return (list);
 }
