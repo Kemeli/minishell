@@ -16,10 +16,14 @@ void	sintax(t_token *list)
 	aux = list;
 	if (aux->type == PIPE) //aqui no começo pq n pode cmeçar com pipe
 		printf ("minishell: syntax error near unexpected token `%s'\n", aux->cmd);
-	while (aux && aux->next)
+	while (aux)
 	{
-		if (is_metachar(aux->type) && is_metachar(aux->next->type))
-			printf ("minishell: syntax error near unexpected token `%s'\n", aux->next->cmd);
+		if (aux->type == PIPE && !aux->next) //pipe solto
+			printf("aqui a gt chama a readline novamente\n");
+		else if (aux->next && is_metachar(aux->type) && is_metachar(aux->next->type))
+			printf ("minishell: syntax error near unexpected token `%s'\n", aux->next->cmd); //exit
+		else if (is_metachar(aux->type) && !aux->next) //redirector sozinho ou no final do input
+			printf ("minishell: syntax error near unexpected token `%s'\n", aux->cmd);
 		aux = aux->next;
 	}
 }
