@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/23 01:30:38 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:10:49 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@
 enum e_token_type
 {
 	ZERO, //pq eu ia comparar com numero e eventualmente ia ser zero, mas da pra ver de tirar
-	SYS_CMD,
-	BUILTIN,
-	ARGUMENT,
-	IN_REDIRECT,
-	OUT_REDIRECT,
-	PIPE,
-	HEREDOC,
-	HERE_ARG,
-	APPEND,
-	OUTFILE,
-	INFILE
+	SYS_CMD = 1,
+	BUILTIN = 2,
+	ARGUMENT = 3,
+	IN_REDIRECT = 4,
+	OUT_REDIRECT = 5,
+	PIPE = 6,
+	HEREDOC = 7,
+	HERE_ARG = 8,
+	APPEND = 9,
+	OUTFILE = 10,
+	INFILE = 11
 };
 
 typedef	struct s_input_utils
@@ -81,6 +81,7 @@ char	**get_input(t_env_utils *env);
 void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
+void	sintax(t_token *list);
 
 
 void	free_matrix(char **input);

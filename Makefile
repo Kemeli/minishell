@@ -4,6 +4,7 @@ SRC =		main.c \
 			free.c \
 			expander.c \
 			quotes.c \
+			sintax.c \
 
 LIBFT =		libft/libft.a
 
