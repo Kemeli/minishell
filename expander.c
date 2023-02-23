@@ -37,7 +37,6 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
-//PROBLEM -- não está expandindo com caractere grudado ex: $PATH<  deveria expandir normal
 char *get_expanded_var(char *input, t_env_utils *env)
 {
 	char	*new_input;
