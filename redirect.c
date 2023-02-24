@@ -47,27 +47,49 @@ char	*join_free(char *dst, const char *src, size_t dsize)
 	return (dst);
 }
 
-char	*heredoc_handler(char *next_cmd) //FUNÇÃO FEIA DEMAIS, REFATORAR URGENTE!
-{
-	char	*prompt;
-	char	*read;
-	char	*argument;
-	char	*eof;
+// char	*heredoc_handler(char *next_cmd) //FUNÇÃO FEIA DEMAIS, REFATORAR URGENTE!
+// {
+// 	char	*read;
+// 	char	*argument;
 
-	eof = join_free(next_cmd, "\n", ft_strlen(next_cmd + 1));
-	prompt = ">";
-	read = readline(prompt);
-	argument = ft_strdup(read); //alloca aqui
-	argument = join_free(argument, "\n", ft_strlen(argument) + 2);
-	while (ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
+// 	read = readline(">");
+// 	argument = ft_strdup(read); //alloca aqui, COMO DAR FREE?
+// 	argument = join_free(read, "\n", ft_strlen(argument) + 2);
+// 	while (ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
+// 	{
+// 		free (read);
+// 		read = readline(prompt);
+// 		if (ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
+// 		{
+// 			argument = join_free(argument, read, ft_strlen(argument) + ft_strlen(read) + 1);
+// 			argument = join_free(argument, "\n", ft_strlen(argument) + 2);
+// 		}
+// 	}
+// 	return (argument);
+// }
+
+char *heredoc_handler(char *next_cmd)
+{
+	char *prompt = ">";
+	char *read;
+	char *argument = ft_calloc(ft_strlen(next_cmd), 1);
+	char	*temp;
+
+	while (1)
 	{
-		free (read);
 		read = readline(prompt);
-		if (ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
+		if (!read)
+			break;
+		if (!ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
 		{
-			argument = join_free(argument, read, ft_strlen(argument) + ft_strlen(read) + 1);
-			argument = join_free(argument, "\n", ft_strlen(argument) + 2);
+			free(read);
+			break;
 		}
+		temp = ft_strjoin(argument, read);
+		free (argument);
+		argument = ft_strjoin(temp, "\n");
+		free(temp);
+		free(read);
 	}
 	return (argument);
 }
@@ -97,7 +119,6 @@ void	redirector(t_token *list) //se cmd == redirector, chama aqui
 		aux = aux->next;
 	}
 }
-
 
 /*
 -heredoc
