@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/24 00:43:13 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/24 14:24:11 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main()
 	env = ft_calloc(sizeof(t_env_utils), 1);
 	input = get_input(env);
 
-	
 	list = lexer(input, list);
 	print_list(list); //tirar
 	sintax(list);

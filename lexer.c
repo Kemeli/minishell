@@ -95,3 +95,6 @@ t_token	*lexer(char **input, t_token *list) //talvez refatorar aqui
 	}
 	return (list);
 }
+
+//pra pipe solto precisa concatenar o novo input com o antigo e mandar rodar tudo novamente,
+//pra isso é necessário que uma função chame a outra e n tudo na main

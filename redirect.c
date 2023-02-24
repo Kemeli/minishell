@@ -1,9 +1,6 @@
 
 #include "minishell.h"
 
-
-//u.file[INFILE] = open(argv[1], O_RDONLY, 0444);
-
 void	infile_handler(char *cmd, t_redirect_utils *redirect)
 {
 	redirect->infile = open(cmd, O_RDONLY, 0444);
@@ -24,28 +21,28 @@ void	append_handler(char *cmd, t_redirect_utils *redirect) //verificar permissõ
 	close (redirect->outfile);
 }
 
-char	*join_free(char *dst, const char *src, size_t dsize)
-{
-	size_t	slen;
-	size_t	dlen;
-	size_t	i;
+// char	*join_free(char *dst, const char *src, size_t dsize)
+// {
+// 	size_t	slen;
+// 	size_t	dlen;
+// 	size_t	i;
 
-	slen = ft_strlen(src);
-	dlen = 0;
-	while (dst[dlen] && dlen < dsize) //pega o tamanho da variavel de destino
-		dlen++;
-	i = 0;
-	if (dlen < dsize)
-	{
-		while (i + dlen < (dsize - 1) && src[i])//concatena
-		{
-			dst[i + dlen] = src[i];
-			i++;
-		}
-		dst[i + dlen] = '\0';
-	}
-	return (dst);
-}
+// 	slen = ft_strlen(src);
+// 	dlen = 0;
+// 	while (dst[dlen] && dlen < dsize) //pega o tamanho da variavel de destino
+// 		dlen++;
+// 	i = 0;
+// 	if (dlen < dsize)
+// 	{
+// 		while (i + dlen < (dsize - 1) && src[i])//concatena
+// 		{
+// 			dst[i + dlen] = src[i];
+// 			i++;
+// 		}
+// 		dst[i + dlen] = '\0';
+// 	}
+// 	return (dst);
+// }
 
 // char	*heredoc_handler(char *next_cmd) //FUNÇÃO FEIA DEMAIS, REFATORAR URGENTE!
 // {
@@ -68,11 +65,11 @@ char	*join_free(char *dst, const char *src, size_t dsize)
 // 	return (argument);
 // }
 
-char *heredoc_handler(char *next_cmd)
+char *heredoc_handler(char *here_arg)
 {
 	char *prompt = ">";
 	char *read;
-	char *argument = ft_calloc(ft_strlen(next_cmd), 1);
+	char *argument = ft_calloc(ft_strlen(here_arg), 1);
 	char	*temp;
 
 	while (1)
@@ -80,7 +77,7 @@ char *heredoc_handler(char *next_cmd)
 		read = readline(prompt);
 		if (!read)
 			break;
-		if (!ft_strncmp(read, next_cmd, ft_strlen(next_cmd)))
+		if (!ft_strncmp(read, here_arg, ft_strlen(here_arg)))
 		{
 			free(read);
 			break;

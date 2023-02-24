@@ -104,22 +104,41 @@ char	**get_input_matrix(char *input)
 	return (ret);
 }
 
+char	*pipe_input(char *input)
+{
+	char	*rest_of_input;
+	char	*join_input;
+
+	while (input[ft_strlen(input) - 1] == '|')
+	{
+		rest_of_input = readline(">");
+		join_input = ft_strjoin(input, rest_of_input);
+		free (rest_of_input);
+		free (input);
+		input = ft_strdup(join_input);
+		free (join_input);
+	}
+	return (input);
+}
+
 char	**get_input(t_env_utils *env_var)
 {
 	char	*input;
-	char	*prompt;
+	char	*temp_input;
 	char	**input_matrix;
+	char	*expand_input;
 
-	prompt = "minishell> ";
-	input = readline(prompt); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str 
+	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
+	input = pipe_input(temp_input);
 	env_var = ft_calloc(sizeof (t_env_utils), 1);
 	if (opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
 		return (0);
 	}
-	char *input2 = get_expanded_var(input, env_var);
-	input_matrix = get_input_matrix(input2);
-	free (input2);
+	expand_input = get_expanded_var(input, env_var);
+	input_matrix = get_input_matrix(expand_input);
+	free (expand_input);
+	free (input);
 	return (input_matrix);
 }
