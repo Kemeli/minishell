@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/23 14:54:13 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:43:13 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main()
 	list = lexer(input, list);
 	print_list(list); //tirar
 	sintax(list);
+	redirector(list);
 	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
 	free(env);
 	free_matrix(input); //talvez esse free de problema na lista, talvez colocar ele no final

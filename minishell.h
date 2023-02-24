@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/23 15:10:49 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:46:32 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 #include <readline/history.h>
 #include "libft/libft.h"
 #include <stdlib.h>
+
+# include <unistd.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 
 # define SEPARATOR -1
 # define SPACE ' '
@@ -65,6 +69,13 @@ typedef struct s_env_utils
 	char	*get_ret;
 }	t_env_utils;
 
+typedef struct s_redirect_utils
+{
+	int	infile;
+	int	outfile;
+	int	fd_pipe;
+}	t_redirect_utils;
+
 
 typedef struct s_token
 {
@@ -82,6 +93,7 @@ void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
 void	sintax(t_token *list);
+void	redirector(t_token *list);
 
 
 void	free_matrix(char **input);
