@@ -6,11 +6,11 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/24 14:24:11 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/25 01:41:38 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 void	print_list(t_token *list) //essa função vai sair
@@ -25,11 +25,18 @@ void	print_list(t_token *list) //essa função vai sair
 	}
 }
 
-int	main()
+int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
 	t_env_utils	*env;
 	char	**input;
+
+
+	if (argv == NULL && argc == 0)
+	{
+		printf ("ARGS");
+	}
+
 
 	list = NULL;
 	env = ft_calloc(sizeof(t_env_utils), 1);
@@ -39,7 +46,10 @@ int	main()
 	print_list(list); //tirar
 	sintax(list);
 	redirector(list);
+	cmd_handler(list, envp);
 	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
 	free(env);
 	free_matrix(input); //talvez esse free de problema na lista, talvez colocar ele no final
 }
+
+//status, o loop infinito ficava repitindo o minishell>

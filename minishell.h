@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/24 00:46:32 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/24 20:38:01 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
 void	sintax(t_token *list);
 void	redirector(t_token *list);
+void	cmd_handler(t_token *list, char **envp);
 
 
 void	free_matrix(char **input);

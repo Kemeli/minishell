@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	infile_handler(char *cmd, t_redirect_utils *redirect)
 {
@@ -110,7 +110,7 @@ void	redirector(t_token *list) //se cmd == redirector, chama aqui
 		else if (aux->next && aux->type == HEREDOC) //lembrar mandar outfile
 		{
 			teste = heredoc_handler(aux->next->cmd);
-			printf("%s", teste);
+			printf("...teste...\n%s...teste...\n", teste); //lembrar de tirar esse print
 			free (teste);
 		}
 		aux = aux->next;
