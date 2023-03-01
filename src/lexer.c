@@ -35,7 +35,7 @@ void	check_type(t_token *token)
 	else if (token->prev && token->prev->type == OUT_REDIRECT)
 		token->type = OUTFILE;
 	else if (token->prev && token->prev->type == APPEND)
-		token->type = OUTFILE;
+		token->type = APPEND_OUT;
 	else if (token->prev && token->prev->type == HEREDOC)
 		token->type = HERE_ARG;
 

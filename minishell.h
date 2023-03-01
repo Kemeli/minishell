@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/01 16:05:24 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:46:29 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ enum e_token_type
 	HERE_ARG = 8,
 	APPEND = 9,
 	OUTFILE = 10,
-	INFILE = 11
+	INFILE = 11,
+	APPEND_OUT = 12
 };
 
 typedef	struct s_input_utils
@@ -102,6 +103,7 @@ void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
 void	sintax(t_token *list);
+void	redirector(t_token *aux, t_redirect *redirect);
 // void	redirector(t_token **aux, t_redirect *redirect)
 // void	cmd_handler(t_token *list, char **envp); //talvez tirar
 void	execute(t_token *list, char **envp);

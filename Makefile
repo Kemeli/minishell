@@ -50,7 +50,7 @@ SRC =		src/main.c \
 			src/quotes.c \
 			src/sintax.c \
 			src/executor.c \
-			# src/redirect.c \
+			src/redirect.c \
 
 LIBFT =		libft/libft.a
 
