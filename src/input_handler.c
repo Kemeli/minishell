@@ -108,8 +108,11 @@ char	*pipe_input(char *input)
 {
 	char	*rest_of_input;
 	char	*join_input;
+	int		i;
 
-	while (input[ft_strlen(input) - 1] == '|')
+	i = 0;
+	// exec->pipe_count = 0;
+	if (input[ft_strlen(input) - 1] == '|')
 	{
 		rest_of_input = readline(">");
 		join_input = ft_strjoin(input, rest_of_input);
@@ -118,6 +121,11 @@ char	*pipe_input(char *input)
 		input = ft_strdup(join_input);
 		free (join_input);
 	}
+	// while (input[i++])
+	// {
+	// 	if (ft_strncmp(input[i], '|'))
+	// 		exec->pipe_count++;
+	// }
 	return (input);
 }
 

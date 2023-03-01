@@ -20,7 +20,7 @@ char	*getenv_check(char *input, t_env_utils *env)
 	while (is_env_char(input[j]))
 		j++;
 	sub = ft_substr(input, env->i, j - env->i);
-	trim = ft_strtrim(sub, "$");
+	trim = ft_strtrim(sub, "$"); 
 	env->test = getenv(trim);
 	env->i = j;
 	free (trim);
@@ -28,7 +28,6 @@ char	*getenv_check(char *input, t_env_utils *env)
 		return (sub); //isso aqui esta causando leak, consegui dar free no retorno, como resolver?
 	free (sub); 
 	return (env->test);
-
 }
 
 char	*input_expander(char *new_input, t_env_utils *env)

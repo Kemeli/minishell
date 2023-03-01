@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/25 01:41:38 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:58:16 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
 	t_env_utils	*env;
+	// t_exec *exec;
 	char	**input;
 
 
@@ -37,16 +38,16 @@ int	main(int argc, char **argv, char **envp)
 		printf ("ARGS");
 	}
 
-
 	list = NULL;
 	env = ft_calloc(sizeof(t_env_utils), 1);
 	input = get_input(env);
-
 	list = lexer(input, list);
 	print_list(list); //tirar
 	sintax(list);
-	redirector(list);
-	cmd_handler(list, envp);
+	//daqui pra baixo talvez fazer um loop
+	// redirector(list);
+	// cmd_handler(list, envp);
+	execute(list, envp);
 	free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
 	free(env);
 	free_matrix(input); //talvez esse free de problema na lista, talvez colocar ele no final

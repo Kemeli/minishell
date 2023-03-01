@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/02/24 20:38:01 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:05:24 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,23 @@ typedef struct s_env_utils
 	char	*get_ret;
 }	t_env_utils;
 
-typedef struct s_redirect_utils
+typedef struct s_redirect
 {
 	int	infile;
 	int	outfile;
 	int	fd_pipe;
-}	t_redirect_utils;
+	int	has_in;
+	int	has_out;
+}	t_redirect;
+
+typedef struct s_exec
+{
+	char	**cmd;
+	char	*path;
+	int	process;
+	int		**fd;
+	int		pid;
+} t_exec;
 
 
 typedef struct s_token
@@ -85,16 +96,16 @@ typedef struct s_token
 	struct s_token	*prev;
 } t_token;
 
-
-int main();
 t_token	*lexer(char **input, t_token *list);
 char	**get_input(t_env_utils *env);
 void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
 char	*get_expanded_var(char *input, t_env_utils *env);
 void	sintax(t_token *list);
-void	redirector(t_token *list);
-void	cmd_handler(t_token *list, char **envp);
+// void	redirector(t_token **aux, t_redirect *redirect)
+// void	cmd_handler(t_token *list, char **envp); //talvez tirar
+void	execute(t_token *list, char **envp);
+int	is_builtin(char *cmd);
 
 
 void	free_matrix(char **input);
