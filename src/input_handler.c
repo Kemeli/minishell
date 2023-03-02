@@ -22,11 +22,11 @@ int	quote_checker(char input_position)
 	return (0);
 }
 
-char	*meta_check(char *str, char *input, t_input_utils *in)
+char	*meta_separator(char *str, char *input, t_input_utils *in)
 {
 	if (input[in->i] == '<' || input[in->i] == '>')
 	{
-		if (input[in->i - 1] && !space_checker(input[in->i - 1]))
+		if (in->i > 0 && !space_checker(input[in->i - 1])) //i>0 = não é o primeiro char
 			str[in->j++] = SEPARATOR;
 		str[in->j] = input[in->i];
 		if (input[in->i + 1] && check_next_position(input[in->i], input[in->i + 1]))
@@ -59,7 +59,7 @@ char	*input_separator(char *input)
 		else if (quote_checker(input[in->i]) && in->open_quotes)
 			in->open_quotes = 0;
 		if (input[in->i] == '<' || input[in->i] == '>' || input[in->i] == '|')
-			str = meta_check(str, input, in);
+			str = meta_separator(str, input, in);
 		else if (input[in->i] == SPACE && !in->open_quotes)
 			str[in->j] = SEPARATOR;
 		else
@@ -111,7 +111,6 @@ char	*pipe_input(char *input)
 	int		i;
 
 	i = 0;
-	// exec->pipe_count = 0;
 	if (input[ft_strlen(input) - 1] == '|')
 	{
 		rest_of_input = readline(">");
@@ -121,32 +120,61 @@ char	*pipe_input(char *input)
 		input = ft_strdup(join_input);
 		free (join_input);
 	}
-	// while (input[i++])
-	// {
-	// 	if (ft_strncmp(input[i], '|'))
-	// 		exec->pipe_count++;
-	// }
 	return (input);
 }
 
-char	**get_input(t_env_utils *env_var)
+// char	**get_input(t_env_utils *env_var)
+// {
+// 	char	*input;
+// 	char	*temp_input;
+// 	char	**input_matrix;
+// 	char	*expand_input;
+
+// 	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
+// 	input = pipe_input(temp_input);
+// 	env_var = ft_calloc(sizeof (t_env_utils), 1);
+// 	if (opened_quotes(input))
+// 	{
+// 		ft_putstr_fd("error: opened quotes\n", 2);
+// 		return (0);
+// 	}
+// 	expand_input = get_expanded_var(input, env_var);
+// 	input_matrix = get_input_matrix(expand_input);
+// 	free (expand_input);
+// 	free (input);
+// 	return (input_matrix);
+// }
+
+
+
+char	**get_input()
 {
 	char	*input;
 	char	*temp_input;
 	char	**input_matrix;
-	char	*expand_input;
 
 	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
 	input = pipe_input(temp_input);
-	env_var = ft_calloc(sizeof (t_env_utils), 1);
+
+	int i = -1;
+	int envar = 0;
+	while (input[++i])
+	{
+		if (input[i] == '$')
+			envar = 1;
+	}
+
 	if (opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
 		return (0);
 	}
-	expand_input = get_expanded_var(input, env_var);
-	input_matrix = get_input_matrix(expand_input);
-	free (expand_input);
+	if (envar)
+		input = get_expanded_var(input); //sobrescrevo input, danger!
+
+	input_matrix = get_input_matrix(input);
 	free (input);
 	return (input_matrix);
 }
+
+//status: resolvendo leaks, parei p/ fazer o input não entrar na expand var sem necessidade

@@ -4,9 +4,19 @@
 t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 {
 	int	i;
+	t_token	*cmd_list;
+	int count;
+
+	count = 1;
+	cmd_list = aux;
+	while (cmd_list->next && cmd_list->next->type == ARGUMENT)
+	{
+		cmd_list = cmd_list->next;
+		count++;
+	}
 
 	i = 0;
-	exec->cmd = ft_calloc(sizeof(char **), 1);
+	exec->cmd = ft_calloc(sizeof(char *), count + 1);
 	exec->cmd[i] = ft_strdup(aux->cmd);
 	if (aux->next)
 		aux = (aux->next);
@@ -26,7 +36,7 @@ char	*get_path(char *cmd)
 	char	**paths;
 	char	*slash_cmd;
 
-	path = getenv("PATH");
+	path = getenv("PATH"); //mudar
 	paths = ft_split(path, ':');
 	slash_cmd = ft_strjoin("/", cmd);
 	i = 0;
@@ -37,6 +47,7 @@ char	*get_path(char *cmd)
 			break;
 		i++;
 		free (path); //talvez jogar esse free p cima
+		path = NULL;
 	}
 	free_matrix (paths);
 	free (slash_cmd);
@@ -58,10 +69,7 @@ t_token	*cmd_handler(t_token *list, t_exec *exec)
 		aux = aux->next;
 	}
 	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))
-	{
-		exec->path = get_path(aux->cmd); //dar free;
 		aux = cmd_matrix(aux, exec); //dar free
-	}
 	while (aux && aux->type != PIPE)
 		aux = aux->next;
 	return (aux);
@@ -83,8 +91,9 @@ void	close_fd(int **fd)
 		i++;
 }
 
-void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **envp)
+void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **envp, t_token *aux)
 {
+	exec->path = get_path(exec->cmd[0]);
 	if (redirect->here_file)
 	{
 		if(dup2(redirect->here_file, STDIN_FILENO) == -1)
@@ -106,8 +115,16 @@ void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **e
 	if (!redirect->infile && i > 0) //a partir do segundo loop, pega output do pipe anterior
 		dup2 (fd[i - 1][0], STDIN_FILENO);
 	close_fd(fd);
-	execve(exec->path, exec->cmd, envp); //copiar o envp do programa depois
+	if (exec->path)
+		execve(exec->path, exec->cmd, envp); //copiar o envp do programa depois
 	printf("erro execve\n");
+	
+	free_matrix(exec->cmd);
+	free_int_mat(fd);
+	free (exec);
+	free (redirect);
+	free_list (aux);
+
 	exit(0);
 }
 
@@ -123,20 +140,20 @@ void	exec_child(t_token *list, t_exec *exec, char **envp)
 		redirect = ft_calloc(sizeof(t_redirect), 1);;
 		redirector(aux, redirect);//*primeiro é o ocmeço da lista, dpeois atualiza
 		aux = cmd_handler(aux, exec); //recebe o ponteiro onde parou o command handler
-		if (exec->path) //mudar isso
-		{
-			exec->pid = fork();
-			if (exec->pid == 0)
-				child_process(exec->fd, i, exec, redirect, envp);
-		}
-		else
-			printf ("execute builtin");
+
+		exec->pid = fork();
+		if (exec->pid == 0)
+			child_process(exec->fd, i, exec, redirect, envp, list);
+
+		free_matrix (exec->cmd);
 		exec->process--;
 		i++;
 		free (redirect);
 	}
 	unlink ("__heredoc");
 	close_fd(exec->fd);
+	free_int_mat(exec->fd);
+
 	waitpid(exec->pid, 0, 0);
 	waitpid(-1, NULL, 0);
 }
@@ -174,10 +191,6 @@ void	execute(t_token *list, char **envp)
 		aux = aux->next;
 	}
 	aux = list;
-	// cmd_handler(aux, exec); //aqui recebeu uma copia então n retorna a posição do aux
-	start_exec(exec, aux, envp); //aqui passa o começo da lista
+	start_exec(exec, aux, envp);
 	free (exec);
 }
-
-//sttaus: execve travandoa após rodar o comando depois do primeiro pipe, o problema parece
-//estar na conversa entre pipes, apesar de que ele recebe e roda mas aí trava e n finaliza

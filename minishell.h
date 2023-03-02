@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/02 00:46:09 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/02 18:56:45 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,14 @@ typedef struct s_redirect
 	int	infile;
 	int	outfile;
 	int	fd_pipe;
-	int	has_in;
-	int	has_out;
 	int	here_file;
-	int	has_heredoc;
 }	t_redirect;
 
 typedef struct s_exec
 {
 	char	**cmd;
 	char	*path;
-	int	process;
+	int		process;
 	int		**fd;
 	int		pid;
 } t_exec;
@@ -100,10 +97,12 @@ typedef struct s_token
 } t_token;
 
 t_token	*lexer(char **input, t_token *list);
-char	**get_input(t_env_utils *env);
+char	**get_input();
 void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
-char	*get_expanded_var(char *input, t_env_utils *env);
+// char	*get_expanded_var(char *input, t_env_utils *env);
+char *get_expanded_var(char *input);
+
 void	sintax(t_token *list);
 void	redirector(t_token *aux, t_redirect *redirect);
 // void	redirector(t_token **aux, t_redirect *redirect)
@@ -111,7 +110,7 @@ void	redirector(t_token *aux, t_redirect *redirect);
 void	execute(t_token *list, char **envp);
 int	is_builtin(char *cmd);
 
-
+void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_list(t_token *list);
 

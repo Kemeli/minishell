@@ -14,6 +14,19 @@ void	free_matrix(char **input)
 	free(input);
 }
 
+void	free_int_mat(int **input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		free(input[i]);
+		i++;
+	}
+	free(input);
+}
+
 void	free_list(t_token *list)
 {
 	t_token	*aux;

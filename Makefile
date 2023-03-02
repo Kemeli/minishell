@@ -83,7 +83,7 @@ fclean: clean
 re: fclean all
 
 runrl:	$(NAME)
-	make re
+	make
 	@valgrind --suppressions=./local.supp --leak-check=full ./minishell
 
 .PHONY: all clean fclean re

@@ -42,10 +42,13 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input, t_env_utils *env)
+char *get_expanded_var(char *input)
 {
 	char *new_input;
 	int in_quotes = 0;
+	t_env_utils *env;
+	env = ft_calloc(sizeof (t_env_utils), 1);
+
 
 	new_input = ft_calloc(ft_strlen(input), 1);
 
@@ -72,5 +75,6 @@ char *get_expanded_var(char *input, t_env_utils *env)
 		}
 	}
 	free(env);
+	free (input);
 	return (new_input);
 }
