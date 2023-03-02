@@ -85,19 +85,25 @@ void	close_fd(int **fd)
 
 void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **envp)
 {
-	if (redirect->has_in)
+	if (redirect->here_file)
+	{
+		if(dup2(redirect->here_file, STDIN_FILENO) == -1)
+			printf("error");
+		close (redirect->here_file);
+	}
+	if (redirect->infile)
 	{
 		dup2(redirect->infile, STDIN_FILENO);
 		close (redirect->infile);
 	}
-	if (redirect->has_out)
+	if (redirect->outfile)
 	{
 		dup2(redirect->outfile, STDOUT_FILENO);
 		close (redirect->outfile);
 	}
-	if (!redirect->has_out && exec->process > 1)
+	if (!redirect->outfile && exec->process > 1)
 		dup2 (fd[i][1], STDOUT_FILENO);
-	if (!redirect->has_in && i > 0) //a partir do segundo loop, pega output do pipe anterior
+	if (!redirect->infile && i > 0) //a partir do segundo loop, pega output do pipe anterior
 		dup2 (fd[i - 1][0], STDIN_FILENO);
 	close_fd(fd);
 	execve(exec->path, exec->cmd, envp); //copiar o envp do programa depois
@@ -129,6 +135,7 @@ void	exec_child(t_token *list, t_exec *exec, char **envp)
 		i++;
 		free (redirect);
 	}
+	unlink ("__heredoc");
 	close_fd(exec->fd);
 	waitpid(exec->pid, 0, 0);
 	waitpid(-1, NULL, 0);

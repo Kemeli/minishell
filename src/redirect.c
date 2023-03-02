@@ -85,14 +85,13 @@
 
 char *heredoc_handler(char *here_arg, t_redirect *redirect)
 {
-	char *prompt = ">";
 	char *read;
 	char *argument = ft_calloc(ft_strlen(here_arg), 1);
 	char	*temp;
 
 	while (1)
 	{
-		read = readline(prompt);
+		read = readline(">");
 		if (!read)
 			break;
 		if (!ft_strncmp(read, here_arg, ft_strlen(here_arg)))
@@ -112,32 +111,28 @@ char *heredoc_handler(char *here_arg, t_redirect *redirect)
 
 void	redirector(t_token *aux, t_redirect *redirect) //se cmd == redirector, chama aqui
 {
-	char *teste;
+	char *test;
 
 	if (aux->type == PIPE)
 		aux = (aux->next);
 	while (aux && aux->type != PIPE)
 	{
 		if (aux->type == INFILE)
-		{
 			redirect->infile = open(aux->cmd, O_RDONLY, 0444);
-			redirect->has_in = 1;
-		}
 		else if (aux->type == APPEND_OUT)
-		{
 			redirect->outfile = open(aux->cmd, O_WRONLY | O_CREAT | O_APPEND, 0644); //verificar permissões
-			redirect->has_out = 1;
-		}
 		else if (aux->type == OUTFILE)
-		{
 			redirect->outfile = open(aux->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0644); //verificar permissões
-			redirect->has_out = 1;
-		}
 		else if (aux->next && aux->type == HEREDOC) //lembrar mandar outfile
 		{
-			teste = heredoc_handler(aux->next->cmd, redirect);
-			printf("...teste...\n%s...teste...\n", teste); //lembrar de tirar esse print
-			free (teste);
+			test = heredoc_handler(aux->next->cmd, redirect);
+
+			redirect->here_file = open ("__heredoc", O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
+			ft_putstr_fd(test, redirect->here_file);
+			close (redirect->here_file);
+			open ("__heredoc", O_RDONLY);
+			// printf("...test...\n%s...test...\n", test); //lembrar de tirar esse print
+			free (test);
 		}
 		aux = (aux->next);
 	}

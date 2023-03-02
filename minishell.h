@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/01 23:46:29 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:46:09 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_redirect
 	int	fd_pipe;
 	int	has_in;
 	int	has_out;
+	int	here_file;
+	int	has_heredoc;
 }	t_redirect;
 
 typedef struct s_exec
