@@ -45,19 +45,22 @@ char	*input_expander(char *new_input, t_env_utils *env)
 char *get_expanded_var(char *input)
 {
 	char *new_input;
-	int in_quotes = 0;
+	int sp_quotes = 0;
+	int	db_quotes = 0;
 	t_env_utils *env;
 	env = ft_calloc(sizeof (t_env_utils), 1);
-
 
 	new_input = ft_calloc(ft_strlen(input), 1);
 
 	while (input[env->i])
 	{
-		if (input[env->i] == '\'')
-			in_quotes = !in_quotes;
+		if (input[env->i] == '\"')
+			db_quotes = !db_quotes;
 
-		if (input[env->i] != '$' || in_quotes)
+		if (input[env->i] == '\'' && !db_quotes)
+			sp_quotes = !sp_quotes;
+
+		if (input[env->i] != '$' || sp_quotes)
 		{
 			env->ch_cpy = ft_substr(input, env->i, 1);
 			env->ch_join = ft_strjoin(new_input, env->ch_cpy);
@@ -67,7 +70,7 @@ char *get_expanded_var(char *input)
 			env->i++;
 		}
 
-		else if (input[env->i] == '$' && !in_quotes)
+		else if (input[env->i] == '$' && !sp_quotes)
 		{
 			env->get_ret = getenv_check(input, env);
 			new_input = input_expander(new_input, env);

@@ -91,8 +91,9 @@ void	close_fd(int **fd)
 		i++;
 }
 
-void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **envp, t_token *aux)
+void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, t_token *aux)
 {
+	
 	exec->path = get_path(exec->cmd[0]);
 	if (redirect->here_file)
 	{
@@ -116,7 +117,7 @@ void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **e
 		dup2 (fd[i - 1][0], STDIN_FILENO);
 	close_fd(fd);
 	if (exec->path)
-		execve(exec->path, exec->cmd, envp); //copiar o envp do programa depois
+		execve(exec->path, exec->cmd, exec->envp_test); //copiar o envp do programa depois
 	printf("erro execve\n");
 	
 	free_matrix(exec->cmd);
@@ -128,7 +129,7 @@ void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, char **e
 	exit(0);
 }
 
-void	exec_child(t_token *list, t_exec *exec, char **envp)
+void	exec_child(t_token *list, t_exec *exec)
 {
 	int	i;
 	t_redirect *redirect; 
@@ -143,7 +144,7 @@ void	exec_child(t_token *list, t_exec *exec, char **envp)
 
 		exec->pid = fork();
 		if (exec->pid == 0)
-			child_process(exec->fd, i, exec, redirect, envp, list);
+			child_process(exec->fd, i, exec, redirect, list);
 
 		free_matrix (exec->cmd);
 		exec->process--;
@@ -158,11 +159,12 @@ void	exec_child(t_token *list, t_exec *exec, char **envp)
 	waitpid(-1, NULL, 0);
 }
 
-void	start_exec(t_exec *exec, t_token *list, char **envp)
+void	start_exec(t_exec *exec, t_token *list)
 {
 	int	i;
 	int	j;
 	exec->fd = ft_calloc(exec->process, sizeof(int *));
+
 
 	i = 1;
 	j = 0;
@@ -174,13 +176,14 @@ void	start_exec(t_exec *exec, t_token *list, char **envp)
 		pipe(exec->fd[j++]);
 		i++;
 	}
-	exec_child(list, exec, envp); 
+	exec_child(list, exec); 
 }
 
 void	execute(t_token *list, char **envp)
 {
 	t_token	*aux;
 	t_exec	*exec = ft_calloc(sizeof(t_exec), 1);
+	exec->envp_test = envp_matrix(envp);
 
 	exec->process = 1;
 	aux = list;
@@ -191,6 +194,6 @@ void	execute(t_token *list, char **envp)
 		aux = aux->next;
 	}
 	aux = list;
-	start_exec(exec, aux, envp);
+	start_exec(exec, aux);
 	free (exec);
 }

@@ -1,7 +1,7 @@
 
 #include "../minishell.h"
 
-char *heredoc_handler(char *here_arg, t_redirect *redirect)
+char *heredoc_handler(char *here_arg)
 {
 	char *read;
 	char *argument = ft_calloc(ft_strlen(here_arg), 1);
@@ -23,7 +23,6 @@ char *heredoc_handler(char *here_arg, t_redirect *redirect)
 		free(temp);
 		free(read);
 	}
-	redirect->has_in = 1;
 	return (argument);
 }
 
@@ -43,7 +42,7 @@ void	redirector(t_token *aux, t_redirect *redirect)
 			redirect->outfile = open(aux->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0644); //verificar permissões
 		else if (aux->next && aux->type == HEREDOC)
 		{
-			heredoc_input = heredoc_handler(aux->next->cmd, redirect);
+			heredoc_input = heredoc_handler(aux->next->cmd);
 
 			redirect->here_file = open ("__heredoc", O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 			ft_putstr_fd(heredoc_input, redirect->here_file);

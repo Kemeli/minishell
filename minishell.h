@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/02 18:56:45 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/03 01:56:52 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_exec
 	int		process;
 	int		**fd;
 	int		pid;
+	char	**envp_test;
 } t_exec;
 
 
@@ -109,6 +110,8 @@ void	redirector(t_token *aux, t_redirect *redirect);
 // void	cmd_handler(t_token *list, char **envp); //talvez tirar
 void	execute(t_token *list, char **envp);
 int	is_builtin(char *cmd);
+
+char	**envp_matrix(char **envp);
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

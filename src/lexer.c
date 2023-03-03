@@ -78,7 +78,7 @@ t_token	*lexer(char **input, t_token *list)
 		new = ft_calloc(sizeof(t_token), 1);
 		list = get_list(new, list);
 		new->cmd = ft_strdup(input[i]);
-			check_type(new);
+		check_type(new);
 		i++;
 	}
 	return (list);
