@@ -40,6 +40,8 @@ void	check_type(t_token *token)
 
 	else if (token->prev && token->prev->type == SYS_CMD)
 		token->type = ARGUMENT;
+	else if (token->prev && token->prev->type == ARGUMENT)
+		token->type = ARGUMENT;
 	else if (token->prev && token->prev->type == BUILTIN)
 		token->type = ARGUMENT;
 	else if (is_builtin(token->cmd))

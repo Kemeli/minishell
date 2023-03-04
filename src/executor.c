@@ -1,82 +1,6 @@
 
 #include "../minishell.h"
 
-t_token	*cmd_matrix(t_token *aux, t_exec *exec)
-{
-	int	i;
-	t_token	*cmd_list;
-	int count;
-
-	count = 1;
-	cmd_list = aux;
-	while (cmd_list->next && cmd_list->next->type == ARGUMENT)
-	{
-		cmd_list = cmd_list->next;
-		count++;
-	}
-
-	i = 0;
-	exec->cmd = ft_calloc(sizeof(char *), count + 1);
-	exec->cmd[i] = ft_strdup(aux->cmd);
-	if (aux->next)
-		aux = (aux->next);
-	while (aux && aux->type == ARGUMENT) //colocar herearg como argument
-	{
-		exec->cmd[++i] = ft_strdup(aux->cmd);
-		aux = (aux->next);
-	}
-	exec->cmd[++i] = NULL;
-	return (aux);
-}
-
-char	*get_path(char *cmd)
-{
-	int		i;
-	char	*path;
-	char	**paths;
-	char	*slash_cmd;
-
-	path = getenv("PATH"); //mudar
-	paths = ft_split(path, ':');
-	slash_cmd = ft_strjoin("/", cmd);
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_strjoin(paths[i], slash_cmd);
-		if (!access (path, F_OK))
-			break;
-		i++;
-		free (path); //talvez jogar esse free p cima
-		path = NULL;
-	}
-	free_matrix (paths);
-	free (slash_cmd);
-	return (path);
-}
-
-t_token	*cmd_handler(t_token *list, t_exec *exec)
-{
-	t_token	*aux;
-
-	aux = list;
-	
-	if (aux && aux->type == PIPE)
-		aux = aux->next;
-	while (aux && aux->type != SYS_CMD)
-	{
-		if (aux->type == BUILTIN)
-			break;
-		aux = aux->next;
-	}
-	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))
-		aux = cmd_matrix(aux, exec); //dar free
-	while (aux && aux->type != PIPE)
-		aux = aux->next;
-	return (aux);
-}
-
-				/*  PROCESSES  */
-
 void	close_fd(int **fd)
 {
 	int i = 0;
@@ -91,70 +15,92 @@ void	close_fd(int **fd)
 		i++;
 }
 
-void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, t_token *aux)
+void	end_procesess(t_exec *exec)
 {
-	
-	exec->path = get_path(exec->cmd[0]);
-	if (redirect->here_file)
-	{
-		if(dup2(redirect->here_file, STDIN_FILENO) == -1)
-			printf("error");
-		close (redirect->here_file);
-	}
-	if (redirect->infile)
-	{
-		dup2(redirect->infile, STDIN_FILENO);
-		close (redirect->infile);
-	}
-	if (redirect->outfile)
-	{
-		dup2(redirect->outfile, STDOUT_FILENO);
-		close (redirect->outfile);
-	}
-	if (!redirect->outfile && exec->process > 1)
-		dup2 (fd[i][1], STDOUT_FILENO);
-	if (!redirect->infile && i > 0) //a partir do segundo loop, pega output do pipe anterior
-		dup2 (fd[i - 1][0], STDIN_FILENO);
-	close_fd(fd);
-	if (exec->path)
-		execve(exec->path, exec->cmd, exec->envp_test); //copiar o envp do programa depois
-	printf("erro execve\n");
-	
-	free_matrix(exec->cmd);
-	free_int_mat(fd);
-	free (exec);
+	unlink ("__heredoc");
+	close_fd(exec->fd);
+	free_int_mat(exec->fd);
+}
+
+void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux)
+{
+	if (exec->cmd)
+		free_matrix(exec->cmd);
+	free_int_mat(exec->fd);
 	free (redirect);
 	free_list (aux);
+	free_matrix(exec->envp_ms);
+	free (exec);
+}
 
-	exit(0);
+void	exec_error(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+
+void	change_fd(int file, int std_fd)
+{
+	dup2(file, std_fd);
+	close (file);
+}
+
+void	fd_redirect(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
+{
+	if (redirect->here_file)
+		change_fd(redirect->here_file, STDIN_FILENO);
+	if (redirect->infile)
+		change_fd(redirect->infile, STDIN_FILENO);
+	if (redirect->outfile)
+		change_fd(redirect->outfile, STDOUT_FILENO);
+	if (!redirect->outfile && exec->process > 1)
+		dup2 (exec->fd[i][1], STDOUT_FILENO);
+	if (!redirect->infile && i > 0) //segundo loop, output pipe anterior
+		dup2 (exec->fd[i - 1][0], STDIN_FILENO);
+	close_fd(exec->fd);
+}
+
+void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux)
+{
+	fd_redirect(redirect, exec, i);
+	if (exec->cmd)
+		exec->path = get_path(exec->cmd[0]);
+	if (exec->path)
+	{
+		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
+			perror(exec->cmd[0]);
+	}
+	else if (exec->cmd)
+		exec_error(exec->cmd[0]);
+	// else
+	// 	ft_putstr_fd ("No such file or directory\n", 2); //colocar nome?
+	free_child (exec, redirect, aux);
+	exit(EXIT_FAILURE);
 }
 
 void	exec_child(t_token *list, t_exec *exec)
 {
 	int	i;
 	t_redirect *redirect; 
-	t_token	*aux = list;
-
+	t_token	*aux;
+	
+	aux = list;
 	i = 0;
 	while (exec->process >= 1)
 	{
-		redirect = ft_calloc(sizeof(t_redirect), 1);;
-		redirector(aux, redirect);//*primeiro é o ocmeço da lista, dpeois atualiza
-		aux = cmd_handler(aux, exec); //recebe o ponteiro onde parou o command handler
-
+		redirect = ft_calloc(sizeof(t_redirect), 1);
+		redirector(aux, redirect); //atualiza aux em cmd_handler
+		aux = cmd_handler(aux, exec);
 		exec->pid = fork();
 		if (exec->pid == 0)
-			child_process(exec->fd, i, exec, redirect, list);
-
+			child_process(i, exec, redirect, list);
 		free_matrix (exec->cmd);
+		free (redirect);
 		exec->process--;
 		i++;
-		free (redirect);
 	}
-	unlink ("__heredoc");
-	close_fd(exec->fd);
-	free_int_mat(exec->fd);
-
+	end_procesess (exec);
 	waitpid(exec->pid, 0, 0);
 	waitpid(-1, NULL, 0);
 }
@@ -164,7 +110,6 @@ void	start_exec(t_exec *exec, t_token *list)
 	int	i;
 	int	j;
 	exec->fd = ft_calloc(exec->process, sizeof(int *));
-
 
 	i = 1;
 	j = 0;
@@ -182,9 +127,10 @@ void	start_exec(t_exec *exec, t_token *list)
 void	execute(t_token *list, char **envp)
 {
 	t_token	*aux;
-	t_exec	*exec = ft_calloc(sizeof(t_exec), 1);
-	exec->envp_test = envp_matrix(envp);
+	t_exec	*exec;
 
+	exec = ft_calloc(sizeof(t_exec), 1);
+	exec->envp_ms = envp_matrix(envp);
 	exec->process = 1;
 	aux = list;
 	while (aux)
@@ -195,5 +141,6 @@ void	execute(t_token *list, char **envp)
 	}
 	aux = list;
 	start_exec(exec, aux);
+	free_matrix(exec->envp_ms);
 	free (exec);
 }

@@ -1,34 +1,38 @@
 
 
-char	**get_input(t_env_utils *env_var)
+void	change_fd(int file, int std_fd)
 {
-	char	*input;
-	char	*temp_input;
-	char	**input_matrix;
-	char	*expand_input;
+	dup2(file, std_fd);
+	close (file);
+}
 
-	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
-	input = pipe_input(temp_input);
+void	fd_redirect(t_redirect *redirect, )
+{
+	if (redirect->here_file)
+		change_fd(redirect->here_file, STDIN_FILENO);
+	if (redirect->infile)
+		change_fd(redirect->infile, STDIN_FILENO);
+	if (redirect->outfile)
+		change_fd(redirect->outfile, STDOUT_FILENO);
+	if (!redirect->outfile && exec->process > 1)
+		dup2 (fd[i][1], STDOUT_FILENO);
+	if (!redirect->infile && i > 0) //segundo loop, output pipe anterior
+		dup2 (fd[i - 1][0], STDIN_FILENO);
+	close_fd(fd);
+}
 
-	int i = -1;
-	int envar 0;
-	while (input[++i])
+void	child_process(int **fd, int i, t_exec *exec, t_redirect *redirect, t_token *aux)
+{
+	fd_redirect(redirect);
+	if (exec->cmd)
+		exec->path = get_path(exec->cmd[0]);
+	if (exec->path)
 	{
-		if (input[i] == '$')
-			envar = 1;
+		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
+			perror(exec->cmd[0]);
 	}
-
-	env_var = ft_calloc(sizeof (t_env_utils), 1); //jogar isso pra dentro da função
-	if (opened_quotes(input))
-	{
-		ft_putstr_fd("error: opened quotes\n", 2);
-		return (0);
-	}
-	if (envar)
-		input = get_expanded_var(input, env_var);
-
-	input_matrix = get_input_matrix(input);
-	free (expand_input);
-	free (input);
-	return (input_matrix);
+	else if (exec->cmd)
+		exec_error(exec->cmd[0]);
+	free_child (exec, redirect, aux, fd);
+	exit(EXIT_FAILURE);
 }

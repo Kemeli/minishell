@@ -9,6 +9,7 @@ SRC =		src/main.c \
 			src/executor.c \
 			src/redirect.c \
 			src/envp.c \
+			executor_utils.c \
 
 LIBFT =		libft/libft.a
 

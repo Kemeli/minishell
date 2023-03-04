@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/02 19:37:30 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/03 18:34:52 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_list(t_token *list) //essa função vai sair
 		printf("cmd: %s, type: %d\n", aux->cmd, aux->type);
 		aux = aux->next;
 	}
+	printf("\n");
 }
 
 int	main(int argc, char **argv, char **envp)

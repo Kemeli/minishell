@@ -6,12 +6,13 @@ void	free_matrix(char **input)
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (input && input[i])
 	{
 		free(input[i]);
 		i++;
 	}
-	free(input);
+	if (input)
+		free(input);
 }
 
 void	free_int_mat(int **input)
