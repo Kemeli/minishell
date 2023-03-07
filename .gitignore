@@ -1,0 +1,9 @@
+minishell
+minishell_debug
+minishell_bonus
+a.out
+*.o
+*.a
+infile
+outfile
+.vscode
