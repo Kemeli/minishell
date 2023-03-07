@@ -1,6 +1,7 @@
 
 #include "../minishell.h"
 
+
 int	is_env_char(int c) //1º char só letra, arrumar depois
 {
 	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')
@@ -10,7 +11,7 @@ int	is_env_char(int c) //1º char só letra, arrumar depois
 	return (0);
 }
 
-char	*getenv_check(char *input, t_env_utils *env)
+char	*getenv_check(char *input, t_env_utils *env, t_exec *exec)
 {
 	char	*sub;
 	char	*trim;
@@ -21,13 +22,13 @@ char	*getenv_check(char *input, t_env_utils *env)
 		j++;
 	sub = ft_substr(input, env->i, j - env->i);
 	trim = ft_strtrim(sub, "$"); 
-	env->test = getenv(trim);
+	env->test = get_env(trim, exec->envp_ms);
 	env->i = j;
 	free (trim);
 	if (!env->test)
-		return (sub); //isso aqui esta causando leak, consegui dar free no retorno, como resolver?
+		return (sub); //isso aqui esta causando leak, n consegui dar free no retorno, como resolver?
 	free (sub); 
-	return (env->test);
+	return (env->test); // aqui tem leak, como resolver?
 }
 
 char	*input_expander(char *new_input, t_env_utils *env)
@@ -42,7 +43,7 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input)
+char *get_expanded_var(char *input, t_exec *exec)
 {
 	char *new_input;
 	int sp_quotes = 0;
@@ -72,12 +73,12 @@ char *get_expanded_var(char *input)
 
 		else if (input[env->i] == '$' && !sp_quotes)
 		{
-			env->get_ret = getenv_check(input, env);
+			env->get_ret = getenv_check(input, env, exec);
 			new_input = input_expander(new_input, env);
-			env->get_ret = NULL; //precisa disso?
+			free (env->get_ret); //essa var pode ser local
 		}
 	}
 	free(env);
 	free (input);
-	return (new_input);
+	return (new_input); //rever
 }

@@ -92,9 +92,12 @@ void	exec_child(t_token *list, t_exec *exec)
 		redirect = ft_calloc(sizeof(t_redirect), 1);
 		redirector(aux, redirect); //atualiza aux em cmd_handler
 		aux = cmd_handler(aux, exec);
-		exec->pid = fork();
-		if (exec->pid == 0)
-			child_process(i, exec, redirect, list);
+		if (!builtin_exec(exec))
+		{
+			exec->pid = fork();
+			if (exec->pid == 0)
+				child_process(i, exec, redirect, list);
+		}
 		free_matrix (exec->cmd);
 		free (redirect);
 		exec->process--;
@@ -124,13 +127,10 @@ void	start_exec(t_exec *exec, t_token *list)
 	exec_child(list, exec); 
 }
 
-void	execute(t_token *list, char **envp)
+void	execute(t_token *list, t_exec *exec)
 {
 	t_token	*aux;
-	t_exec	*exec;
 
-	exec = ft_calloc(sizeof(t_exec), 1);
-	exec->envp_ms = envp_matrix(envp);
 	exec->process = 1;
 	aux = list;
 	while (aux)

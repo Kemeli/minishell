@@ -64,7 +64,7 @@ t_token	*get_list(t_token *new_token, t_token *list)
 		while (aux->next)
 			aux = aux->next;
 		aux->next = new_token;
-		new_token->prev = aux; 
+		new_token->prev = aux;
 	}
 	return list;
 }
@@ -85,4 +85,3 @@ t_token	*lexer(char **input, t_token *list)
 	}
 	return (list);
 }
-

@@ -147,7 +147,7 @@ char	*pipe_input(char *input)
 
 
 
-char	**get_input()
+char	**get_input(t_exec *exec)
 {
 	char	*input;
 	char	*temp_input;
@@ -161,7 +161,10 @@ char	**get_input()
 	while (input[++i])
 	{
 		if (input[i] == '$')
+		{
 			envar = 1;
+			break ;
+		}
 	}
 
 	if (opened_quotes(input))
@@ -170,7 +173,7 @@ char	**get_input()
 		return (0);
 	}
 	if (envar)
-		input = get_expanded_var(input); //sobrescrevo input, danger!
+		input = get_expanded_var(input, exec); //sobrescrevo input, danger!
 
 	input_matrix = get_input_matrix(input);
 	free (input);

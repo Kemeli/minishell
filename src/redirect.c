@@ -47,7 +47,6 @@ void	redirector(t_token *aux, t_redirect *redirect)
 		else if (aux->next && aux->type == HEREDOC)
 		{
 			heredoc_input = heredoc_handler(aux->next->cmd);
-
 			redirect->here_file = open ("__heredoc", O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 			ft_putstr_fd(heredoc_input, redirect->here_file);
 			close (redirect->here_file);
@@ -56,4 +55,4 @@ void	redirector(t_token *aux, t_redirect *redirect)
 		}
 		aux = (aux->next);
 	}
-} 
+}

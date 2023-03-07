@@ -8,8 +8,9 @@ SRC =		src/main.c \
 			src/sintax.c \
 			src/executor.c \
 			src/redirect.c \
-			src/envp.c \
+			src/env.c \
 			executor_utils.c \
+			builtins.c \
 
 LIBFT =		libft/libft.a
 
