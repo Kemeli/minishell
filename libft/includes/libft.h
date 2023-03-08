@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 19:00:38 by kdaiane-          #+#    #+#             */
-/*   Updated: 2022/11/04 01:29:38 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:06:23 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define LIBFT_H
 
 # define BUFFER_SIZE 42
-
-# include <stdlib.h>
-# include <unistd.h>
+# include <headers.h>
+# include <linked_list.h>
+# include <stack.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -53,5 +53,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*get_next_line(int fd);
+
+void	*ft_salloc(size_t size);
 
 #endif

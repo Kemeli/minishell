@@ -1,3 +1,8 @@
+C_LINKED_LISTS			= $(addprefix linked_list/singly/, ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c)
+C_DOUBLY_LINKED_LISTS	= $(addprefix linked_list/doubly/, ft_dlstnew.c ft_dlstadd_front.c ft_dlstadd_begin.c ft_dlstfirst.c ft_dlstlast.c ft_dlstadd_back.c ft_dlstsize.c ft_dlstdelone.c ft_dlstclear.c ft_dlstmap.c ft_dlstiter.c)
+C_STACK					= $(addprefix stack/, ft_stkclear.c ft_stkinit.c ft_stkis_empty.c ft_stknew.c ft_stkpeek.c ft_stkpop.c ft_stkpush.c)
+C_DATA_STRUCTURES		= $(addprefix data_structures/,$(C_LINKED_LISTS) $(C_DOUBLY_LINKED_LISTS) $(C_STACK))
+
 SOURCE		= 	ft_bzero.c			\
 				ft_isalnum.c		\
 				ft_isalpha.c		\
@@ -33,8 +38,9 @@ SOURCE		= 	ft_bzero.c			\
 				ft_putendl_fd.c		\
 				ft_putnbr_fd.c		\
 				get_next_line.c		\
+				$(C_DATA_STRUCTURES)
 
-OBJECTS 	= 	$(SOURCE:.c=.o)
+OBJECTS 	= 	$(addprefix objects/,$(SOURCE:.c=.o))
 
 HEADER		=	libft.h
 
@@ -44,13 +50,15 @@ FLAGS		=	-Wall -Wextra -Werror
 
 RM			=	rm -f
 
-.c.o:
-				cc $(FLAGS) -c $< -o $(<:.c=.o)
-				ar -rcs $(NAME) $(<:.c=.o)
-
-$(NAME):		$(OBJECTS) $(HEADER)
-
 all:			$(NAME)
+
+$(NAME):		$(OBJECTS)
+				$(info $$OBJECTS is [${OBJECTS}])
+				ar -rcs $@ $(OBJECTS)
+
+objects/%.o : %.c
+	@mkdir -p $(dir $@)
+	cc $(FLAGS) -I ./includes -c $< -o $@
 
 clean:
 				$(RM) $(OBJECTS)
