@@ -15,7 +15,8 @@ SRC =		src/main.c \
 LIBFT =		libft/libft.a
 
 NAME =		minishell
-FLAGS =		-Wall -Wextra -Werror -I ./src/includes -I ./libft/includes
+INCLUDES =	-I ./src/includes -I ./libft/includes
+FLAGS =		-Wall -Wextra -Werror $(INCLUDES)
 
 OBJ_DIR =	obj
 OBJS =		$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:%.c=%.o)))
@@ -42,8 +43,13 @@ fclean: clean
 
 re: fclean all
 
+debug:
+	@echo "Compiling..."
+	@make -sC ./libft --no-print-directory
+	@$(CC) -g $(INCLUDES) $(SRC) $(LIBFT) -lreadline -o $(NAME)
+
 runrl:	$(NAME)
 	make
 	@valgrind --suppressions=./local.supp --leak-check=full ./minishell
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug runrl
