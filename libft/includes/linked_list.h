@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2023/02/23 21:57:43 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/07 22:12:11 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,22 +121,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-/**
- * @brief Print the node assuming the int type for the content
- *
- * @param list Node to be printed
- * @return
- */
-void	ft_lstnprint(t_list *list);
-
-/**
- * @brief Print the entire list assuming the int type for the content
- *
- * @param list The list to be printed
- * @return
- */
-void	ft_lstprint(t_list *list);
-
 /******************************************************************************\
 * DOUBLY LINKED LIST														   *
 \******************************************************************************/
@@ -159,7 +143,5 @@ void	ft_dlstdelone(t_dlist *lst, void (*del)(void *));
 void	ft_dlstclear(t_dlist **lst, void (*del)(void *));
 void	ft_dlstiter(t_dlist *lst, void (*f)(void *));
 t_dlist	*ft_dlstmap(t_dlist *lst, void *(*f)(void *), void (*del)(void *));
-void	ft_dlstnprint(t_dlist *list);
-void	ft_dlstprint(t_dlist *list);
 
 #endif

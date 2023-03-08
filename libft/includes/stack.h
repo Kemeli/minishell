@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 19:54:34 by kmatos-s          #+#    #+#             */
-/*   Updated: 2023/02/23 21:57:33 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/07 22:12:39 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,5 @@ void	*ft_stkpeek_foot(t_stack *stack);
  * @return A boolean value
  */
 t_bool	ft_stkis_empty(t_stack *stack);
-
-void	ft_stkhprint(t_stack *stack);
-void	ft_stkprint(t_stack *stack);
 
 #endif
