@@ -53,7 +53,6 @@ RM			=	rm -f
 all:			$(NAME)
 
 $(NAME):		$(OBJECTS)
-				$(info $$OBJECTS is [${OBJECTS}])
 				ar -rcs $@ $(OBJECTS)
 
 objects/%.o : %.c

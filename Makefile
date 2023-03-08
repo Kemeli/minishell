@@ -15,7 +15,7 @@ SRC =		src/main.c \
 LIBFT =		libft/libft.a
 
 NAME =		minishell
-FLAGS =		-Wall -Wextra -Werror -I ./libft/includes
+FLAGS =		-Wall -Wextra -Werror -I ./src/includes -I ./libft/includes
 
 OBJ_DIR =	obj
 OBJS =		$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:%.c=%.o)))
@@ -23,11 +23,11 @@ OBJS =		$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:%.c=%.o)))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	cc -g -lreadline $(FLAGS) $(OBJS) $(LIBFT) -o $@
+	cc $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $@
 
 $(OBJ_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJ_DIR)
-	cc -g -c $(FLAGS) $< -o $@
+	cc -c $(FLAGS) $< -o $@
 
 $(LIBFT):
 	make -sC libft/

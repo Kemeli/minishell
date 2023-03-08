@@ -1,5 +1,5 @@
 
-#include "../minishell.h"
+#include <minishell.h>
 
 int	echo(char **cmd)
 {
@@ -56,7 +56,7 @@ int	cd(char **cmd, char **envp) //essa n deu pra testar, só com o loop
 	if (cmd[1] == NULL)
 	{
 		path = get_env("HOME", envp);
-		if (chdir(path)) 
+		if (chdir(path))
 			perror("chdir");
 		free (path);
 	}
@@ -163,7 +163,7 @@ int	builtin_exec(t_exec *exec)
 {
 	int	ret;
 	int	size;
-	
+
 	ret = 0;
 	size = ft_strlen(exec->cmd[0]);
 	if (!ft_strncmp(exec->cmd[0], "echo", size))
@@ -179,7 +179,7 @@ int	builtin_exec(t_exec *exec)
 	else if (!ft_strncmp(exec->cmd[0], "exit", size))
 		ret = exit_ms(exec->cmd);
 	else if (!ft_strncmp(exec->cmd[0], "unset", size))
-		ret = unset (exec->cmd, exec->envp_ms);	
+		ret = unset (exec->cmd, exec->envp_ms);
 	return (ret);
 }
 

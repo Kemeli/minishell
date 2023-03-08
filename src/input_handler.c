@@ -1,5 +1,5 @@
 
-#include "../minishell.h"
+#include <minishell.h>
 
 int	check_next_position(char first, char second)
 {
@@ -108,9 +108,9 @@ char	*pipe_input(char *input)
 {
 	char	*rest_of_input;
 	char	*join_input;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	if (input[ft_strlen(input) - 1] == '|')
 	{
 		rest_of_input = readline(">");

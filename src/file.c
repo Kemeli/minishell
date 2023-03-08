@@ -1,5 +1,4 @@
 
-
 void	change_fd(int file, int std_fd)
 {
 	dup2(file, std_fd);

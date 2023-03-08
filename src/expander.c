@@ -1,5 +1,5 @@
 
-#include "../minishell.h"
+#include <minishell.h>
 
 
 int	is_env_char(int c) //1º char só letra, arrumar depois
@@ -16,18 +16,18 @@ char	*getenv_check(char *input, t_env_utils *env, t_exec *exec)
 	char	*sub;
 	char	*trim;
 	int		j;
-	
+
 	j = env->i;
 	while (is_env_char(input[j]))
 		j++;
 	sub = ft_substr(input, env->i, j - env->i);
-	trim = ft_strtrim(sub, "$"); 
+	trim = ft_strtrim(sub, "$");
 	env->test = get_env(trim, exec->envp_ms);
 	env->i = j;
 	free (trim);
 	if (!env->test)
 		return (sub); //isso aqui esta causando leak, n consegui dar free no retorno, como resolver?
-	free (sub); 
+	free (sub);
 	return (env->test); // aqui tem leak, como resolver?
 }
 

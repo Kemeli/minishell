@@ -1,5 +1,5 @@
 
-#include "../minishell.h"
+#include <minishell.h>
 
 void	close_fd(int **fd)
 {
@@ -82,9 +82,9 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux)
 void	exec_child(t_token *list, t_exec *exec)
 {
 	int	i;
-	t_redirect *redirect; 
+	t_redirect *redirect;
 	t_token	*aux;
-	
+
 	aux = list;
 	i = 0;
 	while (exec->process >= 1)
@@ -124,7 +124,7 @@ void	start_exec(t_exec *exec, t_token *list)
 		pipe(exec->fd[j++]);
 		i++;
 	}
-	exec_child(list, exec); 
+	exec_child(list, exec);
 }
 
 void	execute(t_token *list, t_exec *exec)

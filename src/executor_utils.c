@@ -1,6 +1,6 @@
 
 
-#include "../minishell.h"
+#include <minishell.h>
 
 t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 {
@@ -60,7 +60,7 @@ t_token	*cmd_handler(t_token *list, t_exec *exec)
 	t_token	*aux;
 
 	aux = list;
-	
+
 	if (aux && aux->type == PIPE)
 		aux = aux->next;
 	while (aux && aux->type != SYS_CMD)
