@@ -15,7 +15,7 @@ SRC =		src/main.c \
 LIBFT =		libft/libft.a
 
 NAME =		minishell
-FLAGS =		-Wall -Wextra -Werror
+FLAGS =		-Wall -Wextra -Werror -I ./libft/includes
 
 OBJ_DIR =	obj
 OBJS =		$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:%.c=%.o)))

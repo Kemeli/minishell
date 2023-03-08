@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/07 23:10:23 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:11:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "libft/libft.h"
+#include <libft.h>
 #include <stdlib.h>
 
 # include <unistd.h>
@@ -28,9 +28,9 @@
 
 //vou deixar flags (-l) como argumento por enquanto, se nos builtins precisar
 // especificamos depois
-// conflito: variavel de ambiente também pode ser argumento de comando, então 
+// conflito: variavel de ambiente também pode ser argumento de comando, então
 //acho melhor deixar fora por enquanto
-//quando passada sozinha a env_var deve printar seu conteudo e aparecer msg de comando invalido 
+//quando passada sozinha a env_var deve printar seu conteudo e aparecer msg de comando invalido
 enum e_token_type
 {
 	ZERO, //pq eu ia comparar com numero e eventualmente ia ser zero, mas da pra ver de tirar
