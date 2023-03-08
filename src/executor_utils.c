@@ -7,6 +7,8 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	int	i;
 	t_token	*cmd_list;
 	int count;
+	char *absolut_cmd;
+	char *check_slash;
 
 	count = 1;
 	cmd_list = aux;
@@ -15,13 +17,21 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 		cmd_list = cmd_list->next;
 		count++;
 	}
-
 	i = 0;
 	exec->cmd = ft_calloc(sizeof(char *), count + 1);
 	exec->cmd[i] = ft_strdup(aux->cmd);
+	check_slash = ft_strrchr(exec->cmd[i], '/'); //aqui checa se é caminho relativo
+	if (check_slash)
+	{
+		exec->path = ft_strdup(aux->cmd);
+		absolut_cmd = ft_strtrim(check_slash, "/");
+		free(exec->cmd[i]);
+		exec->cmd[i] = ft_strdup(absolut_cmd);
+		free (absolut_cmd);
+	}
 	if (aux->next)
 		aux = (aux->next);
-	while (aux && aux->type == ARGUMENT) //colocar herearg como argument
+	while (aux && aux->type == ARGUMENT)
 	{
 		exec->cmd[++i] = ft_strdup(aux->cmd);
 		aux = (aux->next);

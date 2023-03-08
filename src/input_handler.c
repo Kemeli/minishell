@@ -71,6 +71,30 @@ char	*input_separator(char *input)
 	return (str);
 }
 
+char	*cut_quotes(char *str)
+{
+	int i = 0;
+	char *chr;
+	char *new = ft_calloc (sizeof(char *), 1);
+	char *temp;
+	while (str[i])
+	{
+		if (ft_strchr("\"\'", str[i]))
+			i++;
+		if (str[i])
+		{
+			chr = ft_substr(str, i, 1);
+			temp = ft_strjoin(new, chr);
+			free (chr);
+			free (new);
+			new = ft_strdup(temp);
+			free (temp);
+			i++;
+		}
+	}
+	return (new);
+}
+
 char	**trim(char **input_matrix)
 {
 	int	i;
@@ -84,7 +108,8 @@ char	**trim(char **input_matrix)
 	i = 0;
 	while (input_matrix[i])
 	{
-		ret[i] = ft_strtrim(input_matrix[i], "\"\'");
+		ret[i] = cut_quotes(input_matrix[i]);
+		// ret[i] = ft_strtrim(input_matrix[i], "\"\'");
 		i++;
 	}
 	return (ret);
@@ -123,30 +148,6 @@ char	*pipe_input(char *input)
 	return (input);
 }
 
-// char	**get_input(t_env_utils *env_var)
-// {
-// 	char	*input;
-// 	char	*temp_input;
-// 	char	**input_matrix;
-// 	char	*expand_input;
-
-// 	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
-// 	input = pipe_input(temp_input);
-// 	env_var = ft_calloc(sizeof (t_env_utils), 1);
-// 	if (opened_quotes(input))
-// 	{
-// 		ft_putstr_fd("error: opened quotes\n", 2);
-// 		return (0);
-// 	}
-// 	expand_input = get_expanded_var(input, env_var);
-// 	input_matrix = get_input_matrix(expand_input);
-// 	free (expand_input);
-// 	free (input);
-// 	return (input_matrix);
-// }
-
-
-
 char	**get_input(t_exec *exec)
 {
 	char	*input;
@@ -166,7 +167,6 @@ char	**get_input(t_exec *exec)
 			break ;
 		}
 	}
-
 	if (opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
@@ -179,5 +179,3 @@ char	**get_input(t_exec *exec)
 	free (input);
 	return (input_matrix);
 }
-
-//status: resolvendo leaks, parei p/ fazer o input não entrar na expand var sem necessidade

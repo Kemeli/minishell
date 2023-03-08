@@ -26,6 +26,8 @@ void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux)
 {
 	if (exec->cmd)
 		free_matrix(exec->cmd);
+	if (exec->path)
+		free (exec->path);
 	free_int_mat(exec->fd);
 	free (redirect);
 	free_list (aux);
@@ -63,15 +65,18 @@ void	fd_redirect(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
 
 void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux)
 {
+	int	is_builtin;
+
 	fd_redirect(redirect, exec, i);
-	if (exec->cmd)
+	is_builtin = builtin_exec(exec);
+	if (exec->cmd && !exec->path)
 		exec->path = get_path(exec->cmd[0]);
-	if (exec->path)
+	if (exec->path && !is_builtin)
 	{
 		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
 			perror(exec->cmd[0]);
 	}
-	else if (exec->cmd)
+	else if (exec->cmd && !is_builtin)
 		exec_error(exec->cmd[0]);
 	// else
 	// 	ft_putstr_fd ("No such file or directory\n", 2); //colocar nome?
@@ -84,7 +89,8 @@ void	exec_child(t_token *list, t_exec *exec)
 	int	i;
 	t_redirect *redirect;
 	t_token	*aux;
-
+	int	is_builtin;
+	
 	aux = list;
 	i = 0;
 	while (exec->process >= 1)
@@ -92,7 +98,10 @@ void	exec_child(t_token *list, t_exec *exec)
 		redirect = ft_calloc(sizeof(t_redirect), 1);
 		redirector(aux, redirect); //atualiza aux em cmd_handler
 		aux = cmd_handler(aux, exec);
-		if (!builtin_exec(exec))
+		is_builtin = 0;
+		if (i == 0 && exec->process == 1)
+			is_builtin = builtin_exec(exec);
+		if (!is_builtin)
 		{
 			exec->pid = fork();
 			if (exec->pid == 0)
@@ -100,6 +109,8 @@ void	exec_child(t_token *list, t_exec *exec)
 		}
 		free_matrix (exec->cmd);
 		free (redirect);
+		if (exec->path)
+			free (exec->path);
 		exec->process--;
 		i++;
 	}

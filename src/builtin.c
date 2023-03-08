@@ -15,7 +15,8 @@ int	echo(char **cmd)
 	}
 	while (cmd[j])
 	{
-		printf ("%s ", cmd[j]);
+		ft_putstr_fd (cmd[j], STDOUT_FILENO);
+		ft_putstr_fd (" ", STDOUT_FILENO);
 		j++;
 	}
 	if (new_line)
@@ -138,49 +139,27 @@ int	unset(char **cmd, char **envp) //essa n deu pra testar, só com o loop
 	return (1);
 }
 
-// int	main (int argc, char **argv, char **envp)
-// {
-// 	// char	*teste[] = {"echo ", "-n ", "hello"};
-// 	// echo (teste);
-
-// 	//***********
-
-// 	// pwd();
-
-// 	//***********
-
-// 	if (argc && argv)
-// 		printf("HA");
-// 	// envp_print (envp);
-
-// 	//***********
-
-// 	// char *cmd[] = {"cd", "..", NULL};
-// 	// cd (cmd);
-// }
-
 int	builtin_exec(t_exec *exec)
 {
 	int	ret;
-	int	size;
 
 	ret = 0;
-	size = ft_strlen(exec->cmd[0]);
-	if (!ft_strncmp(exec->cmd[0], "echo", size))
-		ret = echo (exec->cmd);
-	else if (!ft_strncmp(exec->cmd[0], "env", size))
-		ret = envp_print(exec->envp_ms);
-	else if (!ft_strncmp(exec->cmd[0], "cd", size))
-		ret = cd(exec->cmd, exec->envp_ms);
-	else if (!ft_strncmp(exec->cmd[0], "pwd", size))
-		ret = pwd();
-	else if (!ft_strncmp(exec->cmd[0], "export", size))
-		ret = export(exec->cmd, exec->envp_ms);
-	else if (!ft_strncmp(exec->cmd[0], "exit", size))
-		ret = exit_ms(exec->cmd);
-	else if (!ft_strncmp(exec->cmd[0], "unset", size))
-		ret = unset (exec->cmd, exec->envp_ms);
+	if (exec->cmd)
+	{
+		if (!ft_strncmp(exec->cmd[0], "echo", 4))
+			ret = echo (exec->cmd);
+		else if (!ft_strncmp(exec->cmd[0], "env", 3))
+			ret = envp_print(exec->envp_ms);
+		else if (!ft_strncmp(exec->cmd[0], "cd", 2))
+			ret = cd(exec->cmd, exec->envp_ms);
+		else if (!ft_strncmp(exec->cmd[0], "pwd", 3))
+			ret = pwd();
+		else if (!ft_strncmp(exec->cmd[0], "export", 6))
+			ret = export(exec->cmd, exec->envp_ms);
+		else if (!ft_strncmp(exec->cmd[0], "exit", 4))
+			ret = exit_ms(exec->cmd);
+		else if (!ft_strncmp(exec->cmd[0], "unset", 5))
+			ret = unset (exec->cmd, exec->envp_ms);
+	}
 	return (ret);
 }
-
-//echo

@@ -57,7 +57,7 @@ $(NAME):		$(OBJECTS)
 
 objects/%.o : %.c
 	@mkdir -p $(dir $@)
-	cc $(FLAGS) -I ./includes -c $< -o $@
+	cc -g $(FLAGS) -I ./includes -c $< -o $@
 
 clean:
 				$(RM) $(OBJECTS)

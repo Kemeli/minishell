@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/07 21:20:10 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:28:10 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
-	while (1)
-	{
-		list = NULL;
-		input = get_input(exec);
-		list = lexer(input, list);
-		print_list(list); //tirar
-		sintax(list);
-		free_matrix(input);
-		execute(list, exec);
-		free_list(list);// rodar com make runrl pra suprimir os leaks da readline()
-	}
+	// while (1)
+	// {
+	list = NULL;
+	input = get_input(exec);
+	list = lexer(input, list);
+	print_list(list); //tirar
+	sintax(list);
+	free_matrix(input);
+	execute(list, exec);
+	free_list(list);
 }
 
 //status, o loop infinito ficava repitindo o minishell>

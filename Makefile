@@ -8,9 +8,9 @@ SRC =		src/main.c \
 			src/sintax.c \
 			src/executor.c \
 			src/redirect.c \
-			src/env.c \
-			executor_utils.c \
-			builtins.c \
+			src/envp.c \
+			src/executor_utils.c \
+			src/builtin.c \
 
 LIBFT =		libft/libft.a
 
@@ -27,7 +27,7 @@ $(NAME): $(LIBFT) $(OBJS)
 
 $(OBJ_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJ_DIR)
-	cc -c $(FLAGS) $< -o $@
+	cc -g -c $(FLAGS) $< -o $@
 
 $(LIBFT):
 	make -sC libft/
