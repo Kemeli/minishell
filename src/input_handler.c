@@ -154,8 +154,10 @@ char	**get_input(t_exec *exec)
 	char	*temp_input;
 	char	**input_matrix;
 
-	temp_input = readline("minishell> "); ///CRASH se for um enter, não é null, precisa tratar, retorna empty str
+	temp_input = readline("minishell> ");
 	add_history(temp_input);
+	if (!*temp_input)
+		return (NULL);
 	input = pipe_input(temp_input);
 
 	int i = -1;
