@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
 /*   Updated: 2023/03/14 01:52:39 by kdaiane-         ###   ########.fr       */
@@ -12,6 +12,7 @@
 
 #include <minishell.h>
 
+t_minishell	minishell;
 
 void	print_list(t_token *list) //essa função vai sair
 {
@@ -32,8 +33,10 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*envp_list = NULL;
 	char	**input;
 
+	minishell.envp_list = envp_list;
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
+	set_listeners();
 	envp_list = make_envp_list(envp, envp_list);
 	while (1)
 	{
@@ -52,7 +55,12 @@ int	main(int argc, char **argv, char **envp)
 			free_matrix(input);
 		}
 	}
-	ft_lstclear(&envp_list, &free);
-	free(envp_list);
+	free_minishell();
+}
+
+void	free_minishell(void)
+{
+	ft_lstclear(&minishell.envp_list, &free);
+	free(minishell.envp_list);
 	rl_clear_history();
 }
