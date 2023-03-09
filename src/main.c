@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/09 19:35:41 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:34:56 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,22 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
-	// while (1)
-	// {
-	list = NULL;
-	envp_list = make_envp_list(envp, envp_list);
-	input = get_input(envp_list);
-	if (input)
+	while (1)
 	{
-		// exec->envp_ms = envp_matrix(envp);
-		list = lexer(input, list);
-		print_list(list); //tirar
-		sintax(list);
-		free_matrix(input);
-		execute(list, exec, envp_list);
-		free_list(list);
+		list = NULL;
+		envp_list = make_envp_list(envp, envp_list);
+		input = get_input(envp_list);
+		if (input)
+		{
+			// exec->envp_ms = envp_matrix(envp);
+			list = lexer(input, list);
+			print_list(list); //tirar
+			sintax(list);
+			free_matrix(input);
+			execute(list, exec, envp_list);
+			free_list(list);
+		}
 	}
-	// }
 	ft_lstclear(&envp_list, &free);
 	free(envp_list);
 	free (exec);
