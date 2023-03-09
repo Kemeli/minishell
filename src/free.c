@@ -41,3 +41,33 @@ void	free_list(t_token *list)
 	}
 	free(list);
 }
+
+// void	free_list(t_list *list)
+// {
+// 	t_list	*aux;
+
+// 	while(list != NULL)
+// 	{
+// 		aux = list;
+// 		list = list->next;
+// 		free(aux->content);
+// 		free(aux);
+// 	}
+// 	free(list);
+// }
+
+// void	ft_lstclear(t_list **lst, void (*del)(void *))
+// {
+// 	t_list	*temporary;
+
+// 	if (!lst || !del)
+// 		return ;
+// 	while (*lst)
+// 	{
+// 		temporary = *lst;
+// 		*lst = temporary->next;
+// 		del(temporary->content);
+// 		free(temporary);
+// 	}
+// 	*lst = NULL;
+// }

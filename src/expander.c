@@ -10,7 +10,7 @@ int	is_env_char(int c) //1º char só letra, arrumar depois
 	return (0);
 }
 
-char	*getenv_check(char *input, t_env_utils *env, t_exec *exec)
+char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
 {
 	char	*sub;
 	char	*trim;
@@ -21,7 +21,7 @@ char	*getenv_check(char *input, t_env_utils *env, t_exec *exec)
 		j++;
 	sub = ft_substr(input, env->i, j - env->i);
 	trim = ft_strtrim(sub, "$"); 
-	env->test = get_env(trim, exec->envp_ms);
+	env->test = get_env(trim, list_envp);
 	env->i = j;
 	free (trim);
 	if (!env->test)
@@ -42,7 +42,7 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input, t_exec *exec)
+char *get_expanded_var(char *input, t_list *list_envp)
 {
 	char *new_input;
 	int sp_quotes = 0;
@@ -70,7 +70,7 @@ char *get_expanded_var(char *input, t_exec *exec)
 		}
 		else if (input[env->i] == '$' && !sp_quotes)
 		{
-			env->get_ret = getenv_check(input, env, exec);
+			env->get_ret = getenv_check(input, env, list_envp);
 			new_input = input_expander(new_input, env);
 			free (env->get_ret);
 		}

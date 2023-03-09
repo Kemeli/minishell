@@ -8,7 +8,7 @@ SRC =		src/main.c \
 			src/sintax.c \
 			src/executor.c \
 			src/redirect.c \
-			src/envp.c \
+			src/env.c \
 			src/executor_utils.c \
 			src/builtin.c \
 

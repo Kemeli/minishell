@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/08 23:28:39 by coder            ###   ########.fr       */
+/*   Updated: 2023/03/09 19:14:18 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,24 @@ typedef struct s_token
 } t_token;
 
 t_token	*lexer(char **input, t_token *list);
-// char	**get_input();
-char	**get_input(t_exec *exec);
+char	**get_input(t_list *list_envp);
 void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
-// char	*get_expanded_var(char *input);
-char *get_expanded_var(char *input, t_exec *exec);
+char	*get_expanded_var(char *input, t_list *list_envp);
 
 
 void	sintax(t_token *list);
 void	redirector(t_token *aux, t_redirect *redirect);
-// void	execute(t_token *list, char **envp);
-void	execute(t_token *list, t_exec *exec);
-int		is_builtin(char *cmd);
+// void	execute(t_token *list, t_exec *exec);
+int		builtin_exec(t_exec *exec, t_list *envp_list);
 t_token	*cmd_handler(t_token *list, t_exec *exec);
-char	**envp_matrix(char **envp);
+char	**envp_matrix(t_list *list_envp);
 char	*get_path(char *cmd);
-char	*get_env(char *var, char **envp);
-int		builtin_exec(t_exec *exec);
-int	is_env_char(int c);
+char	*get_env(char *var, t_list *list_envp);
+int		is_env_char(int c);
+t_list	*make_envp_list(char **envp, t_list *envp_list);
+void	execute(t_token *list, t_exec *exec, t_list *envp_list);
+
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

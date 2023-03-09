@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/09 12:34:29 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:35:41 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,30 @@ void	print_list(t_token *list) //essa função vai sair
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
+	t_list	*envp_list = NULL;
 	char	**input;
-	t_exec *exec = ft_calloc(sizeof(t_exec), 1);
+	t_exec	*exec = ft_calloc(sizeof(t_exec), 1); //tirar daqui
 
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
 	// while (1)
 	// {
 	list = NULL;
-	input = get_input(exec);
+	envp_list = make_envp_list(envp, envp_list);
+	input = get_input(envp_list);
 	if (input)
 	{
-		exec->envp_ms = envp_matrix(envp);
+		// exec->envp_ms = envp_matrix(envp);
 		list = lexer(input, list);
 		print_list(list); //tirar
 		sintax(list);
 		free_matrix(input);
-		execute(list, exec);
+		execute(list, exec, envp_list);
 		free_list(list);
 	}
 	// }
+	ft_lstclear(&envp_list, &free);
+	free(envp_list);
 	free (exec);
 	rl_clear_history();
 }

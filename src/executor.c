@@ -22,7 +22,7 @@ void	end_procesess(t_exec *exec)
 	free_int_mat(exec->fd);
 }
 
-void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux)
+void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list)
 {
 	if (exec->cmd)
 		free_matrix(exec->cmd);
@@ -32,6 +32,7 @@ void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux)
 	free (redirect);
 	free_list (aux);
 	free_matrix(exec->envp_ms);
+	ft_lstclear(&envp_list, &free);
 	free (exec);
 }
 
@@ -63,28 +64,28 @@ void	fd_redirect(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
 	close_fd(exec->fd);
 }
 
-void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux)
+void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list)
 {
 	int	is_builtin;
 
 	fd_redirect(redirect, exec, i);
-	is_builtin = builtin_exec(exec);
+	is_builtin = builtin_exec(exec, envp_list); //teria q usar a lista aqui
 	if (exec->cmd && !exec->path)
 		exec->path = get_path(exec->cmd[0]);
 	if (exec->path && !is_builtin)
 	{
+		//criar matriz aqui ---checar leak com falha do execve
+		exec->envp_ms = envp_matrix(envp_list);
 		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
 			perror(exec->cmd[0]);
 	}
 	else if (exec->cmd && !is_builtin)
 		exec_error(exec->cmd[0]);
-	// else
-	// 	ft_putstr_fd ("No such file or directory\n", 2); //colocar nome?
-	free_child (exec, redirect, aux);
+	free_child (exec, redirect, aux, envp_list);
 	exit(EXIT_FAILURE);
 }
 
-void	exec_child(t_token *list, t_exec *exec)
+void	exec_child(t_token *list, t_exec *exec, t_list *envp_list)
 {
 	int	i;
 	t_redirect *redirect;
@@ -100,12 +101,12 @@ void	exec_child(t_token *list, t_exec *exec)
 		aux = cmd_handler(aux, exec);
 		is_builtin = 0;
 		if (i == 0 && exec->process == 1)
-			is_builtin = builtin_exec(exec);
+			is_builtin = builtin_exec(exec, envp_list);
 		if (!is_builtin)
 		{
 			exec->pid = fork();
 			if (exec->pid == 0)
-				child_process(i, exec, redirect, list);
+				child_process(i, exec, redirect, list, envp_list);
 		}
 		free_matrix (exec->cmd);
 		free (redirect);
@@ -119,7 +120,7 @@ void	exec_child(t_token *list, t_exec *exec)
 	waitpid(-1, NULL, 0);
 }
 
-void	start_exec(t_exec *exec, t_token *list)
+void	start_exec(t_exec *exec, t_token *list, t_list *envp_list)
 {
 	int	i;
 	int	j;
@@ -135,10 +136,10 @@ void	start_exec(t_exec *exec, t_token *list)
 		pipe(exec->fd[j++]);
 		i++;
 	}
-	exec_child(list, exec);
+	exec_child(list, exec, envp_list);
 }
 
-void	execute(t_token *list, t_exec *exec)
+void	execute(t_token *list, t_exec *exec, t_list *envp_list)
 {
 	t_token	*aux;
 
@@ -151,7 +152,7 @@ void	execute(t_token *list, t_exec *exec)
 		aux = aux->next;
 	}
 	aux = list;
-	start_exec(exec, aux);
+	start_exec(exec, aux, envp_list);
 	free_matrix(exec->envp_ms);
 	// free (exec);
 }

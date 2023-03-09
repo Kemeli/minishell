@@ -148,7 +148,7 @@ char	*pipe_input(char *input)
 	return (input);
 }
 
-char	**get_input(t_exec *exec)
+char	**get_input(t_list *list_envp)
 {
 	char	*input;
 	char	*temp_input;
@@ -176,7 +176,7 @@ char	**get_input(t_exec *exec)
 		return (0);
 	}
 	if (envar)
-		input = get_expanded_var(input, exec); //sobrescrevo input, danger!
+		input = get_expanded_var(input, list_envp); //sobrescrevo input, danger!
 
 	input_matrix = get_input_matrix(input);
 	free (input);

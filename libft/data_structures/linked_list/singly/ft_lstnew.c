@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 20:08:05 by kmatos-s          #+#    #+#             */
-/*   Updated: 2023/02/24 19:07:25 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:06:05 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*list;
 
-	list = ft_salloc(sizeof(t_list));
+	// list = ft_salloc(sizeof(t_list));
+	list = ft_calloc (sizeof(t_list), 1);
 	list->content = content;
 	list->next = NULL;
 	return (list);

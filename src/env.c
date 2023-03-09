@@ -2,40 +2,62 @@
 
 #include <minishell.h>
 
-char	**envp_matrix(char **envp)
+char	**envp_matrix(t_list *list_envp)
 {
-	int	i;
-	char **envp_mat;
+	int		i;
+	int		size;
+	char	**envp_mat;
+	t_list	*aux;
 
+	aux = list_envp;
+	size = ft_lstsize(aux);
+	envp_mat = ft_calloc(sizeof (char *), size + 1);
 	i = 0;
-	while (envp[i])
+	while (i < size && aux)
+	{
+		envp_mat[i] = ft_strdup(aux->content);
+		aux = aux->next;
 		i++;
-	envp_mat = ft_calloc(sizeof (char *), i + 1);
-	i = -1;
-	while (envp[++i])
-		envp_mat[i] = ft_strdup(envp[i]);
+	}	
 	envp_mat[i] = NULL;
 	return (envp_mat);
 }
 
-char	*get_env(char *var, char **envp) //mudar envp meu
+char	*get_env(char *var, t_list *list_envp) //mudar envp meu
 {
-	int		i;
 	char	*expanded;
 	char	*temp;
 	int		check;
+	t_list	*aux;
+
+	aux = list_envp;
+	while (aux)
+	{
+		check = ft_strncmp(var, aux->content, ft_strlen(var));
+		if (!check)
+		{
+			temp = ft_strdup (aux->content);
+			expanded = ft_substr (temp, ft_strlen(var) + 1, ft_strlen(temp));
+			free (temp);
+		}
+		aux = aux->next;
+	}
+	return (expanded); //rever
+}
+
+t_list	*make_envp_list(char **envp, t_list *envp_list)
+{
+	int	i;
+	t_list	*new;
 
 	i = 0;
 	while (envp[i])
 	{
-		check = ft_strncmp(var, envp[i], ft_strlen(var));
-		if (!check) //ft
-		{
-			temp = ft_strdup (envp[i]);
-			expanded = ft_substr (temp, ft_strlen(var) + 1, ft_strlen(temp));
-			free (temp);
-		}
+		//alloca, adc nó, seta next null
+		new = ft_lstnew(envp[i]);
+		//cria lista ou adc new na lista
+		ft_lstadd_back (&envp_list, new);
 		i++;
 	}
-	return (expanded); //rever
+	return (envp_list);
 }

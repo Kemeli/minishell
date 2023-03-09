@@ -36,27 +36,28 @@ int	pwd()
 
 //***********************
 
-int	envp_print(char	**envp)
+int	envp_print(t_list *envp_list)
 {
-	int i = 0;
+	t_list	*aux;
 
-	while (envp[i])
+	aux =  envp_list;
+	while (aux)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		printf("%s\n", (char *)aux->content);
+		aux = aux->next;
 	}
 	return (1);
 }
 
 //***********************
 
-int	cd(char **cmd, char **envp) //essa n deu pra testar, só com o loop
+int	cd(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 {
 	char	*path;
 
 	if (cmd[1] == NULL)
 	{
-		path = get_env("HOME", envp);
+		path = get_env("HOME", envp_list);
 		if (chdir(path))
 			perror("chdir");
 		free (path);
@@ -86,24 +87,22 @@ int	exit_ms(char **cmd)
 	exit(status);
 }
 
-int	export(char **cmd, char **envp)
+int	export(char **cmd, t_list *envp_list)
 {
-	int i = 1;
-	int j = 0;
-	int k = 0;
+	int		i;
+	int		j;
+	t_list	*new;
 
+	i = 1;
 	if (!cmd[1])
-		envp_print(envp);
-
-	while (envp[k])
-		k++;
-
-	if (ft_isalpha(cmd[i][j]) || !ft_strncmp(&cmd[i][j], "_", 2))
-		j++;
-	else
-		printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
+		envp_print(envp_list);
 	while (cmd[i])
 	{
+		j = 0;
+		if (ft_isalpha(cmd[i][j]) || !ft_strncmp(&cmd[i][j], "_", 2))
+			j++;
+		else
+			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
 		while (cmd[i][j] && ft_strncmp(&cmd[i][j], "=", 2)) //strchr? diferente de =
 		{
 			if (!is_env_char(cmd[i][j]))
@@ -114,32 +113,36 @@ int	export(char **cmd, char **envp)
 		{
 			j++;
 			if (cmd[i][j])
-				envp[k++] = ft_strdup(cmd[i]);
+			{
+				new = ft_lstnew(&cmd[i]);
+				ft_lstadd_back(&envp_list, new);
+			}
 		}
 		i++;
 	}
 	return (1);
 }
 
-int	unset(char **cmd, char **envp) //essa n deu pra testar, só com o loop
+int	unset(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 {
-	int	i = 0;
+	t_list	*aux;
 	int	check = 0;
 
-	while (envp[i])
+	aux = envp_list;
+	while (aux)
 	{
-		check = ft_strncmp(cmd[1], envp[i], ft_strlen(cmd[1]));
+		check = ft_strncmp(cmd[1], aux->content, ft_strlen(cmd[1]));
 		if (!check)
 		{
-			free (envp[i]);
-			envp[i] = ft_strdup("");
+			free (aux->content);
+			aux->content = ft_strdup("");
 		}
-		i++;
+		aux = aux->next;
 	}
 	return (1);
 }
 
-int	builtin_exec(t_exec *exec)
+int	builtin_exec(t_exec *exec, t_list *envp_list)
 {
 	int	ret;
 
@@ -149,17 +152,17 @@ int	builtin_exec(t_exec *exec)
 		if (!ft_strncmp(exec->cmd[0], "echo", 4))
 			ret = echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", 3))
-			ret = envp_print(exec->envp_ms);
+			ret = envp_print(envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 2))
-			ret = cd(exec->cmd, exec->envp_ms);
+			ret = cd(exec->cmd, envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 3))
 			ret = pwd();
 		else if (!ft_strncmp(exec->cmd[0], "export", 6))
-			ret = export(exec->cmd, exec->envp_ms);
+			ret = export(exec->cmd, envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "exit", 4))
 			ret = exit_ms(exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "unset", 5))
-			ret = unset (exec->cmd, exec->envp_ms);
+			ret = unset (exec->cmd, envp_list);
 	}
 	return (ret);
 }
