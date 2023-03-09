@@ -155,9 +155,9 @@ char	**get_input(t_exec *exec)
 	char	**input_matrix;
 
 	temp_input = readline("minishell> ");
-	add_history(temp_input);
 	if (!*temp_input)
 		return (NULL);
+	add_history(temp_input);
 	input = pipe_input(temp_input);
 
 	int i = -1;
