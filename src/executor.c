@@ -139,10 +139,10 @@ void	start_exec(t_exec *exec, t_token *list, t_list *envp_list)
 	exec_child(list, exec, envp_list);
 }
 
-void	execute(t_token *list, t_exec *exec, t_list *envp_list)
+void	execute(t_token *list, t_list *envp_list)
 {
 	t_token	*aux;
-
+	t_exec	*exec = ft_calloc(sizeof(t_exec), 1); //tirar daqui
 	exec->process = 1;
 	aux = list;
 	while (aux)
@@ -154,5 +154,5 @@ void	execute(t_token *list, t_exec *exec, t_list *envp_list)
 	aux = list;
 	start_exec(exec, aux, envp_list);
 	free_matrix(exec->envp_ms);
-	// free (exec);
+	free (exec);
 }

@@ -37,6 +37,7 @@ SOURCE		= 	ft_bzero.c			\
 				ft_putstr_fd.c		\
 				ft_putendl_fd.c		\
 				ft_putnbr_fd.c		\
+				ft_salloc.c			\
 				get_next_line.c		\
 				$(C_DATA_STRUCTURES)
 

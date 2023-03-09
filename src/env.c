@@ -61,3 +61,20 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 	}
 	return (envp_list);
 }
+
+void	set_pwd(t_list *envp_list)//considerar poss tirar pwd
+{
+	t_list	*aux;
+	char temp[1000];
+
+	aux = envp_list;
+	while (aux && !ft_strncmp(aux->content, "PWD", 3))
+		aux = aux->next;
+
+	if (ft_strncmp(aux->content, "PWD", 3))
+	{
+		// free (aux->content);
+		getcwd(temp, sizeof(temp));
+		aux->content = ft_strjoin ("PWD=", temp);
+	}
+}

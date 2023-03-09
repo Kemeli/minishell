@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 20:08:05 by kmatos-s          #+#    #+#             */
-/*   Updated: 2023/03/09 15:06:05 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/09 23:12:32 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*list;
 
-	// list = ft_salloc(sizeof(t_list));
-	list = ft_calloc (sizeof(t_list), 1);
+	list = ft_salloc(sizeof(t_list));
+	// list = ft_calloc (sizeof(t_list), 1);
 	list->content = content;
 	list->next = NULL;
 	return (list);

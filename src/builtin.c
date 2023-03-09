@@ -28,7 +28,8 @@ int	echo(char **cmd)
 
 int	pwd()
 {
-	char pwd[1000]; //rever isso
+	char *pwd; //rever isso
+	pwd = getcwd(NULL, 0);
 	getcwd(pwd, sizeof(pwd));
 	printf ("%s\n", pwd);
 	return (1);
@@ -67,7 +68,7 @@ int	cd(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 		if (chdir (cmd[1]) != 0)
 			perror("chdir2"); //tirar
 	}
-	setenv("PWD", getcwd(NULL, 0), 1); //criar set_env;
+	set_pwd(envp_list); //criar set_env;
 	return (1);
 }
 
@@ -103,7 +104,7 @@ int	export(char **cmd, t_list *envp_list)
 			j++;
 		else
 			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
-		while (cmd[i][j] && ft_strncmp(&cmd[i][j], "=", 2)) //strchr? diferente de =
+		while (cmd[i][j] && ft_strchr("=", cmd[i][j])) //strchr? diferente de =
 		{
 			if (!is_env_char(cmd[i][j]))
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);

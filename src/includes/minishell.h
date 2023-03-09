@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/09 19:14:18 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/10 00:31:20 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ char	*get_path(char *cmd);
 char	*get_env(char *var, t_list *list_envp);
 int		is_env_char(int c);
 t_list	*make_envp_list(char **envp, t_list *envp_list);
-void	execute(t_token *list, t_exec *exec, t_list *envp_list);
+void	execute(t_token *list, t_list *envp_list);
+void	set_pwd(t_list *envp_list);
 
 
 void	free_int_mat(int **input);
