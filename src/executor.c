@@ -153,5 +153,5 @@ void	execute(t_token *list, t_exec *exec)
 	aux = list;
 	start_exec(exec, aux);
 	free_matrix(exec->envp_ms);
-	free (exec);
+	// free (exec);
 }
