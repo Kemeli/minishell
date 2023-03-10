@@ -109,7 +109,6 @@ char	**trim(char **input_matrix)
 	while (input_matrix[i])
 	{
 		ret[i] = cut_quotes(input_matrix[i]);
-		// ret[i] = ft_strtrim(input_matrix[i], "\"\'");
 		i++;
 	}
 	return (ret);
@@ -133,9 +132,7 @@ char	*pipe_input(char *input)
 {
 	char	*rest_of_input;
 	char	*join_input;
-	// int		i;
 
-	// i = 0;
 	if (input[ft_strlen(input) - 1] == '|')
 	{
 		rest_of_input = readline(">");

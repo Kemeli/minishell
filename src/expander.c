@@ -1,7 +1,7 @@
 #include <minishell.h>
 
 
-int	is_env_char(int c) //1º char só letra, arrumar depois
+int	is_env_char(int c)
 {
 	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')
 	{

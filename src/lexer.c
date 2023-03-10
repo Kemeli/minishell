@@ -48,8 +48,6 @@ void	check_type(t_token *token)
 		token->type = BUILTIN;
 	else
 		token->type = SYS_CMD;
-	// else if (!ft_strncmp(token->cmd[0], "$", ft_strlen(token->cmd)))
-	// 	token->type = ENV_VAR;
 }
 
 t_token	*get_list(t_token *new_token, t_token *list)

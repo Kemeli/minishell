@@ -54,16 +54,14 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 	i = 0;
 	while (envp[i])
 	{
-		//alloca, adc nó, seta next null
 		new = ft_lstnew(ft_strdup(envp[i]));
-		//cria lista ou adc new na lista
 		ft_lstadd_back (&envp_list, new);
 		i++;
 	}
 	return (envp_list);
 }
 
-void	set_pwd(t_list *envp_list)//considerar poss tirar pwd
+void	set_pwd(t_list *envp_list)
 {
 	t_list	*aux;
 	char	*temp;

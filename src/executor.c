@@ -69,12 +69,11 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_li
 	int	is_builtin;
 
 	fd_redirect(redirect, exec, i);
-	is_builtin = builtin_exec(exec, &envp_list); //teria q usar a lista aqui
+	is_builtin = builtin_exec(exec, &envp_list);
 	if (exec->cmd && !exec->path)
 		exec->path = get_path(exec->cmd[0], envp_list);
 	if (exec->path && !is_builtin)
 	{
-		//criar matriz aqui ---checar leak com falha do execve
 		exec->envp_ms = envp_matrix(envp_list);
 		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
 			perror(exec->cmd[0]);
@@ -142,7 +141,7 @@ void	start_exec(t_exec *exec, t_token *list, t_list *envp_list)
 void	execute(t_token *list, t_list *envp_list)
 {
 	t_token	*aux;
-	t_exec	*exec = ft_calloc(sizeof(t_exec), 1); //tirar daqui
+	t_exec	*exec = ft_calloc(sizeof(t_exec), 1);
 	exec->process = 1;
 	aux = list;
 	while (aux)
