@@ -77,11 +77,16 @@ t_token	*lexer(char **input, t_token *list)
 	i = 0;
 	while(input[i])
 	{
-		new = ft_calloc(sizeof(t_token), 1);
-		list = get_list(new, list);
-		new->cmd = ft_strdup(input[i]);
-		check_type(new);
-		i++;
+		if (ft_strchr("$", input[i][0]))
+			i++;
+		if (input[i])
+		{
+			new = ft_calloc(sizeof(t_token), 1);
+			list = get_list(new, list);
+			new->cmd = ft_strdup(input[i]);
+			check_type(new);
+			i++;
+		}
 	}
 	return (list);
 }
