@@ -48,7 +48,7 @@ re: fclean all
 debug:
 	@echo "Compiling..."
 	@make -sC ./libft --no-print-directory
-	@$(CC) -g $(INCLUDES) $(SRC) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) -g $(INCLUDES) $(addprefix src/,$(SRC)) $(LIBFT) -lreadline -o $(NAME)
 
 runrl:	$(NAME)
 	make
