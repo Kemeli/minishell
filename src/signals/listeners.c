@@ -1,11 +1,7 @@
 #include <minishell.h>
 
-static void	set_sigint_listener(void)
-{
-	signal(SIGINT, handle_sigint);
-}
-
 void	set_listeners(void)
 {
-	set_sigint_listener();
+	signal(SIGQUIT, handle_sigquit);
+	signal(SIGINT, handle_sigint);
 }
