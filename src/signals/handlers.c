@@ -2,7 +2,11 @@
 
 void	handle_sigint(int sig)
 {
-	printf("should cancel current line and create a new one: %i\n", sig);
+	(void)sig;
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	handle_sigquit(int sig)
