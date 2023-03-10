@@ -46,9 +46,11 @@ char	*get_path(char *cmd, t_list *envp_list)
 	char	*path;
 	char	**paths;
 	char	*slash_cmd;
+	char	*aux;
 
-	path = get_env("PATH", envp_list); //mudar
-	paths = ft_split(path, ':');
+	aux = get_env("PATH", envp_list); //mudar
+	paths = ft_split(aux, ':');
+	free (aux);
 	slash_cmd = ft_strjoin("/", cmd);
 	i = 0;
 	while (paths[i])

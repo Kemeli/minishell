@@ -32,13 +32,14 @@ char	*get_env(char *var, t_list *list_envp)
 
 	aux = list_envp;
 	while (aux)
-	{
+	{	
 		check = ft_strncmp(var, aux->content, ft_strlen(var));
 		if (!check)
 		{
 			temp = ft_strdup (aux->content);
 			expanded = ft_substr (temp, ft_strlen(var) + 1, ft_strlen(temp));
 			free (temp);
+			return (expanded);
 		}
 		aux = aux->next;
 	}

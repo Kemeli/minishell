@@ -74,6 +74,10 @@ int	cd(char **cmd, t_list *envp_list)
 	return (1);
 }
 
+
+//***********************
+
+
 int	exit_ms(char **cmd)
 {
 	int	status;
@@ -89,6 +93,10 @@ int	exit_ms(char **cmd)
 	status = ft_atoi(cmd[1]);
 	exit(status);
 }
+
+
+//***********************
+
 
 void	update_envp(t_list **envp, char *cmd)
 {
@@ -141,21 +149,32 @@ int	export(char **cmd, t_list **envp_list)
 	return (1);
 }
 
+
+//***********************
+
+
 int	unset(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 {
 	t_list	*aux;
-	int	check = 0;
+	int	check;
+	int	i;
 
-	aux = envp_list;
-	while (aux)
+	i = 1;
+	while (cmd[i])
 	{
-		check = ft_strncmp(cmd[1], aux->content, ft_strlen(cmd[1]));
-		if (!check)
+		aux = envp_list;
+		while (aux)
 		{
-			free (aux->content);
-			aux->content = ft_strdup("");
+			check = ft_strncmp(cmd[i], aux->content, ft_strlen(cmd[1]));
+			if (!check)
+			{
+				free (aux->content);
+				aux->content = ft_strdup("");
+				break ;
+			}
+			aux = aux->next;
 		}
-		aux = aux->next;
+		i++;
 	}
 	return (1);
 }

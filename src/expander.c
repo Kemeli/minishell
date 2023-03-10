@@ -10,6 +10,26 @@ int	is_env_char(int c) //1º char só letra, arrumar depois
 	return (0);
 }
 
+// char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
+// {
+// 	char	*sub;
+// 	char	*trim;
+// 	int		j;
+
+// 	j = env->i;
+// 	while (is_env_char(input[j]))
+// 		j++;
+// 	sub = ft_substr(input, env->i, j - env->i);
+// 	trim = ft_strtrim(sub, "$"); 
+// 	env->test = get_env(trim, list_envp);
+// 	env->i = j;
+// 	free (trim);
+// 	if (!env->test)
+// 		return (sub);
+// 	free (sub); 
+// 	return (env->test);
+// }
+
 char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
 {
 	char	*sub;
@@ -25,7 +45,7 @@ char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
 	env->i = j;
 	free (trim);
 	if (!env->test)
-		return (sub);
+		return (ft_strdup(""));
 	free (sub); 
 	return (env->test);
 }
