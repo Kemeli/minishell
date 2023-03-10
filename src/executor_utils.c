@@ -40,14 +40,14 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	return (aux);
 }
 
-char	*get_path(char *cmd)
+char	*get_path(char *cmd, t_list *envp_list)
 {
 	int		i;
 	char	*path;
 	char	**paths;
 	char	*slash_cmd;
 
-	path = getenv("PATH"); //mudar
+	path = get_env("PATH", envp_list); //mudar
 	paths = ft_split(path, ':');
 	slash_cmd = ft_strjoin("/", cmd);
 	i = 0;

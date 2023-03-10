@@ -69,9 +69,9 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_li
 	int	is_builtin;
 
 	fd_redirect(redirect, exec, i);
-	is_builtin = builtin_exec(exec, envp_list); //teria q usar a lista aqui
+	is_builtin = builtin_exec(exec, &envp_list); //teria q usar a lista aqui
 	if (exec->cmd && !exec->path)
-		exec->path = get_path(exec->cmd[0]);
+		exec->path = get_path(exec->cmd[0], envp_list);
 	if (exec->path && !is_builtin)
 	{
 		//criar matriz aqui ---checar leak com falha do execve
@@ -101,7 +101,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp_list)
 		aux = cmd_handler(aux, exec);
 		is_builtin = 0;
 		if (i == 0 && exec->process == 1)
-			is_builtin = builtin_exec(exec, envp_list);
+			is_builtin = builtin_exec(exec, &envp_list);
 		if (!is_builtin)
 		{
 			exec->pid = fork();

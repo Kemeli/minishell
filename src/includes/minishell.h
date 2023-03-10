@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/10 00:31:20 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/10 17:49:33 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,25 @@ typedef struct s_token
 	struct s_token	*prev;
 } t_token;
 
-t_token	*lexer(char **input, t_token *list);
 char	**get_input(t_list *list_envp);
-void	env_var_checker(t_token *list, t_env_utils *env);
 int		opened_quotes(char *input);
+void	env_var_checker(t_token *list, t_env_utils *env);
 char	*get_expanded_var(char *input, t_list *list_envp);
-
-
-void	sintax(t_token *list);
-void	redirector(t_token *aux, t_redirect *redirect);
-// void	execute(t_token *list, t_exec *exec);
-int		builtin_exec(t_exec *exec, t_list *envp_list);
-t_token	*cmd_handler(t_token *list, t_exec *exec);
-char	**envp_matrix(t_list *list_envp);
-char	*get_path(char *cmd);
-char	*get_env(char *var, t_list *list_envp);
 int		is_env_char(int c);
-t_list	*make_envp_list(char **envp, t_list *envp_list);
-void	execute(t_token *list, t_list *envp_list);
-void	set_pwd(t_list *envp_list);
+char	*get_env(char *var, t_list *list_envp);
 
+t_token	*lexer(char **input, t_token *list);
+void	sintax(t_token *list);
+
+void	execute(t_token *list, t_list *envp_list);
+void	redirector(t_token *aux, t_redirect *redirect);
+t_token	*cmd_handler(t_token *list, t_exec *exec);
+char	*get_path(char *cmd, t_list *envp_list);
+
+int		builtin_exec(t_exec *exec, t_list **envp_list);
+char	**envp_matrix(t_list *list_envp);
+t_list	*make_envp_list(char **envp, t_list *envp_list);
+void	set_pwd(t_list *envp_list);
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

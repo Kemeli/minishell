@@ -28,10 +28,12 @@ int	echo(char **cmd)
 
 int	pwd()
 {
-	char *pwd; //rever isso
+	char	*pwd;
+
 	pwd = getcwd(NULL, 0);
 	getcwd(pwd, sizeof(pwd));
 	printf ("%s\n", pwd);
+	free (pwd);
 	return (1);
 }
 
@@ -52,7 +54,7 @@ int	envp_print(t_list *envp_list)
 
 //***********************
 
-int	cd(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
+int	cd(char **cmd, t_list *envp_list)
 {
 	char	*path;
 
@@ -68,7 +70,7 @@ int	cd(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 		if (chdir (cmd[1]) != 0)
 			perror("chdir2"); //tirar
 	}
-	set_pwd(envp_list); //criar set_env;
+	set_pwd(envp_list);
 	return (1);
 }
 
@@ -88,15 +90,33 @@ int	exit_ms(char **cmd)
 	exit(status);
 }
 
-int	export(char **cmd, t_list *envp_list)
+void	update_envp(t_list **envp, char *cmd)
+{
+	t_list	*node;
+
+	node = *envp;
+	while (node)
+	{
+		if (!ft_strncmp(cmd, node->content, ft_strlen(ft_strchr(cmd, '='))))
+		{
+			free (node->content);
+			node->content = ft_strdup(cmd);
+			return ;
+		}
+		node = node->next;
+	}
+	node = ft_lstnew(ft_strdup((char *)cmd));
+	ft_lstadd_back(envp, node);
+}
+
+int	export(char **cmd, t_list **envp_list)
 {
 	int		i;
 	int		j;
-	t_list	*new;
 
 	i = 1;
 	if (!cmd[1])
-		envp_print(envp_list);
+		envp_print(*envp_list);
 	while (cmd[i])
 	{
 		j = 0;
@@ -104,20 +124,17 @@ int	export(char **cmd, t_list *envp_list)
 			j++;
 		else
 			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
-		while (cmd[i][j] && ft_strchr("=", cmd[i][j])) //strchr? diferente de =
+		while (cmd[i][j] && !ft_strchr("=", cmd[i][j])) //strchr? diferente de =
 		{
 			if (!is_env_char(cmd[i][j]))
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
 			j++;
 		}
-		if (!ft_strncmp(&cmd[i][j], "=", 2))
+		if (ft_strchr("=", cmd[i][j]))
 		{
 			j++;
 			if (cmd[i][j])
-			{
-				new = ft_lstnew(&cmd[i]);
-				ft_lstadd_back(&envp_list, new);
-			}
+				update_envp(envp_list, cmd[i]);
 		}
 		i++;
 	}
@@ -143,7 +160,7 @@ int	unset(char **cmd, t_list *envp_list) //essa n deu pra testar, só com o loop
 	return (1);
 }
 
-int	builtin_exec(t_exec *exec, t_list *envp_list)
+int	builtin_exec(t_exec *exec, t_list **envp_list)
 {
 	int	ret;
 
@@ -153,9 +170,9 @@ int	builtin_exec(t_exec *exec, t_list *envp_list)
 		if (!ft_strncmp(exec->cmd[0], "echo", 4))
 			ret = echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", 3))
-			ret = envp_print(envp_list);
+			ret = envp_print(*envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 2))
-			ret = cd(exec->cmd, envp_list);
+			ret = cd(exec->cmd, *envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 3))
 			ret = pwd();
 		else if (!ft_strncmp(exec->cmd[0], "export", 6))
@@ -163,7 +180,7 @@ int	builtin_exec(t_exec *exec, t_list *envp_list)
 		else if (!ft_strncmp(exec->cmd[0], "exit", 4))
 			ret = exit_ms(exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "unset", 5))
-			ret = unset (exec->cmd, envp_list);
+			ret = unset (exec->cmd, *envp_list);
 	}
 	return (ret);
 }

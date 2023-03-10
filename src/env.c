@@ -23,9 +23,9 @@ char	**envp_matrix(t_list *list_envp)
 	return (envp_mat);
 }
 
-char	*get_env(char *var, t_list *list_envp) //mudar envp meu
+char	*get_env(char *var, t_list *list_envp)
 {
-	char	*expanded;
+	char	*expanded = NULL;
 	char	*temp;
 	int		check;
 	t_list	*aux;
@@ -54,7 +54,7 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 	while (envp[i])
 	{
 		//alloca, adc nó, seta next null
-		new = ft_lstnew(envp[i]);
+		new = ft_lstnew(ft_strdup(envp[i]));
 		//cria lista ou adc new na lista
 		ft_lstadd_back (&envp_list, new);
 		i++;
@@ -65,7 +65,7 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 void	set_pwd(t_list *envp_list)//considerar poss tirar pwd
 {
 	t_list	*aux;
-	char temp[1000];
+	char	*temp;
 
 	aux = envp_list;
 	while (aux && !ft_strncmp(aux->content, "PWD", 3))
@@ -73,8 +73,10 @@ void	set_pwd(t_list *envp_list)//considerar poss tirar pwd
 
 	if (ft_strncmp(aux->content, "PWD", 3))
 	{
-		// free (aux->content);
+		free (aux->content);
+		temp = getcwd(NULL, 0);
 		getcwd(temp, sizeof(temp));
 		aux->content = ft_strjoin ("PWD=", temp);
+		free (temp);
 	}
 }

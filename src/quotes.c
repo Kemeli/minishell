@@ -29,7 +29,7 @@ int	open_single_quotes(char *input)
 
 	i = 0;
 	open_quotes = 0;
-	while (input[i])
+	while (input && input[i])
 	{
 		if (input[i] == '\'')
 		{
@@ -38,7 +38,8 @@ int	open_single_quotes(char *input)
 			if (input[i] == '\'')
 				open_quotes = 0;
 		}
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (open_quotes);
 }
