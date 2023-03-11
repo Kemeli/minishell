@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/13 20:06:02 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:06:36 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ typedef struct s_token
 typedef struct s_minishell
 {
 	t_list	*envp_list;
+	char	*current_command;
 } t_minishell;
+
+extern t_minishell	minishell;
 
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);

@@ -91,7 +91,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 	t_redirect *redirect;
 	t_token	*aux;
 	int	is_builtin;
-	
+
 	aux = list;
 	i = 0;
 	while (exec->process >= 1)
@@ -99,6 +99,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 		redirect = ft_calloc(sizeof(t_redirect), 1);
 		redirector(aux, redirect, envp); //atualiza aux em cmd_handler
 		aux = cmd_handler(aux, exec);
+		minishell.current_command = list->cmd;
 		is_builtin = 0;
 		if (i == 0 && exec->process == 1)
 			is_builtin = builtin_exec(exec, &envp);
