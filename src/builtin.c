@@ -142,10 +142,10 @@ int	export(char **cmd, t_list **envp_list)
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
 			j++;
 		}
-		if (ft_strchr("=", cmd[i][j]))
+		if (ft_strchr("=", cmd[i][j]) && !ft_strchr("\0", cmd[i][j]))
 		{
 			j++;
-			if (cmd[i][j])
+			if (cmd[i] && cmd[i][j])
 				update_envp(envp_list, cmd[i]);
 		}
 		i++;
@@ -207,3 +207,4 @@ int	builtin_exec(t_exec *exec, t_list **envp_list)
 	}
 	return (ret);
 }
+//rever aquipqpodeetr algo assim: exportVAR
