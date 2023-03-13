@@ -31,6 +31,9 @@ char	*slash_cmd_handle(char *cmd, t_list *envp)
 	if (!envp)
 		absolut_cmd = NULL;
 
+	if (!envp)
+		absolut_cmd = NULL;
+
 	check_slash = ft_strdup(ft_strrchr(cmd, '/')); //aqui checa se é caminho relativo
 	if (check_slash)
 	{
@@ -40,7 +43,7 @@ char	*slash_cmd_handle(char *cmd, t_list *envp)
 			free(cmd);
 			cmd = ft_strdup(absolut_cmd);
 		}
-		free (absolut_cmd);
+		free(absolut_cmd);
 	}
 	free (check_slash);
 	return (cmd);

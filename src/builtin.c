@@ -72,7 +72,7 @@ int	cd(char **cmd, t_list *envp_list)
 	else
 	{
 		if (chdir (cmd[1]) != 0)
-			ft_putstr_fd("minishell: cd: no such file or directory", 2); //colocar argumento?
+			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
 	}
 	set_pwd(envp_list);
 	return (1);
