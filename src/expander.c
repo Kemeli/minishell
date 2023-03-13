@@ -20,9 +20,14 @@ char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
 	while (is_env_char(input[j]))
 		j++;
 	sub = ft_substr(input, env->i, j - env->i);
-	trim = ft_strtrim(sub, "$"); 
-	env->test = get_env(trim, list_envp);
+	trim = ft_strtrim(sub, "$");
 	env->i = j;
+	if (!ft_strncmp(trim, "", 2))
+	{
+		free (trim);
+		return (sub);
+	}
+	env->test = get_env(trim, list_envp);
 	free (trim);
 	if (!env->test)
 		return (sub);

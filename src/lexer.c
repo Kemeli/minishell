@@ -67,23 +67,45 @@ t_token	*get_list(t_token *new_token, t_token *list)
 	return list;
 }
 
+/*verifica se o 2º char é envar, se sim pula para o 3º
+se não verifica se é digito $1VAR=value -- $=VAr*/
+char	*handle_dollar(char *input)
+{
+	int		i;
+	char	*ret;
+
+	i = 0;
+	ret = NULL;
+	if (ft_isalpha(input[1]) || !ft_strncmp(&input[1], "_", 2))
+	{
+		i = 2;
+		while (is_env_char(input[i]))
+			i++;
+	}
+	else if (ft_isdigit(input[1]))
+		i = 2;
+	if (input[i])
+		ret = ft_substr (input, i, ft_strlen(input));
+	free (input);
+	return (ret);
+}
+
 t_token	*lexer(char **input, t_token *list)
 {
 	t_token	*new;
 	int		i;
 
-	i = 0;
-	while(input[i])
+	i = -1;
+	while(input[++i])
 	{
-		while (input[i] && ft_strchr("$", input[i][0]))
-			i++;
+		if (input[i] && ft_strchr("$", input[i][0]))
+			input[i] = handle_dollar(input[i]);
 		if (input[i])
 		{
 			new = ft_calloc(sizeof(t_token), 1);
 			list = get_list(new, list);
 			new->cmd = ft_strdup(input[i]);
 			check_type(new);
-			i++;
 		}
 	}
 	return (list);
