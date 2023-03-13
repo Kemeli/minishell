@@ -1,26 +1,48 @@
 
-
 #include <minishell.h>
+
+// char	*slash_cmd_handle(char *cmd, t_list *envp)
+// {
+// 	char	*check_slash;
+// 	char	*absolut_cmd;
+// 	char	*test;
+
+// 	check_slash = ft_strrchr(cmd, '/'); //aqui checa se é caminho relativo
+// 	if (check_slash)
+// 	{
+// 		absolut_cmd = ft_strtrim(check_slash, "/");
+// 		test = get_path(absolut_cmd, envp);
+// 		if (test != NULL)
+// 		{
+// 			free(cmd);
+// 			cmd = ft_strdup(absolut_cmd);
+// 		}
+// 		free (absolut_cmd);
+// 		free (test);
+// 	}
+// 	return (cmd);
+// }
 
 char	*slash_cmd_handle(char *cmd, t_list *envp)
 {
 	char	*check_slash;
 	char	*absolut_cmd;
-	char	*test;
 
-	check_slash = ft_strrchr(cmd, '/'); //aqui checa se é caminho relativo
+	if (!envp)
+		absolut_cmd = NULL;
+
+	check_slash = ft_strdup(ft_strrchr(cmd, '/')); //aqui checa se é caminho relativo
 	if (check_slash)
 	{
 		absolut_cmd = ft_strtrim(check_slash, "/");
-		test = get_path(absolut_cmd, envp);
-		if (test != NULL)
+		if (!access (cmd, F_OK))
 		{
 			free(cmd);
 			cmd = ft_strdup(absolut_cmd);
 		}
 		free (absolut_cmd);
-		free (test);
 	}
+	free (check_slash);
 	return (cmd);
 }
 
@@ -55,7 +77,7 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec, t_list *envp)
 char	*get_path(char *cmd, t_list *envp_list)
 {
 	int		i;
-	char	*path;
+	char	*path = NULL;
 	char	**paths;
 	char	*slash_cmd;
 	char	*aux;
@@ -65,14 +87,17 @@ char	*get_path(char *cmd, t_list *envp_list)
 	free (aux);
 	slash_cmd = ft_strjoin("/", cmd);
 	i = 0;
-	while (paths[i])
+	if (!ft_strchr(cmd, '/'))
 	{
-		path = ft_strjoin(paths[i], slash_cmd);
-		if (!access (path, F_OK))
-			break;
-		i++;
-		free (path); //talvez jogar esse free p cima
-		path = NULL;
+		while (paths[i])
+		{
+			path = ft_strjoin(paths[i], slash_cmd);
+			if (!access (path, F_OK))
+				break;
+			i++;
+			free (path); //talvez jogar esse free p cima
+			path = NULL;
+		}
 	}
 	free_matrix (paths);
 	free (slash_cmd);

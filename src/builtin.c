@@ -66,13 +66,13 @@ int	cd(char **cmd, t_list *envp_list)
 	{
 		path = get_env("HOME", envp_list);
 		if (chdir(path))
-			perror("chdir");
+			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
 		free (path);
 	}
 	else
 	{
 		if (chdir (cmd[1]) != 0)
-			perror("chdir2"); //tirar
+			ft_putstr_fd("minishell: cd: no such file or directory", 2); //colocar argumento?
 	}
 	set_pwd(envp_list);
 	return (1);
