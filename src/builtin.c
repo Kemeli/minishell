@@ -3,23 +3,23 @@
 
 int	echo(char **cmd)
 {
-	int	j;
+	int	i;
 	int	new_line;
 
-	j = 1;
+	i = 1;
 	new_line = 1;
-	if (cmd[j])
+	if (cmd[i])
 	{
-		if (!ft_strncmp(cmd[j], "-n", 3))
+		if (!ft_strncmp(cmd[i], "-n", 3))
 		{
 			new_line = !new_line;
-			j++;
+			i++;
 		}
-		while (cmd[j])
+		while (cmd[i])
 		{
-			ft_putstr_fd (cmd[j], STDOUT_FILENO);
-			j++;
-			if (cmd[j])
+			ft_putstr_fd (cmd[i], STDOUT_FILENO);
+			i++;
+			if (cmd[i])
 				ft_putstr_fd (" ", STDOUT_FILENO);
 		}
 	}

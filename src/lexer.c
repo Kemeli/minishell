@@ -75,7 +75,7 @@ t_token	*lexer(char **input, t_token *list)
 	i = 0;
 	while(input[i])
 	{
-		if (ft_strchr("$", input[i][0]))
+		while (input[i] && ft_strchr("$", input[i][0]))
 			i++;
 		if (input[i])
 		{
