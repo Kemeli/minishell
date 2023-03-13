@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/13 17:51:39 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:44:22 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	sintax(t_token *list);
 
 void	execute(t_token *list, t_list *envp_list, char **input);
 void	redirector(t_token *aux, t_redirect *redirect);
-t_token	*cmd_handler(t_token *list, t_exec *exec);
+t_token	*cmd_handler(t_token *list, t_exec *exec, t_list *envp);
 char	*get_path(char *cmd, t_list *envp_list);
 
 int		builtin_exec(t_exec *exec, t_list **envp_list);

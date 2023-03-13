@@ -2,14 +2,34 @@
 
 #include <minishell.h>
 
-t_token	*cmd_matrix(t_token *aux, t_exec *exec)
+char	*slash_cmd_handle(char *cmd, t_list *envp)
 {
-	int	i;
-	t_token	*cmd_list;
-	int count;
-	char *absolut_cmd;
-	char *check_slash;
+	char	*check_slash;
+	char	*absolut_cmd;
+	char	*test;
 
+	check_slash = ft_strrchr(cmd, '/'); //aqui checa se é caminho relativo
+	if (check_slash)
+	{
+		absolut_cmd = ft_strtrim(check_slash, "/");
+		test = get_path(absolut_cmd, envp);
+		if (test != NULL)
+		{
+			free(cmd);
+			cmd = ft_strdup(absolut_cmd);
+		}
+		free (absolut_cmd);
+		free (test);
+	}
+	return (cmd);
+}
+
+t_token	*cmd_matrix(t_token *aux, t_exec *exec, t_list *envp)
+{
+	t_token	*cmd_list;
+	int		i;
+	int		count;
+	
 	count = 1;
 	cmd_list = aux;
 	while (cmd_list->next && cmd_list->next->type == ARGUMENT)
@@ -20,15 +40,7 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	i = 0;
 	exec->cmd = ft_calloc(sizeof(char *), count + 1);
 	exec->cmd[i] = ft_strdup(aux->cmd);
-	check_slash = ft_strrchr(exec->cmd[i], '/'); //aqui checa se é caminho relativo
-	if (check_slash)
-	{
-		exec->path = ft_strdup(aux->cmd);
-		absolut_cmd = ft_strtrim(check_slash, "/");
-		free(exec->cmd[i]);
-		exec->cmd[i] = ft_strdup(absolut_cmd);
-		free (absolut_cmd);
-	}
+	exec->cmd[i] = slash_cmd_handle(exec->cmd[i], envp);
 	if (aux->next)
 		aux = (aux->next);
 	while (aux && aux->type == ARGUMENT)
@@ -67,7 +79,7 @@ char	*get_path(char *cmd, t_list *envp_list)
 	return (path);
 }
 
-t_token	*cmd_handler(t_token *list, t_exec *exec)
+t_token	*cmd_handler(t_token *list, t_exec *exec, t_list *envp)
 {
 	t_token	*aux;
 
@@ -82,7 +94,7 @@ t_token	*cmd_handler(t_token *list, t_exec *exec)
 		aux = aux->next;
 	}
 	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))
-		aux = cmd_matrix(aux, exec); //dar free
+		aux = cmd_matrix(aux, exec, envp); //dar free
 	while (aux && aux->type != PIPE)
 		aux = aux->next;
 	return (aux);
