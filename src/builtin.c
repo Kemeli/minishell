@@ -8,16 +8,20 @@ int	echo(char **cmd)
 
 	j = 1;
 	new_line = 1;
-	if (!ft_strncmp(cmd[j], "-n", 3))
+	if (cmd[j])
 	{
-		new_line = !new_line;
-		j++;
-	}
-	while (cmd[j])
-	{
-		ft_putstr_fd (cmd[j], STDOUT_FILENO);
-		ft_putstr_fd (" ", STDOUT_FILENO);
-		j++;
+		if (!ft_strncmp(cmd[j], "-n", 3))
+		{
+			new_line = !new_line;
+			j++;
+		}
+		while (cmd[j])
+		{
+			ft_putstr_fd (cmd[j], STDOUT_FILENO);
+			j++;
+			if (cmd[j])
+				ft_putstr_fd (" ", STDOUT_FILENO);
+		}
 	}
 	if (new_line)
 		printf("\n");
