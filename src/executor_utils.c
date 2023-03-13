@@ -23,16 +23,10 @@
 // 	return (cmd);
 // }
 
-char	*slash_cmd_handle(char *cmd, t_list *envp)
+char	*slash_cmd_handle(char *cmd)
 {
 	char	*check_slash;
 	char	*absolut_cmd;
-
-	if (!envp)
-		absolut_cmd = NULL;
-
-	if (!envp)
-		absolut_cmd = NULL;
 
 	check_slash = ft_strdup(ft_strrchr(cmd, '/')); //aqui checa se é caminho relativo
 	if (check_slash)
@@ -49,7 +43,7 @@ char	*slash_cmd_handle(char *cmd, t_list *envp)
 	return (cmd);
 }
 
-t_token	*cmd_matrix(t_token *aux, t_exec *exec, t_list *envp)
+t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 {
 	t_token	*cmd_list;
 	int		i;
@@ -65,7 +59,7 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec, t_list *envp)
 	i = 0;
 	exec->cmd = ft_calloc(sizeof(char *), count + 1);
 	exec->cmd[i] = ft_strdup(aux->cmd);
-	exec->cmd[i] = slash_cmd_handle(exec->cmd[i], envp);
+	exec->cmd[i] = slash_cmd_handle(exec->cmd[i]);
 	if (aux->next)
 		aux = (aux->next);
 	while (aux && aux->type == ARGUMENT)
@@ -107,7 +101,7 @@ char	*get_path(char *cmd, t_list *envp_list)
 	return (path);
 }
 
-t_token	*cmd_handler(t_token *list, t_exec *exec, t_list *envp)
+t_token	*cmd_handler(t_token *list, t_exec *exec)
 {
 	t_token	*aux;
 
@@ -122,7 +116,7 @@ t_token	*cmd_handler(t_token *list, t_exec *exec, t_list *envp)
 		aux = aux->next;
 	}
 	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))
-		aux = cmd_matrix(aux, exec, envp); //dar free
+		aux = cmd_matrix(aux, exec); //dar free
 	while (aux && aux->type != PIPE)
 		aux = aux->next;
 	return (aux);
