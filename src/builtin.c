@@ -185,23 +185,25 @@ int	unset(char **cmd, t_list *envp_list)
 int	builtin_exec(t_exec *exec, t_list **envp_list)
 {
 	int	ret;
+	int	size;
 
 	ret = 0;
+	size = ft_strlen (exec->cmd[0]); //checar leaks
 	if (exec->cmd)
 	{
-		if (!ft_strncmp(exec->cmd[0], "echo", 4))
+		if (!ft_strncmp(exec->cmd[0], "echo", size))
 			ret = echo (exec->cmd);
-		else if (!ft_strncmp(exec->cmd[0], "env", 3))
+		else if (!ft_strncmp(exec->cmd[0], "env", size))
 			ret = envp_print(*envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "cd", 2))
+		else if (!ft_strncmp(exec->cmd[0], "cd", size))
 			ret = cd(exec->cmd, *envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "pwd", 3))
+		else if (!ft_strncmp(exec->cmd[0], "pwd", size))
 			ret = pwd();
-		else if (!ft_strncmp(exec->cmd[0], "export", 6))
+		else if (!ft_strncmp(exec->cmd[0], "export", size))
 			ret = export(exec->cmd, envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "exit", 4))
+		else if (!ft_strncmp(exec->cmd[0], "exit", size))
 			ret = exit_ms(exec->cmd);
-		else if (!ft_strncmp(exec->cmd[0], "unset", 5))
+		else if (!ft_strncmp(exec->cmd[0], "unset", size))
 			ret = unset (exec->cmd, *envp_list);
 	}
 	return (ret);
