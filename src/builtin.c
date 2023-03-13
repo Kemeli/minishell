@@ -144,7 +144,6 @@ int	export(char **cmd, t_list **envp_list)
 		}
 		if (ft_strchr("=", cmd[i][j]) && !ft_strchr("\0", cmd[i][j]))
 		{
-			j++;
 			if (cmd[i] && cmd[i][j])
 				update_envp(envp_list, cmd[i]);
 		}
@@ -169,8 +168,8 @@ int	unset(char **cmd, t_list *envp_list)
 		aux = envp_list;
 		while (aux)
 		{
-			check = ft_strncmp(cmd[i], aux->content, ft_strlen(cmd[1]));
-			if (!check)
+			check = ft_strncmp(cmd[i], aux->content, ft_strlen(cmd[i]));
+			if (check == 0)
 			{
 				free (aux->content);
 				aux->content = ft_strdup("");

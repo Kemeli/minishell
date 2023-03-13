@@ -1,36 +1,16 @@
 
 #include <minishell.h>
 
-// char	*slash_cmd_handle(char *cmd, t_list *envp)
-// {
-// 	char	*check_slash;
-// 	char	*absolut_cmd;
-// 	char	*test;
-
-// 	check_slash = ft_strrchr(cmd, '/'); //aqui checa se é caminho relativo
-// 	if (check_slash)
-// 	{
-// 		absolut_cmd = ft_strtrim(check_slash, "/");
-// 		test = get_path(absolut_cmd, envp);
-// 		if (test != NULL)
-// 		{
-// 			free(cmd);
-// 			cmd = ft_strdup(absolut_cmd);
-// 		}
-// 		free (absolut_cmd);
-// 		free (test);
-// 	}
-// 	return (cmd);
-// }
-
 char	*slash_cmd_handle(char *cmd)
 {
 	char	*check_slash;
 	char	*absolut_cmd;
+	char	*temp;
 
-	check_slash = ft_strdup(ft_strrchr(cmd, '/')); //aqui checa se é caminho relativo
-	if (check_slash)
+	temp = ft_strrchr(cmd, '/');
+	if (temp)
 	{
+		check_slash = ft_strdup(temp);
 		absolut_cmd = ft_strtrim(check_slash, "/");
 		if (!access (cmd, F_OK))
 		{
@@ -38,8 +18,8 @@ char	*slash_cmd_handle(char *cmd)
 			cmd = ft_strdup(absolut_cmd);
 		}
 		free(absolut_cmd);
+		free (check_slash);
 	}
-	free (check_slash);
 	return (cmd);
 }
 
