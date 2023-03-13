@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/10 21:13:29 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:48:23 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 			if (list)
 			{
 				sintax(list);
-				execute(list, envp_list);
+				execute(list, envp_list, input);
 				free_list(list);
 			}
 			free_matrix(input);

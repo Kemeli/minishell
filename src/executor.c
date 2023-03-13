@@ -22,12 +22,13 @@ void	end_procesess(t_exec *exec)
 	free_int_mat(exec->fd);
 }
 
-void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list)
+void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list, char **input)
 {
 	if (exec->cmd)
 		free_matrix(exec->cmd);
 	if (exec->path)
 		free (exec->path);
+	free_matrix (input);
 	free_int_mat(exec->fd);
 	free (redirect);
 	free_list (aux);
@@ -64,7 +65,7 @@ void	fd_redirect(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
 	close_fd(exec->fd);
 }
 
-void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list)
+void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list, char **input)
 {
 	int	is_builtin;
 
@@ -80,11 +81,11 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_li
 	}
 	else if (exec->cmd && !is_builtin)
 		exec_error(exec->cmd[0]);
-	free_child (exec, redirect, aux, envp_list);
+	free_child (exec, redirect, aux, envp_list, input);
 	exit(EXIT_FAILURE);
 }
 
-void	exec_child(t_token *list, t_exec *exec, t_list *envp_list)
+void	exec_child(t_token *list, t_exec *exec, t_list *envp_list,  char **input)
 {
 	int	i;
 	t_redirect *redirect;
@@ -105,7 +106,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp_list)
 		{
 			exec->pid = fork();
 			if (exec->pid == 0)
-				child_process(i, exec, redirect, list, envp_list);
+				child_process(i, exec, redirect, list, envp_list, input);
 		}
 		free_matrix (exec->cmd);
 		free (redirect);
@@ -119,7 +120,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp_list)
 	waitpid(-1, NULL, 0);
 }
 
-void	start_exec(t_exec *exec, t_token *list, t_list *envp_list)
+void	start_exec(t_exec *exec, t_token *list, t_list *envp_list, char **input)
 {
 	int	i;
 	int	j;
@@ -135,10 +136,10 @@ void	start_exec(t_exec *exec, t_token *list, t_list *envp_list)
 		pipe(exec->fd[j++]);
 		i++;
 	}
-	exec_child(list, exec, envp_list);
+	exec_child(list, exec, envp_list, input);
 }
 
-void	execute(t_token *list, t_list *envp_list)
+void	execute(t_token *list, t_list *envp_list, char **input)
 {
 	t_token	*aux;
 	t_exec	*exec = ft_calloc(sizeof(t_exec), 1);
@@ -151,7 +152,7 @@ void	execute(t_token *list, t_list *envp_list)
 		aux = aux->next;
 	}
 	aux = list;
-	start_exec(exec, aux, envp_list);
+	start_exec(exec, aux, envp_list, input);
 	free_matrix(exec->envp_ms);
 	free (exec);
 }

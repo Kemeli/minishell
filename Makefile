@@ -50,6 +50,6 @@ debug:
 
 runrl:	$(NAME)
 	make
-	@valgrind --suppressions=./local.supp --leak-check=full ./minishell
+	@valgrind --suppressions=./local.supp --leak-check=full --show-leak-kinds=all ./minishell
 
 .PHONY: all clean fclean re debug runrl
