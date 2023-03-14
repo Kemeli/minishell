@@ -41,7 +41,7 @@ void	exec_error(char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd(": no such file or directory\n", 2);
 }
 
 void	change_fd(int file, int std_fd)

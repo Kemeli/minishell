@@ -60,24 +60,28 @@ char	*get_path(char *cmd, t_list *envp_list)
 	char	*aux;
 
 	aux = get_env("PATH", envp_list);
-	paths = ft_split(aux, ':');
-	free (aux);
-	slash_cmd = ft_strjoin("/", cmd);
-	i = 0;
-	if (!ft_strchr(cmd, '/'))
+	if (aux)
 	{
-		while (paths[i])
+		paths = ft_split(aux, ':');
+		free (aux);
+
+		slash_cmd = ft_strjoin("/", cmd);
+		i = 0;
+		if (!ft_strchr(cmd, '/'))
 		{
-			path = ft_strjoin(paths[i], slash_cmd);
-			if (!access (path, F_OK))
-				break;
-			i++;
-			free (path); //talvez jogar esse free p cima
-			path = NULL;
+			while (paths[i])
+			{
+				path = ft_strjoin(paths[i], slash_cmd);
+				if (!access (path, F_OK))
+					break;
+				i++;
+				free (path); //talvez jogar esse free p cima
+				path = NULL;
+			}
 		}
+		free_matrix (paths);
+		free (slash_cmd);
 	}
-	free_matrix (paths);
-	free (slash_cmd);
 	return (path);
 }
 
