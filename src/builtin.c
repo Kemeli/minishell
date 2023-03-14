@@ -186,9 +186,9 @@ int	builtin_exec(t_exec *exec, t_list **envp_list)
 	int	size;
 
 	ret = 0;
-	size = ft_strlen (exec->cmd[0]); //checar leaks
 	if (exec->cmd)
 	{
+		size = ft_strlen (exec->cmd[0]); //checar leaks
 		if (!ft_strncmp(exec->cmd[0], "echo", size))
 			ret = echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", size))
