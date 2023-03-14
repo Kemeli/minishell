@@ -71,7 +71,6 @@ char	*input_separator(char *input)
 	return (str);
 }
 
-
 char	**get_input_matrix(char *input)
 {
 	char	**input_matrix;

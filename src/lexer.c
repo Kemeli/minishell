@@ -82,7 +82,7 @@ char	*handle_dollar(char *input)
 	{
 		i = 2;
 		while (is_env_char(input[i]))
-		i++;
+			i++;
 	}
 	else if (ft_isdigit(input[1]))
 		i = 2;
