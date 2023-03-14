@@ -79,7 +79,7 @@ char	*cut_quotes(char *str)
 	char *temp;
 	while (str[i])
 	{
-		if (ft_strchr("\"\'", str[i]))
+		while (ft_strchr("\"\'", str[i]))
 			i++;
 		if (str[i])
 		{

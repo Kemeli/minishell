@@ -15,13 +15,13 @@ void	sintax(t_token *list)
 
 	aux = list;
 	if (aux->type == PIPE)
-		printf ("minishell: syntax error near unexpected token `%s'\n", aux->cmd); //exit
+		printf ("minishell: syntax error near unexpected token1 `%s'\n", aux->cmd); //exit
 	while (aux)
 	{
 		if (aux->next && is_metachar(aux->type) && is_metachar(aux->next->type))
-			printf ("minishell: syntax error near unexpected token `%s'\n", aux->next->cmd); //exit
+			printf ("minishell: syntax error near unexpected token2 `%s'\n", aux->next->cmd); //exit
 		else if (is_metachar(aux->type) && !aux->next)
-			printf ("minishell: syntax error near unexpected token `%s'\n", aux->cmd); //exit
+			printf ("minishell: syntax error near unexpected token3 `%s'\n", aux->cmd); //exit
 		aux = aux->next;
 	}
 }
