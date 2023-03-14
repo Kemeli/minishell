@@ -90,6 +90,46 @@ char	*handle_dollar(char *input)
 	return (ret);
 }
 
+char	*cut_quotes(char *str)
+{
+	int		i;
+	char	*chr;
+	char	*new;
+	char	*temp;
+
+	i = 0;
+	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+	{
+		new = ft_calloc (sizeof(char *), 1);
+		while (str[i])
+		{
+			while (str[i] && ft_strchr("\"\'", str[i]))
+				i++;
+			if (str && str[i])
+			{
+				chr = ft_substr(str, i, 1);
+				temp = ft_strjoin(new, chr);
+				free (chr);
+				free (new);
+				new = ft_strdup(temp);
+				free (temp);
+				i++;
+			}
+		}
+		return (new);
+	}
+	return (str);
+}
+
+char	*handle_quotes_dollar(char *input)
+{
+	if (input && ft_strchr("$", input[0]))
+		input = handle_dollar(input);
+	if (input)
+		input = cut_quotes (input);
+	return (input);
+}
+
 t_token	*lexer(char **input, t_token *list)
 {
 	t_token	*new;
@@ -98,8 +138,7 @@ t_token	*lexer(char **input, t_token *list)
 	i = -1;
 	while(input[++i])
 	{
-		if (input[i] && ft_strchr("$", input[i][0]))
-			input[i] = handle_dollar(input[i]);
+		input[i] = handle_quotes_dollar(input[i]);
 		if (input[i])
 		{
 			new = ft_calloc(sizeof(t_token), 1);

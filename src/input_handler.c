@@ -71,61 +71,16 @@ char	*input_separator(char *input)
 	return (str);
 }
 
-char	*cut_quotes(char *str)
-{
-	int i = 0;
-	char *chr;
-	char *new = ft_calloc (sizeof(char *), 1);
-	char *temp;
-	while (str[i])
-	{
-		while (ft_strchr("\"\'", str[i]))
-			i++;
-		if (str[i])
-		{
-			chr = ft_substr(str, i, 1);
-			temp = ft_strjoin(new, chr);
-			free (chr);
-			free (new);
-			new = ft_strdup(temp);
-			free (temp);
-			i++;
-		}
-	}
-	return (new);
-}
-
-char	**trim(char **input_matrix)
-{
-	int	i;
-	char **ret;
-
-	i = 0;
-	while (input_matrix[i])
-		i++;
-	ret = malloc((i + 1) * sizeof(char *));
-	ret[i] = NULL;
-	i = 0;
-	while (input_matrix[i])
-	{
-		ret[i] = cut_quotes(input_matrix[i]);
-		i++;
-	}
-	return (ret);
-}
 
 char	**get_input_matrix(char *input)
 {
 	char	**input_matrix;
 	char	*handled_input;
-	char	**ret;
 
 	handled_input = input_separator(input);
 	input_matrix = ft_split(handled_input, SEPARATOR);
-	ret = trim(input_matrix);
 	free(handled_input);
-	free_matrix(input_matrix);
-	return (ret);
+	return (input_matrix);
 }
 
 char	*pipe_input(char *input)
