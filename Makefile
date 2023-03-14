@@ -18,7 +18,7 @@ LIBFT =		libft/libft.a
 
 NAME =		minishell
 INCLUDES =	-I ./src/includes -I ./libft/includes
-FLAGS =		-Wall -Wextra -Werror $(INCLUDES)
+FLAGS =		-Wall -Wextra -Werror $(INCLUDES) -D_XOPEN_SOURCE=700
 
 OBJ_DIR =	obj
 OBJS =		$(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
@@ -48,7 +48,7 @@ re: fclean all
 debug:
 	@echo "Compiling..."
 	@make -sC ./libft --no-print-directory
-	@$(CC) -g $(INCLUDES) $(addprefix src/,$(SRC)) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) -D_XOPEN_SOURCE=700 -g $(INCLUDES) $(addprefix src/,$(SRC)) $(LIBFT) -lreadline -o $(NAME)
 
 runrl:	$(NAME)
 	make

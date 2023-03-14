@@ -2,18 +2,20 @@
 
 void	set_ctrl_c(void)
 {
-	struct sigaction	sa;
+	struct sigaction	handler;
 
-	sa.sa_handler = &handle_sigint;
-	sigaction(SIGINT, &sa, NULL);
+	handler.sa_handler = &handle_sigint;
+	if (sigaction(SIGINT, &handler, NULL))
+		printf("Error installing SIGINT handler\n");
 }
 
 void	set_ctrl_d(void)
 {
-	struct sigaction	sa;
+	struct sigaction	handler;
 
-	sa.sa_handler = &handle_sigquit;
-	sigaction(SIGQUIT, &sa, NULL);
+	handler.sa_handler = &handle_sigquit;
+	if (sigaction(SIGQUIT, &handler, NULL))
+		printf("Error installing SIGQUIT handler\n");
 }
 
 void	set_listeners(void)

@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/13 20:06:36 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:04:32 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # define SEPARATOR -1
 # define SPACE ' '
+#define _XOPEN_SOURCE 700
 
 //vou deixar flags (-l) como argumento por enquanto, se nos builtins precisar
 // especificamos depois
