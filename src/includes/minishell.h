@@ -106,7 +106,7 @@ t_token	*lexer(char **input, t_token *list);
 void	sintax(t_token *list);
 
 void	execute(t_token *list, t_list *envp_list, char **input);
-void	redirector(t_token *aux, t_redirect *redirect);
+void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
 char	*get_path(char *cmd, t_list *envp_list);
 t_token	*cmd_handler(t_token *list, t_exec *exec);
 
@@ -115,6 +115,7 @@ int		builtin_exec(t_exec *exec, t_list **envp_list);
 char	**envp_matrix(t_list *list_envp);
 t_list	*make_envp_list(char **envp, t_list *envp_list);
 void	set_pwd(t_list *envp_list);
+char	*handle_dollar(char *input);
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

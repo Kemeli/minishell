@@ -1,5 +1,3 @@
-#include <minishell.h>
-
 
 int	is_env_char(int c)
 {
@@ -85,4 +83,53 @@ char *get_expanded_var(char *input, t_list *list_envp)
 	free(env);
 	free (input);
 	return (new_input); //rever
+}
+
+
+char	*cut_quotes(char *str)
+{
+	int		i;
+	char	*chr;
+	char	*new;
+	char	*temp;
+
+	i = 0;
+	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+	{
+		new = ft_calloc (sizeof(char *), 1);
+		while (str[i])
+		{
+			while (str[i] && ft_strchr("\"\'", str[i]))
+				i++;
+			if (str && str[i])
+			{
+				chr = ft_substr(str, i, 1);
+				temp = ft_strjoin(new, chr);
+				free (chr);
+				free (new);
+				new = ft_strdup(temp);
+				free (temp);
+				i++;
+			}
+		}
+		return (new);
+	}
+	return (str);
+}
+
+char	*handle_quotes_dollar(char *input)
+{
+	if (input && ft_strchr("$", input[0]))
+		input = handle_dollar(input);
+	if (input)
+		input = cut_quotes (input);
+	return (input);
+}
+
+//se estiver entre aspas simples nem vai para o expander
+
+void	foo
+{
+	
+	get_expanded_var()
 }

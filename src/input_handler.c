@@ -114,7 +114,7 @@ char	**get_input(t_list *list_envp)
 
 	int i = -1;
 	int envar = 0;
-	while (input[++i])
+	while (input[++i]) //tirar
 	{
 		if (input[i] == '$')
 		{

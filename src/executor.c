@@ -85,7 +85,7 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_li
 	exit(EXIT_FAILURE);
 }
 
-void	exec_child(t_token *list, t_exec *exec, t_list *envp_list,  char **input)
+void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 {
 	int	i;
 	t_redirect *redirect;
@@ -97,16 +97,16 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp_list,  char **input)
 	while (exec->process >= 1)
 	{
 		redirect = ft_calloc(sizeof(t_redirect), 1);
-		redirector(aux, redirect); //atualiza aux em cmd_handler
+		redirector(aux, redirect, envp); //atualiza aux em cmd_handler
 		aux = cmd_handler(aux, exec);
 		is_builtin = 0;
 		if (i == 0 && exec->process == 1)
-			is_builtin = builtin_exec(exec, &envp_list);
+			is_builtin = builtin_exec(exec, &envp);
 		if (!is_builtin)
 		{
 			exec->pid = fork();
 			if (exec->pid == 0)
-				child_process(i, exec, redirect, list, envp_list, input);
+				child_process(i, exec, redirect, list, envp, input);
 		}
 		free_matrix (exec->cmd);
 		free (redirect);

@@ -76,11 +76,13 @@ char	*handle_dollar(char *input)
 
 	i = 0;
 	ret = NULL;
+	if (!ft_strchr (input, '$'))
+		return (input);
 	if (ft_isalpha(input[1]) || !ft_strncmp(&input[1], "_", 2))
 	{
 		i = 2;
 		while (is_env_char(input[i]))
-			i++;
+		i++;
 	}
 	else if (ft_isdigit(input[1]))
 		i = 2;
