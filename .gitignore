@@ -8,3 +8,4 @@ infile
 outfile
 .vscode
 vgcore.*
+.nfs*
