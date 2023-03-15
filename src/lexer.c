@@ -69,25 +69,64 @@ t_token	*get_list(t_token *new_token, t_token *list)
 
 /*verifica se o 2º char é envar, se sim pula para o 3º
 se não verifica se é digito $1VAR=value -- $=VAr*/
+// char	*handle_dollar(char *input)
+// {
+// 	int		i;
+// 	char	*ret;
+
+// 	i = 0;
+// 	ret = NULL;
+// 	if (!ft_strchr (input, '$'))
+// 		return (input);
+// 	if (ft_isalpha(input[1]) || !ft_strncmp(&input[1], "_", 2))
+// 	{
+// 		i = 2;
+// 		while (is_env_char(input[i]))
+// 			i++;
+// 	}
+// 	else if (ft_isdigit(input[1]))
+// 		i = 2;
+// 	if (input[i])
+// 		ret = ft_substr (input, i, ft_strlen(input));
+// 	free (input);
+// 	return (ret);
+// }
+
 char	*handle_dollar(char *input)
 {
 	int		i;
 	char	*ret;
+	char	*sub;
 
 	i = 0;
 	ret = NULL;
 	if (!ft_strchr (input, '$'))
 		return (input);
-	if (ft_isalpha(input[1]) || !ft_strncmp(&input[1], "_", 2))
+	while (input[i])
 	{
-		i = 2;
-		while (is_env_char(input[i]))
+		while (input[i] && input[i] != '$') //talvez ' ' tb
+		{
+			if (!ret)
+				ret = ft_calloc (sizeof (char *), 1);
+			sub = ft_substr (input, i, 1);
+			ret = ft_strjoin (ret, sub);
+			free (sub);
 			i++;
+		}
+		if (input[i] && ft_strchr ("$", input[i]))
+		{
+			i++;
+			if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
+			{
+				i++;
+				while (input[i] && is_env_char(input[i]))
+					i++;
+			}
+			else if (input[i] && ft_isdigit(input[i]))
+				i++;
+		}
+		// i++;
 	}
-	else if (ft_isdigit(input[1]))
-		i = 2;
-	if (input[i])
-		ret = ft_substr (input, i, ft_strlen(input));
 	free (input);
 	return (ret);
 }

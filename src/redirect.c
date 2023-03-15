@@ -68,7 +68,7 @@ void	heredoc_handler(t_redirect *redirect, t_list *envp, char *eof)
 	i = 0;
 	input = start_heredoc(eof);
 	redirect->here_file = open ("__heredoc", O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
-	input = get_expanded_var (input, envp);
+	input = get_expanded_var (input, envp, 1);
 	here_matrix = here_input(input);
 	while (here_matrix[i])
 	{
@@ -76,6 +76,7 @@ void	heredoc_handler(t_redirect *redirect, t_list *envp, char *eof)
 		ft_putstr_fd("\n", redirect->here_file);
 		i++;
 	}
+	free_matrix (here_matrix);
 	close (redirect->here_file);
 	open ("__heredoc", O_RDONLY);
 }

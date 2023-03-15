@@ -111,24 +111,12 @@ char	**get_input(t_list *list_envp)
 	add_history(temp_input);
 	input = pipe_input(temp_input);
 
-	int i = -1;
-	int envar = 0;
-	while (input[++i]) //tirar
-	{
-		if (input[i] == '$')
-		{
-			envar = 1;
-			break ;
-		}
-	}
 	if (opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
 		return (0);
 	}
-	if (envar)
-		input = get_expanded_var(input, list_envp); //sobrescrevo input, danger!
-
+	input = get_expanded_var(input, list_envp, 0);
 	input_matrix = get_input_matrix(input);
 	free (input);
 	return (input_matrix);

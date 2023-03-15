@@ -47,7 +47,7 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input, t_list *list_envp)
+char *get_expanded_var(char *input, t_list *list_envp, int hd)
 {
 	char *new_input;
 	int sp_quotes = 0;
@@ -63,7 +63,7 @@ char *get_expanded_var(char *input, t_list *list_envp)
 		if (input[env->i] == '\"')
 			db_quotes = !db_quotes;
 
-		if (input[env->i] == '\'' && !db_quotes)
+		if (input[env->i] == '\'' && !db_quotes  && !hd)
 			sp_quotes = !sp_quotes;
 
 		if (input[env->i] != '$' || sp_quotes)

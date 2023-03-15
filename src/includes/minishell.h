@@ -98,7 +98,7 @@ typedef struct s_token
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);
 void	env_var_checker(t_token *list, t_env_utils *env);
-char	*get_expanded_var(char *input, t_list *list_envp);
+char *get_expanded_var(char *input, t_list *list_envp, int hd);
 int		is_env_char(int c);
 char	*get_env(char *var, t_list *list_envp);
 
