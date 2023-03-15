@@ -19,6 +19,8 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
+
+	free_shell();
 	if (shell.current_pid != 0)
-		write(2, "\n", 1);
+		ft_putchar_fd('\n', STDERR_FILENO);
 }

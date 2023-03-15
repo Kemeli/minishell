@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/15 19:34:00 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:59:51 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_list(t_token *list);
 
-void	free_minishell(void);
+void	free_shell(void);
 
 /******************************************************************************\
 * SIGNALS																	   *

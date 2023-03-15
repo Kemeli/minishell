@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/15 19:34:18 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:59:51 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	main(int argc, char **argv, char **envp)
 			free_matrix(input);
 		}
 	}
-	free_minishell();
+	free_shell();
 }
 
-void	free_minishell(void)
+void	free_shell(void)
 {
 	ft_lstclear(&shell.envp_list, &free);
 	free(shell.envp_list);
