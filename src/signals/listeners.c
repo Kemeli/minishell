@@ -9,7 +9,7 @@
 **
 ** Please make sure to always use `sigaction` for the attachment of some handler
 ** function to some specific signal. The `signal` function works, but has portability
-** issues across systems. https://man7.org/linux/man-pages/man7/signal.7.html
+** issues across unix systems. https://man7.org/linux/man-pages/man7/signal.7.html
 **
 ******************************************************************************************
 *****************************************************************************************/
