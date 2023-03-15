@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/14 01:52:39 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:10:17 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	main(int argc, char **argv, char **envp)
 	minishell.envp_list = envp_list;
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
-	set_listeners();
 	envp_list = make_envp_list(envp, envp_list);
+	set_listeners();
 	while (1)
 	{
 		list = NULL;

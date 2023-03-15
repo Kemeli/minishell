@@ -106,6 +106,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 		if (!is_builtin)
 		{
 			exec->pid = fork();
+			minishell.current_pid = exec->pid;
 			if (exec->pid == 0)
 				child_process(i, exec, redirect, list, envp, input);
 		}
@@ -119,6 +120,7 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 	end_procesess (exec);
 	waitpid(exec->pid, 0, 0);
 	waitpid(-1, NULL, 0);
+	minishell.current_pid = 0;
 }
 
 void	start_exec(t_exec *exec, t_token *list, t_list *envp_list, char **input)

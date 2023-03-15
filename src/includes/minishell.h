@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/14 20:04:32 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:04:14 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_minishell
 {
 	t_list	*envp_list;
 	char	*current_command;
+	int		current_pid;
 } t_minishell;
 
 extern t_minishell	minishell;
