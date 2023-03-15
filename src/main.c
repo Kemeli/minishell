@@ -6,13 +6,13 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/14 22:10:17 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:34:18 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_minishell	minishell;
+t_shell	shell;
 
 void	print_list(t_token *list) //essa função vai sair
 {
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*envp_list = NULL;
 	char	**input;
 
-	minishell.envp_list = envp_list;
+	shell.envp_list = envp_list;
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
 	envp_list = make_envp_list(envp, envp_list);
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 
 void	free_minishell(void)
 {
-	ft_lstclear(&minishell.envp_list, &free);
-	free(minishell.envp_list);
+	ft_lstclear(&shell.envp_list, &free);
+	free(shell.envp_list);
 	rl_clear_history();
 }
