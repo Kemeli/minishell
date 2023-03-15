@@ -25,15 +25,18 @@ char	**envp_matrix(t_list *list_envp)
 
 char	*get_env(char *var, t_list *list_envp)
 {
-	char	*expanded = NULL;
+	char	*join;
+	char	*expanded;
 	char	*temp;
 	int		check;
 	t_list	*aux;
 
 	aux = list_envp;
+	expanded = NULL;
+	join = ft_strjoin(var, "=");
 	while (aux)
-	{	
-		check = ft_strncmp(var, aux->content, ft_strlen(var));
+	{
+		check = ft_strncmp(join, aux->content, ft_strlen(join));
 		if (!check)
 		{
 			temp = ft_strdup (aux->content);
