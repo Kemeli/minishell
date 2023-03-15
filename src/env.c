@@ -47,7 +47,6 @@ char	*get_env(char *var, t_list *list_envp)
 		aux = aux->next;
 	}
 	free (join);
-	free (var);
 	return (expanded); //rever
 }
 
