@@ -38,7 +38,11 @@ void	handle_sigquit(int sig)
 {
 	(void)sig;
 
-	free_shell();
 	if (shell.current_pid != 0)
 		ft_putchar_fd('\n', STDERR_FILENO);
+	else
+	{
+		free_shell();
+		exit(0);
+	}
 }
