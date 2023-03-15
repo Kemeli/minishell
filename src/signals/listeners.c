@@ -1,5 +1,19 @@
 #include <minishell.h>
 
+/*****************************************************************************************
+******************************************************************************************
+**
+** SIGNAL LISTENERS
+**
+** These listeners are used to attach some function to some signal.
+**
+** Please make sure to always use `sigaction` for the attachment of some handler
+** function to some specific signal. The `signal` function works, but has portability
+** issues across systems. https://man7.org/linux/man-pages/man7/signal.7.html
+**
+******************************************************************************************
+*****************************************************************************************/
+
 void	set_ctrl_c(void)
 {
 	struct sigaction	handler;
