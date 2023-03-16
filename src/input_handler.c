@@ -106,8 +106,12 @@ char	**get_input(t_list *list_envp)
 	char	**input_matrix;
 
 	temp_input = readline("minishell> ");
-	if (!*temp_input)
+	if (!temp_input || !*temp_input)
+	{
+		free_shell();
+		exit(0);
 		return (NULL);
+	}
 	add_history(temp_input);
 	input = pipe_input(temp_input);
 
