@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/15 21:44:03 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:46:55 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ typedef struct s_token
 typedef struct s_shell
 {
 	t_list	*envp_list;
-	char	*current_command;
 	int		current_pid;
 } t_shell;
 

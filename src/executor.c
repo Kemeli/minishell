@@ -99,7 +99,6 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 		redirect = ft_calloc(sizeof(t_redirect), 1);
 		redirector(aux, redirect, envp); //atualiza aux em cmd_handler
 		aux = cmd_handler(aux, exec);
-		shell.current_command = list->cmd;
 		is_builtin = 0;
 		if (i == 0 && exec->process == 1)
 			is_builtin = builtin_exec(exec, &envp);
