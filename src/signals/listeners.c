@@ -1,9 +1,8 @@
 #include <minishell.h>
 
 /*****************************************************************************************
-******************************************************************************************
-**
 ** SIGNAL LISTENERS
+******************************************************************************************
 **
 ** These listeners are used to attach some function to some signal.
 **
@@ -11,7 +10,6 @@
 ** function to some specific signal. The `signal` function works, but has portability
 ** issues across unix systems. https://man7.org/linux/man-pages/man7/signal.7.html
 **
-******************************************************************************************
 *****************************************************************************************/
 
 void	set_ctrl_c(void)
