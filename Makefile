@@ -1,25 +1,27 @@
 
-SRC =		src/main.c \
-			src/lexer.c \
-			src/input_handler.c \
-			src/free.c \
-			src/expander.c \
-			src/quotes.c \
-			src/sintax.c \
-			src/executor.c \
-			src/redirect.c \
-			src/env.c \
-			src/executor_utils.c \
-			src/builtin.c \
+SRC =		main.c \
+			lexer.c \
+			input_handler.c \
+			free.c \
+			expander.c \
+			quotes.c \
+			sintax.c \
+			executor.c \
+			redirect.c \
+			env.c \
+			executor_utils.c \
+			builtin.c \
+			signals/handlers.c \
+			signals/listeners.c
 
 LIBFT =		libft/libft.a
 
 NAME =		minishell
 INCLUDES =	-I ./src/includes -I ./libft/includes
-FLAGS =		-Wall -Wextra -Werror $(INCLUDES)
+FLAGS =		-Wall -Wextra -Werror $(INCLUDES) -D_XOPEN_SOURCE=700
 
 OBJ_DIR =	obj
-OBJS =		$(addprefix $(OBJ_DIR)/,$(notdir $(SRC:%.c=%.o)))
+OBJS =		$(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
 
 all: $(NAME)
 
@@ -27,7 +29,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	cc $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $@
 
 $(OBJ_DIR)/%.o: src/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	cc -g -c $(FLAGS) $< -o $@
 
 $(LIBFT):
@@ -46,7 +48,7 @@ re: fclean all
 debug:
 	@echo "Compiling..."
 	@make -sC ./libft --no-print-directory
-	@$(CC) -g $(INCLUDES) $(SRC) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) -D_XOPEN_SOURCE=700 -g $(INCLUDES) $(addprefix src/,$(SRC)) $(LIBFT) -lreadline -o $(NAME)
 
 runrl:	$(NAME)
 	make

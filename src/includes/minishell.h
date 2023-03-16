@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/13 23:33:42 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:46:55 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # define SEPARATOR -1
 # define SPACE ' '
+# define _XOPEN_SOURCE 700
 
 //vou deixar flags (-l) como argumento por enquanto, se nos builtins precisar
 // especificamos depois
@@ -95,6 +97,14 @@ typedef struct s_token
 	struct s_token	*prev;
 } t_token;
 
+typedef struct s_shell
+{
+	t_list	*envp_list;
+	int		current_pid;
+} t_shell;
+
+extern t_shell	shell;
+
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);
 void	env_var_checker(t_token *list, t_env_utils *env);
@@ -120,5 +130,15 @@ char	*handle_dollar(char *input);
 void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_list(t_token *list);
+
+void	free_shell(void);
+
+/******************************************************************************\
+* SIGNALS																	   *
+\******************************************************************************/
+
+void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
+void	set_listeners(void);
 
 #endif

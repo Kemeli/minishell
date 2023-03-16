@@ -136,7 +136,7 @@ int	export(char **cmd, t_list **envp_list)
 			j++;
 		else
 			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
-		while (cmd[i][j] && !ft_strchr("=", cmd[i][j])) 
+		while (cmd[i][j] && !ft_strchr("=", cmd[i][j]))
 		{
 			if (!is_env_char(cmd[i][j]))
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
