@@ -183,27 +183,26 @@ int	unset(char **cmd, t_list *envp_list)
 int	builtin_exec(t_exec *exec, t_list **envp_list)
 {
 	int	ret;
-	int	size;
+	// int	size;
 
 	ret = 0;
 	if (exec->cmd)
 	{
-		size = ft_strlen (exec->cmd[0]); //checar leaks
-		if (!ft_strncmp(exec->cmd[0], "echo", size))
+		// size = ft_strlen (exec->cmd[0]); //checar leaks
+		if (!ft_strncmp(exec->cmd[0], "echo", 5))
 			ret = echo (exec->cmd);
-		else if (!ft_strncmp(exec->cmd[0], "env", size))
+		else if (!ft_strncmp(exec->cmd[0], "env", 4))
 			ret = envp_print(*envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "cd", size))
+		else if (!ft_strncmp(exec->cmd[0], "cd", 3))
 			ret = cd(exec->cmd, *envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "pwd", size))
+		else if (!ft_strncmp(exec->cmd[0], "pwd", 4))
 			ret = pwd();
-		else if (!ft_strncmp(exec->cmd[0], "export", size))
+		else if (!ft_strncmp(exec->cmd[0], "export", 7))
 			ret = export(exec->cmd, envp_list);
-		else if (!ft_strncmp(exec->cmd[0], "exit", size))
+		else if (!ft_strncmp(exec->cmd[0], "exit", 5))
 			ret = exit_ms(exec->cmd);
-		else if (!ft_strncmp(exec->cmd[0], "unset", size))
+		else if (!ft_strncmp(exec->cmd[0], "unset", 6))
 			ret = unset (exec->cmd, *envp_list);
 	}
 	return (ret);
 }
-//rever aquipqpodeetr algo assim: exportVAR
