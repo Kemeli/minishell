@@ -64,6 +64,7 @@ char	**get_input(t_list *list_envp)
 	temp_input = readline("minishell> ");
 	if (temp_input == NULL)
 	{
+		ft_putchar_fd('\n', 2);
 		free_shell();
 		exit(0);
 		return (NULL);
