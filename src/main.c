@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/15 19:59:51 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/16 19:57:56 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*envp_list = NULL;
 	char	**input;
 
-	shell.envp_list = envp_list;
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
 	envp_list = make_envp_list(envp, envp_list);
+	shell.envp_list = envp_list;
 	set_listeners();
 	while (1)
 	{
