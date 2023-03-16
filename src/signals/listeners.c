@@ -12,7 +12,7 @@
 **
 *****************************************************************************************/
 
-void	set_ctrl_c(void)
+static void	set_ctrl_c(void)
 {
 	struct sigaction	handler;
 
@@ -23,7 +23,7 @@ void	set_ctrl_c(void)
 		printf("Error installing SIGINT handler\n");
 }
 
-void	set_ctrl_d(void)
+static void	set_ctrl_back_slash(void)
 {
 	struct sigaction	handler;
 
@@ -36,7 +36,7 @@ void	set_ctrl_d(void)
 
 void	set_listeners(void)
 {
-	set_ctrl_d();
+	set_ctrl_back_slash();
 	set_ctrl_c();
 }
 
