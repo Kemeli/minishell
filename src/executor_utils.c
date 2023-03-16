@@ -1,6 +1,21 @@
 
 #include <minishell.h>
 
+char	*check_executable(char *cmd)
+{
+	char	*curr_dir;
+	char	*path;
+
+	curr_dir = getcwd(NULL, 0);
+	getcwd(curr_dir, sizeof(curr_dir));
+	path = ft_strjoin(curr_dir, cmd);
+	free (curr_dir);
+	if (!access (path, F_OK))
+		return (path);
+	free (path);
+	return (NULL);
+}
+
 char	*check_acess(char *path, char **paths, char *slash_cmd)
 {
 	int	i;
@@ -18,22 +33,50 @@ char	*check_acess(char *path, char **paths, char *slash_cmd)
 	return (NULL);
 }
 
+// char	*get_path(char *cmd, t_list *envp_list)
+// {
+// 	char	*path;
+// 	char	**paths;
+// 	char	*slash_cmd;
+// 	char	*aux;
+
+// 	path = NULL;
+// 	aux = get_env("PATH", envp_list);
+// 	paths = ft_split(aux, ':');
+// 	slash_cmd = ft_strjoin("/", cmd);
+// 	if (aux)
+// 	{
+// 		free (aux);
+// 		if (!ft_strchr(cmd, '/'))
+// 			path = check_acess(path, paths, slash_cmd);
+// 	}
+// 	if (!path)
+// 		path = check_executable(slash_cmd);
+// 	free_matrix (paths);
+// 	free (slash_cmd);
+// 	return (path);
+// }
+
 char	*get_path(char *cmd, t_list *envp_list)
 {
-	char	*path;
+	int		i;
+	char	*path = NULL;
 	char	**paths;
 	char	*slash_cmd;
 	char	*aux;
 
-	path = NULL;
 	aux = get_env("PATH", envp_list);
 	if (aux)
 	{
 		paths = ft_split(aux, ':');
 		free (aux);
+
 		slash_cmd = ft_strjoin("/", cmd);
+		i = 0;
 		if (!ft_strchr(cmd, '/'))
 			path = check_acess(path, paths, slash_cmd);
+		if (!path)
+			path = check_executable(slash_cmd);
 		free_matrix (paths);
 		free (slash_cmd);
 	}
