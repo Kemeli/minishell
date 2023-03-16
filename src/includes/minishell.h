@@ -28,14 +28,10 @@
 # define SPACE ' '
 # define _XOPEN_SOURCE 700
 
-//vou deixar flags (-l) como argumento por enquanto, se nos builtins precisar
-// especificamos depois
-// conflito: variavel de ambiente também pode ser argumento de comando, então
-//acho melhor deixar fora por enquanto
-//quando passada sozinha a env_var deve printar seu conteudo e aparecer msg de comando invalido
+
 enum e_token_type
 {
-	ZERO, //pq eu ia comparar com numero e eventualmente ia ser zero, mas da pra ver de tirar
+	ZERO,
 	SYS_CMD = 1,
 	BUILTIN = 2,
 	ARGUMENT = 3,
@@ -57,7 +53,7 @@ typedef	struct s_input_utils
 	int		open_quotes;
 }	t_input_utils;
 
-typedef struct s_env_utils
+typedef struct s_envar
 {
 	int		i;
 	int		expand_var;
@@ -69,7 +65,10 @@ typedef struct s_env_utils
 	char	*ch_join;
 	char	*ch_cpy;
 	char	*get_ret;
-}	t_env_utils;
+
+	int		sp_quotes;
+	int		db_quotes;
+}	t_envar;
 
 typedef struct s_redirect
 {
@@ -107,8 +106,9 @@ extern t_shell	shell;
 
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);
-void	env_var_checker(t_token *list, t_env_utils *env);
-char *get_expanded_var(char *input, t_list *list_envp, int hd);
+char	*input_separator(char *input);
+void	env_var_checker(t_token *list, t_envar *env);
+char	*get_expanded_var(char *input, t_list *list_envp, int hd);
 int		is_env_char(int c);
 char	*get_env(char *var, t_list *list_envp);
 
@@ -117,15 +117,21 @@ void	sintax(t_token *list);
 
 void	execute(t_token *list, t_list *envp_list, char **input);
 void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
+void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
 char	*get_path(char *cmd, t_list *envp_list);
 t_token	*cmd_handler(t_token *list, t_exec *exec);
 
 
 int		builtin_exec(t_exec *exec, t_list **envp_list);
+int		envp_print(t_list *envp_list);
+int		unset(char **cmd, t_list *envp_list);
+int		export(char **cmd, t_list **envp_list);
 char	**envp_matrix(t_list *list_envp);
 t_list	*make_envp_list(char **envp, t_list *envp_list);
 void	set_pwd(t_list *envp_list);
+
 char	*handle_dollar(char *input);
+char	*handle_quotes_dollar(char *input);
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

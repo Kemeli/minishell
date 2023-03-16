@@ -41,6 +41,7 @@ char	*get_env(char *var, t_list *list_envp)
 		{
 			temp = ft_strdup (aux->content);
 			expanded = ft_substr (temp, ft_strlen(var) + 1, ft_strlen(temp));
+			free (join);
 			free (temp);
 			return (expanded);
 		}

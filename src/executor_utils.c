@@ -1,6 +1,45 @@
 
 #include <minishell.h>
 
+char	*check_acess(char *path, char **paths, char *slash_cmd)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], slash_cmd);
+		if (!access (path, F_OK))
+			return (path);
+		i++;
+		free (path); //talvez jogar esse free p cima
+		path = NULL;
+	}
+	return (NULL);
+}
+
+char	*get_path(char *cmd, t_list *envp_list)
+{
+	char	*path;
+	char	**paths;
+	char	*slash_cmd;
+	char	*aux;
+
+	path = NULL;
+	aux = get_env("PATH", envp_list);
+	if (aux)
+	{
+		paths = ft_split(aux, ':');
+		free (aux);
+		slash_cmd = ft_strjoin("/", cmd);
+		if (!ft_strchr(cmd, '/'))
+			path = check_acess(path, paths, slash_cmd);
+		free_matrix (paths);
+		free (slash_cmd);
+	}
+	return (path);
+}
+
 char	*slash_cmd_handle(char *cmd)
 {
 	char	*check_slash;
@@ -49,40 +88,6 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	}
 	exec->cmd[++i] = NULL;
 	return (aux);
-}
-
-char	*get_path(char *cmd, t_list *envp_list)
-{
-	int		i;
-	char	*path = NULL;
-	char	**paths;
-	char	*slash_cmd;
-	char	*aux;
-
-	aux = get_env("PATH", envp_list);
-	if (aux)
-	{
-		paths = ft_split(aux, ':');
-		free (aux);
-
-		slash_cmd = ft_strjoin("/", cmd);
-		i = 0;
-		if (!ft_strchr(cmd, '/'))
-		{
-			while (paths[i])
-			{
-				path = ft_strjoin(paths[i], slash_cmd);
-				if (!access (path, F_OK))
-					break;
-				i++;
-				free (path); //talvez jogar esse free p cima
-				path = NULL;
-			}
-		}
-		free_matrix (paths);
-		free (slash_cmd);
-	}
-	return (path);
 }
 
 t_token	*cmd_handler(t_token *list, t_exec *exec)

@@ -4,13 +4,16 @@ SRC =		main.c \
 			input_handler.c \
 			free.c \
 			expander.c \
-			quotes.c \
+			input_utils.c \
 			sintax.c \
 			executor.c \
 			redirect.c \
+			heredoc.c \
 			env.c \
 			executor_utils.c \
-			builtin.c \
+			lexer_utils.c \
+			builtins/builtin.c \
+			builtins/env_builtins.c \
 			signals/handlers.c \
 			signals/listeners.c
 

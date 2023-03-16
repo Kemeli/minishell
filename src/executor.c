@@ -15,11 +15,12 @@ void	close_fd(int **fd)
 		i++;
 }
 
-void	end_procesess(t_exec *exec)
+void	end_parent(t_exec *exec)
 {
 	unlink ("__heredoc");
 	close_fd(exec->fd);
 	free_int_mat(exec->fd);
+	free_matrix(exec->envp_ms);
 }
 
 void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list, char **input)
@@ -82,15 +83,15 @@ void	child_process(int i, t_exec *exec, t_redirect *redirect, t_token *aux, t_li
 	else if (exec->cmd && !is_builtin)
 		exec_error(exec->cmd[0]);
 	free_child (exec, redirect, aux, envp_list, input);
-	exit(EXIT_FAILURE);
+	exit(127);
 }
 
 void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 {
-	int	i;
-	t_redirect *redirect;
-	t_token	*aux;
-	int	is_builtin;
+	int			i;
+	t_redirect	*redirect;
+	t_token		*aux;
+	int			is_builtin;
 
 	aux = list;
 	i = 0;
@@ -116,20 +117,20 @@ void	exec_child(t_token *list, t_exec *exec, t_list *envp,  char **input)
 		exec->process--;
 		i++;
 	}
-	end_procesess (exec);
+	end_parent (exec);
 	waitpid(exec->pid, 0, 0);
 	waitpid(-1, NULL, 0);
 	shell.current_pid = 0;
 }
 
-void	start_exec(t_exec *exec, t_token *list, t_list *envp_list, char **input)
+void	start_fd(t_exec *exec)
 {
 	int	i;
 	int	j;
-	exec->fd = ft_calloc(exec->process, sizeof(int *));
 
 	i = 1;
 	j = 0;
+	exec->fd = ft_calloc(exec->process, sizeof(int *));
 	while (i < exec->process)
 	{
 		exec->fd[j] = ft_calloc(2, sizeof(int));
@@ -138,13 +139,14 @@ void	start_exec(t_exec *exec, t_token *list, t_list *envp_list, char **input)
 		pipe(exec->fd[j++]);
 		i++;
 	}
-	exec_child(list, exec, envp_list, input);
 }
 
 void	execute(t_token *list, t_list *envp_list, char **input)
 {
 	t_token	*aux;
-	t_exec	*exec = ft_calloc(sizeof(t_exec), 1);
+	t_exec	*exec;
+
+	exec = ft_calloc(sizeof(t_exec), 1);
 	exec->process = 1;
 	aux = list;
 	while (aux)
@@ -154,7 +156,7 @@ void	execute(t_token *list, t_list *envp_list, char **input)
 		aux = aux->next;
 	}
 	aux = list;
-	start_exec(exec, aux, envp_list, input);
-	free_matrix(exec->envp_ms);
+	start_fd(exec);
+	exec_child(list, exec, envp_list, input);
 	free (exec);
 }

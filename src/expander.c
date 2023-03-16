@@ -1,5 +1,5 @@
-#include <minishell.h>
 
+#include <minishell.h>
 
 int	is_env_char(int c)
 {
@@ -10,7 +10,7 @@ int	is_env_char(int c)
 	return (0);
 }
 
-char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
+char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 {
 	char	*sub;
 	char	*trim;
@@ -35,7 +35,7 @@ char	*getenv_check(char *input, t_env_utils *env, t_list *list_envp)
 	return (env->test);
 }
 
-char	*input_expander(char *new_input, t_env_utils *env)
+char	*input_expander(char *new_input, t_envar *env)
 {
 	env->temp = ft_strjoin(new_input, env->get_ret);
 	env->test = NULL;
@@ -47,35 +47,35 @@ char	*input_expander(char *new_input, t_env_utils *env)
 	return (new_input);
 }
 
+char	*cpy_bytes(t_envar *env, char *new_input, char *input)
+{
+	env->ch_cpy = ft_substr(input, env->i, 1);
+	env->ch_join = ft_strjoin(new_input, env->ch_cpy);
+	free(env->ch_cpy);
+	free(new_input);
+	new_input = env->ch_join;
+	env->i++;
+	return (new_input);
+}
+
 char *get_expanded_var(char *input, t_list *list_envp, int hd)
 {
-	char *new_input;
-	int sp_quotes = 0;
-	int	db_quotes = 0;
-	t_env_utils *env;
+	t_envar	*env;
+	char		*new_input;
 
 	if (!ft_strchr(input, '$'))
 		return (input);
-	env = ft_calloc(sizeof (t_env_utils), 1);
+	env = ft_calloc(sizeof (t_envar), 1);
 	new_input = ft_calloc(ft_strlen(input), 1);
 	while (input[env->i])
 	{
 		if (input[env->i] == '\"')
-			db_quotes = !db_quotes;
-
-		if (input[env->i] == '\'' && !db_quotes  && !hd)
-			sp_quotes = !sp_quotes;
-
-		if (input[env->i] != '$' || sp_quotes)
-		{
-			env->ch_cpy = ft_substr(input, env->i, 1);
-			env->ch_join = ft_strjoin(new_input, env->ch_cpy);
-			free(env->ch_cpy);
-			free(new_input);
-			new_input = env->ch_join;
-			env->i++;
-		}
-		else if (input[env->i] == '$' && !sp_quotes)
+			env->db_quotes = !env->db_quotes;
+		if (input[env->i] == '\'' && !env->db_quotes && !hd)
+			env->sp_quotes = !env->sp_quotes;
+		if (input[env->i] != '$' || env->sp_quotes)
+			new_input = cpy_bytes(env, new_input, input); //leak?
+		else if (input[env->i] == '$' && !env->sp_quotes)
 		{
 			env->get_ret = getenv_check(input, env, list_envp);
 			new_input = input_expander(new_input, env);
