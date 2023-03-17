@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/15 21:46:55 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/17 01:59:44 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ typedef struct s_exec
 {
 	char	**cmd;
 	char	*path;
-	int		process;
+	int		to_process;
+	int		ended_proc;
 	int		**fd;
 	int		pid;
 	char	**envp_ms;
+	char	**input;
 } t_exec;
 
 typedef struct s_token
@@ -104,34 +106,59 @@ typedef struct s_shell
 
 extern t_shell	shell;
 
+t_list	*make_envp_list(char **envp, t_list *envp_list);
+
+/******************************************************************************\
+* HANDLE INPUT																   *
+\******************************************************************************/
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);
 char	*input_separator(char *input);
+char	*handle_dollar(char *input);
+char	*handle_quotes_dollar(char *input);
+
+/******************************************************************************\
+* ENVIRONMENTAL VARIABLE													   *
+\******************************************************************************/
+
 void	env_var_checker(t_token *list, t_envar *env);
 char	*get_expanded_var(char *input, t_list *list_envp, int hd);
 int		is_env_char(int c);
 char	*get_env(char *var, t_list *list_envp);
 
+/******************************************************************************\
+* LEXER																		   *
+\******************************************************************************/
+
 t_token	*lexer(char **input, t_token *list);
 void	sintax(t_token *list);
 
-void	execute(t_token *list, t_list *envp_list, char **input);
+/******************************************************************************\
+* EXECUTE																	   *
+\******************************************************************************/
+
+void	execute(t_token *list, t_list *envp_list, t_exec *exec);
 void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
 void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
 char	*get_path(char *cmd, t_list *envp_list);
-t_token	*cmd_handler(t_token *list, t_exec *exec);
-
-
-int		builtin_exec(t_exec *exec, t_list **envp_list);
-int		envp_print(t_list *envp_list);
-int		unset(char **cmd, t_list *envp_list);
-int		export(char **cmd, t_list **envp_list);
+t_token	*get_cmd_matrix(t_token *list, t_exec *exec);
+void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 char	**envp_matrix(t_list *list_envp);
-t_list	*make_envp_list(char **envp, t_list *envp_list);
+void	close_fd(int **fd);
+
+/******************************************************************************\
+* BUILTINS																	   *
+\******************************************************************************/
+
+int		try_builtin_exec(t_exec *exec, t_list **envp_list);
+int		ft_env(t_list *envp_list);
+int		ft_unset(char **cmd, t_list *envp_list);
+int		ft_export(char **cmd, t_list **envp_list);
 void	set_pwd(t_list *envp_list);
 
-char	*handle_dollar(char *input);
-char	*handle_quotes_dollar(char *input);
+/******************************************************************************\
+* FREE																		   *
+\******************************************************************************/
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);

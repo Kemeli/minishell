@@ -33,30 +33,6 @@ char	*check_acess(char *path, char **paths, char *slash_cmd)
 	return (NULL);
 }
 
-// char	*get_path(char *cmd, t_list *envp_list)
-// {
-// 	char	*path;
-// 	char	**paths;
-// 	char	*slash_cmd;
-// 	char	*aux;
-
-// 	path = NULL;
-// 	aux = get_env("PATH", envp_list);
-// 	paths = ft_split(aux, ':');
-// 	slash_cmd = ft_strjoin("/", cmd);
-// 	if (aux)
-// 	{
-// 		free (aux);
-// 		if (!ft_strchr(cmd, '/'))
-// 			path = check_acess(path, paths, slash_cmd);
-// 	}
-// 	if (!path)
-// 		path = check_executable(slash_cmd);
-// 	free_matrix (paths);
-// 	free (slash_cmd);
-// 	return (path);
-// }
-
 char	*get_path(char *cmd, t_list *envp_list)
 {
 	int		i;
@@ -133,7 +109,7 @@ t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	return (aux);
 }
 
-t_token	*cmd_handler(t_token *list, t_exec *exec)
+t_token	*get_cmd_matrix(t_token *list, t_exec *exec)
 {
 	t_token	*aux;
 

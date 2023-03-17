@@ -11,6 +11,7 @@ SRC =		main.c \
 			heredoc.c \
 			env.c \
 			executor_utils.c \
+			child.c \
 			lexer_utils.c \
 			builtins/builtin.c \
 			builtins/env_builtins.c \

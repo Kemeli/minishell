@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-int	envp_print(t_list *envp_list)
+int	ft_env(t_list *envp_list)
 {
 	t_list	*aux;
 
@@ -14,7 +14,7 @@ int	envp_print(t_list *envp_list)
 	return (1);
 }
 
-int	unset(char **cmd, t_list *envp_list)
+int	ft_unset(char **cmd, t_list *envp_list)
 {
 	t_list	*aux;
 	int	check;
@@ -59,14 +59,14 @@ static void	update_envp(t_list **envp, char *cmd)
 	ft_lstadd_back(envp, node);
 }
 
-int	export(char **cmd, t_list **envp_list)
+int	ft_export(char **cmd, t_list **envp_list)
 {
 	int		i;
 	int		j;
 
 	i = 1;
 	if (!cmd[1])
-		envp_print(*envp_list);
+		ft_env(*envp_list);
 	while (cmd[i])
 	{
 		j = 0;

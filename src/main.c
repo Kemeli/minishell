@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/16 19:57:56 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/17 02:17:13 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	print_list(t_token *list) //essa função vai sair
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
+	t_exec	*exec;
 	t_list	*envp_list = NULL;
-	char	**input;
 
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
@@ -41,19 +41,20 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		list = NULL;
-		input = get_input(envp_list);
-		if (input)
+		exec = ft_calloc(sizeof(t_exec), 1);
+		exec->input = get_input(envp_list);
+		if (exec->input)
 		{
-			list = lexer(input, list);
+			list = lexer(exec->input, list);
 			// print_list(list); //tirar
 			if (list)
 			{
 				sintax(list);
-				execute(list, envp_list, input);
+				execute(list, envp_list, exec);
 				free_list(list);
 			}
-			free_matrix(input);
 		}
+		free (exec);
 	}
 	free_shell();
 }

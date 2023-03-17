@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-int	echo(char **cmd)
+int	ft_echo(char **cmd)
 {
 	int	i;
 	int	new_line;
@@ -28,7 +28,7 @@ int	echo(char **cmd)
 	return (1);
 }
 
-int	pwd()
+int	ft_pwd()
 {
 	char	*pwd;
 
@@ -39,7 +39,7 @@ int	pwd()
 	return (1);
 }
 
-int	cd(char **cmd, t_list *envp_list)
+int	ft_cd(char **cmd, t_list *envp_list)
 {
 	char	*path;
 
@@ -59,7 +59,7 @@ int	cd(char **cmd, t_list *envp_list)
 	return (1);
 }
 
-int	exit_ms(char **cmd)
+int	ft_exit(char **cmd)
 {
 	int	status;
 
@@ -75,29 +75,27 @@ int	exit_ms(char **cmd)
 	exit(status);
 }
 
-int	builtin_exec(t_exec *exec, t_list **envp_list)
+int	try_builtin_exec(t_exec *exec, t_list **envp_list)
 {
 	int	ret;
-	// int	size;
 
 	ret = 0;
 	if (exec->cmd)
 	{
-		// size = ft_strlen (exec->cmd[0]); //checar leaks
 		if (!ft_strncmp(exec->cmd[0], "echo", 5))
-			ret = echo (exec->cmd);
+			ret = ft_echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", 4))
-			ret = envp_print(*envp_list);
+			ret = ft_env(*envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 3))
-			ret = cd(exec->cmd, *envp_list);
+			ret = ft_cd(exec->cmd, *envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 4))
-			ret = pwd();
+			ret = ft_pwd();
 		else if (!ft_strncmp(exec->cmd[0], "export", 7))
-			ret = export(exec->cmd, envp_list);
+			ret = ft_export(exec->cmd, envp_list);
 		else if (!ft_strncmp(exec->cmd[0], "exit", 5))
-			ret = exit_ms(exec->cmd);
+			ret = ft_exit(exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "unset", 6))
-			ret = unset (exec->cmd, *envp_list);
+			ret = ft_unset (exec->cmd, *envp_list);
 	}
 	return (ret);
 }
