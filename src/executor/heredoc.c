@@ -56,6 +56,7 @@ static char *start_heredoc(t_token **aux)
 	i = 0;
 	input = ft_calloc(sizeof (char *), 1);
 	eof = eof_matrix(aux);
+	shell.state = S_RDWR;
 	while (1)
 	{
 		read = readline(">");
