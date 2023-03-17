@@ -63,7 +63,7 @@ char *get_expanded_var(char *input, t_list *list_envp, int hd)
 	t_envar	*env;
 	char		*new_input;
 
-	if (!ft_strchr(input, '$'))
+	if (input && !ft_strchr(input, '$'))
 		return (input);
 	env = ft_calloc(sizeof (t_envar), 1);
 	new_input = ft_calloc(ft_strlen(input), 1);

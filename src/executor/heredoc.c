@@ -66,11 +66,9 @@ static char *start_heredoc(t_token **aux)
 			if (!eof[++i])
 				break;
 			free(read);
-			free (input);
-			input = ft_calloc(sizeof (char *), 1);
 		}
 		else
-			join_heredoc_input(input, read);
+			input = join_heredoc_input(input, read);
 	}
 	free_matrix (eof);
 	return (input);
