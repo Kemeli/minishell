@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-int	is_builtin(char *cmd)
+static int	is_builtin(char *cmd)
 {
 	const char *built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
 	int i;
@@ -16,29 +16,9 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	check_type(t_token *token)
+static void	check_cmd_type(t_token *token)
 {
-	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
-		token->type = IN_REDIRECT;
-	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
-		token->type = OUT_REDIRECT;
-	else if (!ft_strncmp(token->cmd, "|", ft_strlen(token->cmd)))
-		token->type = PIPE;
-	else if (!ft_strncmp(token->cmd, "<<", ft_strlen(token->cmd)))
-		token->type = HEREDOC;
-	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
-		token->type = APPEND;
-
-	else if (token->prev && token->prev->type == IN_REDIRECT)
-		token->type = INFILE;
-	else if (token->prev && token->prev->type == OUT_REDIRECT)
-		token->type = OUTFILE;
-	else if (token->prev && token->prev->type == APPEND)
-		token->type = APPEND_OUT;
-	else if (token->prev && token->prev->type == HEREDOC)
-		token->type = HERE_ARG;
-
-	else if (token->prev && token->prev->type == SYS_CMD)
+	if (token->prev && token->prev->type == SYS_CMD)
 		token->type = ARGUMENT;
 	else if (token->prev && token->prev->type == ARGUMENT)
 		token->type = ARGUMENT;
@@ -50,7 +30,29 @@ void	check_type(t_token *token)
 		token->type = SYS_CMD;
 }
 
-t_token	*get_list(t_token *new_token, t_token *list)
+static void	check_redirect_type(t_token *token)
+{
+	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
+		token->type = IN_REDIRECT;
+	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
+		token->type = OUT_REDIRECT;
+	else if (!ft_strncmp(token->cmd, "|", ft_strlen(token->cmd)))
+		token->type = PIPE;
+	else if (!ft_strncmp(token->cmd, "<<", ft_strlen(token->cmd)))
+		token->type = HEREDOC;
+	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
+		token->type = APPEND;
+	else if (token->prev && token->prev->type == IN_REDIRECT)
+		token->type = INFILE;
+	else if (token->prev && token->prev->type == OUT_REDIRECT)
+		token->type = OUTFILE;
+	else if (token->prev && token->prev->type == APPEND)
+		token->type = APPEND_OUT;
+	else if (token->prev && token->prev->type == HEREDOC)
+		token->type = HERE_ARG;
+}
+
+static t_token	*get_list(t_token *new_token, t_token *list)
 {
 	t_token	*aux;
 
@@ -81,7 +83,9 @@ t_token	*lexer(char **input, t_token *list)
 			new = ft_calloc(sizeof(t_token), 1);
 			list = get_list(new, list);
 			new->cmd = ft_strdup(input[i]);
-			check_type(new);
+			check_redirect_type(new);
+			if (!new->type)
+				check_cmd_type(new);
 		}
 	}
 	return (list);

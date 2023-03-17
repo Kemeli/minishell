@@ -10,7 +10,7 @@ int	is_env_char(int c)
 	return (0);
 }
 
-char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
+static char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 {
 	char	*sub;
 	char	*trim;
@@ -35,7 +35,7 @@ char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 	return (env->test);
 }
 
-char	*input_expander(char *new_input, t_envar *env)
+static char	*input_expander(char *new_input, t_envar *env)
 {
 	env->temp = ft_strjoin(new_input, env->get_ret);
 	env->test = NULL;
@@ -47,7 +47,7 @@ char	*input_expander(char *new_input, t_envar *env)
 	return (new_input);
 }
 
-char	*cpy_bytes(t_envar *env, char *new_input, char *input)
+static char	*cpy_bytes(t_envar *env, char *new_input, char *input)
 {
 	env->ch_cpy = ft_substr(input, env->i, 1);
 	env->ch_join = ft_strjoin(new_input, env->ch_cpy);

@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 01:59:44 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:44:48 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,19 +131,21 @@ char	*get_env(char *var, t_list *list_envp);
 \******************************************************************************/
 
 t_token	*lexer(char **input, t_token *list);
-void	sintax(t_token *list);
+int	sintax(t_token *list);
 
 /******************************************************************************\
 * EXECUTE																	   *
 \******************************************************************************/
 
-void	execute(t_token *list, t_list *envp_list, t_exec *exec);
+void	start_exec(t_token *list, t_list *envp_list, t_exec *exec);
 void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
 void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
+char	**eof_matrix(t_token **aux);
 char	*get_path(char *cmd, t_list *envp_list);
 t_token	*get_cmd_matrix(t_token *list, t_exec *exec);
 void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 char	**envp_matrix(t_list *list_envp);
+void	start_fd(t_exec *exec);
 void	close_fd(int **fd);
 
 /******************************************************************************\

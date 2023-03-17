@@ -1,28 +1,28 @@
 
 #include <minishell.h>
 
-int	check_next_pos(char first, char second)
+static int	check_next_pos(char first, char second)
 {
 	if (first == second)
 		return (1);
 	return (0);
 }
 
-int	space_checker(char input_position)
+static int	space_checker(char input_position)
 {
 	if (input_position != ' ')
 		return (0);
 	return (1);
 }
 
-int	quote_checker(char input_position)
+static int	quote_checker(char input_position)
 {
 	if (input_position == '\'' || input_position == '\"')
 		return (1);
 	return (0);
 }
 
-char	*meta_separator(char *str, char *input, t_input_utils *in)
+static char	*meta_separator(char *str, char *input, t_input_utils *in)
 {
 	if (input[in->i] == '<' || input[in->i] == '>')
 	{
@@ -36,7 +36,7 @@ char	*meta_separator(char *str, char *input, t_input_utils *in)
 	}
 	else if (input[in->i] == '|' )
 	{
-		if (input[in->i - 1] && !space_checker(input[in->i - 1]))
+		if (in->i > 0 && !space_checker(input[in->i - 1]))
 			str[in->j++] = SEPARATOR;
 		str[in->j] = input[in->i];
 		if (input[in->i + 1] && !space_checker(input[in->i + 1]))

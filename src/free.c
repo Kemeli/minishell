@@ -9,10 +9,12 @@ void	free_matrix(char **input)
 	while (input && input[i])
 	{
 		free(input[i]);
+		input[i] = NULL;
 		i++;
 	}
 	if (input)
 		free(input);
+	input = NULL;
 }
 
 void	free_int_mat(int **input)
@@ -37,7 +39,10 @@ void	free_list(t_token *list)
 		aux = list;
 		list = list->next;
 		free(aux->cmd);
+		aux->cmd = NULL;
 		free(aux);
+		aux = NULL;
 	}
 	free(list);
+	list = NULL;
 }

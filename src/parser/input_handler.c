@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-char	**get_input_matrix(char *input)
+static char	**get_input_matrix(char *input)
 {
 	char	**input_matrix;
 	char	*handled_input;
@@ -12,7 +12,7 @@ char	**get_input_matrix(char *input)
 	return (input_matrix);
 }
 
-int	opened_quotes(char *input)
+static int	check_opened_quotes(char *input)
 {
 	int	i;
 	int	key_s;
@@ -38,7 +38,7 @@ int	opened_quotes(char *input)
 	return (0);
 }
 
-char	*pipe_input(char *input)
+static char	*check_handle_pipe(char *input)
 {
 	char	*rest_of_input;
 	char	*join_input;
@@ -66,17 +66,17 @@ char	**get_input(t_list *list_envp)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		free_shell();
-		exit(0);
-		return (NULL);
+		exit(0); //pq desse exit?
+		return (NULL); //pq o null depois do exit?
 	}
 	if (!*temp_input)
 		return (NULL);
 	add_history(temp_input);
-	input = pipe_input(temp_input);
-	if (opened_quotes(input))
+	input = check_handle_pipe(temp_input);
+	if (check_opened_quotes(input))
 	{
 		ft_putstr_fd("error: opened quotes\n", 2);
-		return (0); //exit com free
+		return (NULL);
 	}
 	input = get_expanded_var(input, list_envp, 0);
 	input_matrix = get_input_matrix(input);

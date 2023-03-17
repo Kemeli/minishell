@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-char	*check_executable(char *cmd)
+static char	*check_executable(char *cmd)
 {
 	char	*curr_dir;
 	char	*path;
@@ -16,7 +16,7 @@ char	*check_executable(char *cmd)
 	return (NULL);
 }
 
-char	*check_acess(char *path, char **paths, char *slash_cmd)
+static char	*check_acess(char *path, char **paths, char *slash_cmd)
 {
 	int	i;
 
@@ -59,7 +59,7 @@ char	*get_path(char *cmd, t_list *envp_list)
 	return (path);
 }
 
-char	*slash_cmd_handle(char *cmd)
+static char	*slash_cmd_handle(char *cmd)
 {
 	char	*check_slash;
 	char	*absolut_cmd;
@@ -81,7 +81,7 @@ char	*slash_cmd_handle(char *cmd)
 	return (cmd);
 }
 
-t_token	*cmd_matrix(t_token *aux, t_exec *exec)
+static t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 {
 	t_token	*cmd_list;
 	int		i;

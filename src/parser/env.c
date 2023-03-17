@@ -2,27 +2,6 @@
 
 #include <minishell.h>
 
-char	**envp_matrix(t_list *list_envp)
-{
-	int		i;
-	int		size;
-	char	**envp_mat;
-	t_list	*aux;
-
-	aux = list_envp;
-	size = ft_lstsize(aux);
-	envp_mat = ft_calloc(sizeof (char *), size + 1);
-	i = 0;
-	while (i < size && aux)
-	{
-		envp_mat[i] = ft_strdup(aux->content);
-		aux = aux->next;
-		i++;
-	}	
-	envp_mat[i] = NULL;
-	return (envp_mat);
-}
-
 char	*get_env(char *var, t_list *list_envp)
 {
 	char	*join;

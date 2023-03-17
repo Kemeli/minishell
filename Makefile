@@ -1,22 +1,24 @@
 
 SRC =		main.c \
-			lexer.c \
-			input_handler.c \
-			free.c \
-			expander.c \
-			input_utils.c \
-			sintax.c \
-			executor.c \
-			redirect.c \
-			heredoc.c \
-			env.c \
-			executor_utils.c \
-			child.c \
-			lexer_utils.c \
+			parser/lexer.c \
+			parser/input_handler.c \
+			parser/expander.c \
+			parser/input_utils.c \
+			parser/sintax.c \
+			parser/env.c \
+			parser/lexer_utils.c \
+			executor/executor.c \
+			executor/redirect.c \
+			executor/heredoc.c \
+			executor/executor_utils.c \
+			executor/child.c \
+			executor/heredoc_utils.c \
+			executor/cmd_utils.c \
 			builtins/builtin.c \
 			builtins/env_builtins.c \
 			signals/handlers.c \
-			signals/listeners.c
+			signals/listeners.c \
+			free.c \
 
 LIBFT =		libft/libft.a
 

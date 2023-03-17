@@ -7,13 +7,13 @@ static int  ignore_invalid_input(char *input, int i)
 	i++;
 	if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
 	{
-        i++;
-        while (input[i] && is_env_char(input[i]))
-	        i++;
+		i++;
+		while (input[i] && is_env_char(input[i]))
+			i++;
 	}
 	else if (input[i] && ft_isdigit(input[i]))
-        i++;
-    return (i);
+		i++;
+	return (i);
 }
 
 char	*handle_dollar(char *input)
@@ -38,7 +38,7 @@ char	*handle_dollar(char *input)
 			i++;
 		}
 		if (input[i] && ft_strchr ("$", input[i]))
-           i = ignore_invalid_input(input, i);
+		   i = ignore_invalid_input(input, i);
 	}
 	free (input);
 	return (ret);
@@ -58,7 +58,7 @@ static char	*cut_quotes(char *str)
 		while (str[i])
 		{
 			while (str[i] && ft_strchr("\"\'", str[i]))
-                i++;
+				i++;
 			if (str && str[i])
 			{
 				chr = ft_substr(str, i, 1);

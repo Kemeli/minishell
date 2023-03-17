@@ -80,7 +80,7 @@ int	try_builtin_exec(t_exec *exec, t_list **envp_list)
 	int	ret;
 
 	ret = 0;
-	if (exec->cmd)
+	if (exec->cmd[0])
 	{
 		if (!ft_strncmp(exec->cmd[0], "echo", 5))
 			ret = ft_echo (exec->cmd);
