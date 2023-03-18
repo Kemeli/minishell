@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 14:30:13 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/18 02:18:45 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int	main(int argc, char **argv, char **envp)
 				start_exec(list, envp_list, exec);
 				free_list(list);
 			}
+		}
+		else
+		{
+			free (exec);
+			exit(0);
 		}
 		free (exec);
 	}
