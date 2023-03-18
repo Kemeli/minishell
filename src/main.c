@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 14:30:13 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:04:00 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		printf ("ARGS");
 	envp_list = make_envp_list(envp, envp_list);
 	shell.envp_list = envp_list;
-	set_listeners();
+	set_application_listeners();
 	while (1)
 	{
 		list = NULL;

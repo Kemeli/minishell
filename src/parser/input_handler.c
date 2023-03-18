@@ -61,6 +61,7 @@ char	**get_input(t_list *list_envp)
 	char	*temp_input;
 	char	**input_matrix;
 
+	shell.state = S_READ;
 	temp_input = readline("minishell> ");
 	if (temp_input == NULL)
 	{

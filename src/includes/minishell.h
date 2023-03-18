@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 18:44:48 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:55:18 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ typedef struct s_redirect
 	int	here_file;
 }	t_redirect;
 
+typedef enum e_state
+{
+	S_RDWR,		// Reading and writing to the terminal
+	S_READ,		// Reading from the terminal
+	S_EXEC		// Executing some binary or builtin
+} t_state;
+
 typedef struct s_exec
 {
 	char	**cmd;
@@ -102,6 +109,7 @@ typedef struct s_shell
 {
 	t_list	*envp_list;
 	int		current_pid;
+	t_state	state;
 } t_shell;
 
 extern t_shell	shell;
@@ -174,6 +182,8 @@ void	free_shell(void);
 
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
-void	set_listeners(void);
+void	set_application_listeners(void);
+void	reset_application_listeners(void);
+void	reset_signal(int signal);
 
 #endif

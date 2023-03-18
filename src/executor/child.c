@@ -47,6 +47,7 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 		exec->path = get_path(exec->cmd[0], envp);
 	if (exec->path && !is_builtin)
 	{
+		shell.state = S_EXEC;
 		exec->envp_ms = envp_matrix(envp);
 		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
 			perror(exec->cmd[0]);

@@ -20,17 +20,32 @@
 /* SIGINT = Ctrl + C */
 void	handle_sigint(int sig)
 {
+	int	stat;
+
 	(void)sig;
-	if (shell.current_pid != 0)
+	if (shell.current_pid != 0 && shell.state == S_EXEC)
 	{
 		kill(shell.current_pid, SIGINT);
 		ft_putchar_fd('\n', STDERR_FILENO);
 		return ;
 	}
-	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (shell.state == S_READ)
+	{
+		ft_putchar_fd('\n', STDERR_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		return ;
+	}
+	if (shell.state == S_RDWR)
+	{
+		printf("shell.current_pid: %i\n", shell.current_pid);
+		kill(shell.current_pid, SIGTERM);
+		ft_putchar_fd('\n', STDERR_FILENO);
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
+	}
 }
 
 /* SIGQUIT = Ctrl + \ */

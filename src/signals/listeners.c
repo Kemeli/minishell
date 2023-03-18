@@ -36,8 +36,25 @@ static void	set_ctrl_back_slash(void)
 		printf("Error installing SIGQUIT handler\n");
 }
 
-void	set_listeners(void)
+void	set_application_listeners(void)
 {
 	set_ctrl_back_slash();
 	set_ctrl_c();
+}
+
+void	reset_application_listeners(void)
+{
+	reset_signal(SIGINT);
+	reset_signal(SIGQUIT);
+}
+
+void	reset_signal(int sig)
+{
+	signal(sig, SIG_DFL); // TODO: Try to work with sigaction instead
+
+	// struct sigaction act;
+
+	// sigemptyset(&act.sa_mask);
+	// act.sa_flags = 0;
+	// act.sa_handler = sig;
 }

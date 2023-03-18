@@ -51,26 +51,35 @@ static char *start_heredoc(t_token **aux)
 	char	*read;
 	char	*input;
 	char	**eof;
+	int		stat;
 	int		i;
 
 	i = 0;
 	input = ft_calloc(sizeof (char *), 1);
 	eof = eof_matrix(aux);
-	while (1)
+	shell.state = S_RDWR;
+	shell.current_pid = fork();
+	if (shell.current_pid == 0)
 	{
-		read = readline(">");
-		if (!read)
-			break;
-		if (eof[i] && !ft_strncmp(read, eof[i], ft_strlen(eof[i])))
+		while (1)
 		{
-			if (!eof[++i])
+			read = readline(">");
+			if (!read)
 				break;
-			free(read);
+			if (eof[i] && !ft_strncmp(read, eof[i], ft_strlen(eof[i])))
+			{
+				if (!eof[++i])
+					break;
+				free(read);
+			}
+			else
+				input = join_heredoc_input(input, read);
 		}
-		else
-			input = join_heredoc_input(input, read);
+		free_matrix(eof);
+		return (input);
 	}
-	free_matrix (eof);
+	waitpid(shell.current_pid, &stat, 0);
+	free_matrix(eof);
 	return (input);
 }
 
