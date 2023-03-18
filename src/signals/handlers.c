@@ -20,6 +20,8 @@
 /* SIGINT = Ctrl + C */
 void	handle_sigint(int sig)
 {
+	int	stat;
+
 	(void)sig;
 	if (shell.current_pid != 0 && shell.state == S_EXEC)
 	{
@@ -37,10 +39,12 @@ void	handle_sigint(int sig)
 	}
 	if (shell.state == S_RDWR)
 	{
+		printf("shell.current_pid: %i\n", shell.current_pid);
+		kill(shell.current_pid, SIGTERM);
 		ft_putchar_fd('\n', STDERR_FILENO);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
 	}
 }
 

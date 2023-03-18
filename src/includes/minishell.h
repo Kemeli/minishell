@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 19:24:34 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:55:18 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ void	free_shell(void);
 
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
-void	set_listeners(void);
+void	set_application_listeners(void);
+void	reset_application_listeners(void);
+void	reset_signal(int signal);
 
 #endif
