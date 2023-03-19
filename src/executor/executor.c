@@ -48,8 +48,19 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 		exec->ended_proc++;
 	}
 	end_parent (exec);
-	waitpid(exec->pid, 0, 0);
-	waitpid(-1, NULL, 0);
+	// waitpid(exec->pid, 0, 0);
+	// waitpid(-1, NULL, 0);
+
+
+	int status = 0;
+	int exit_status = 0;
+	waitpid(exec->pid, &status, 0);
+
+	if (WIFEXITED(status)) {
+		exit_status = WEXITSTATUS(status);
+		shell.exit_status = exit_status;
+	}
+
 	shell.current_pid = 0;
 }
 

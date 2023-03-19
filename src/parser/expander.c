@@ -1,15 +1,6 @@
 
 #include <minishell.h>
 
-int	is_env_char(int c)
-{
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')
-	{
-		return (1);
-	}
-	return (0);
-}
-
 static char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 {
 	char	*sub;
@@ -58,7 +49,27 @@ static char	*cpy_bytes(t_envar *env, char *new_input, char *input)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input, t_list *list_envp, int hd)
+char	*expander(char *input, t_envar *env, char *new_input, t_list *envp)
+{
+	if (input[++env->i] && input[env->i] == '?')
+	{
+		env->status = ft_itoa (shell.exit_status);
+		env->stt_join = ft_strjoin (new_input, env->status); //n pode fazer isso leak
+		free(new_input);
+		new_input = ft_strdup(env->stt_join);
+		env->i += 1;
+	}
+	else
+	{
+		env->i--;
+		env->get_ret = getenv_check(input, env, envp);
+		new_input = input_expander(new_input, env);
+		free (env->get_ret);
+	}
+	return (new_input);
+}
+
+char *get_expanded_var(char *input, t_list *envp, int hd)
 {
 	t_envar	*env;
 	char		*new_input;
@@ -76,11 +87,7 @@ char *get_expanded_var(char *input, t_list *list_envp, int hd)
 		if (input[env->i] != '$' || env->sp_quotes)
 			new_input = cpy_bytes(env, new_input, input); //leak?
 		else if (input[env->i] == '$' && !env->sp_quotes)
-		{
-			env->get_ret = getenv_check(input, env, list_envp);
-			new_input = input_expander(new_input, env);
-			free (env->get_ret);
-		}
+			new_input = expander (input, env, new_input, envp);
 	}
 	free(env);
 	free (input);

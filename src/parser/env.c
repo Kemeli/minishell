@@ -63,3 +63,12 @@ void	set_pwd(t_list *envp_list)
 		free (temp);
 	}
 }
+
+int	is_env_char(int c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')
+	{
+		return (1);
+	}
+	return (0);
+}

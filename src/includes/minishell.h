@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/17 18:44:48 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/19 14:54:45 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,14 @@ typedef struct s_envar
 	int		open_quotes;
 	char	*env_var;
 	char	*test;
-	char	*temp;
 	char	*ch_join;
 	char	*ch_cpy;
 	char	*get_ret;
-
+	char	*status;
 	int		sp_quotes;
 	int		db_quotes;
+	char	*temp;
+	char	*stt_join;
 }	t_envar;
 
 typedef struct s_redirect
@@ -88,6 +89,8 @@ typedef struct s_exec
 	int		pid;
 	char	**envp_ms;
 	char	**input;
+	int		status;
+	int		exit_status;
 } t_exec;
 
 typedef struct s_token
@@ -102,6 +105,8 @@ typedef struct s_shell
 {
 	t_list	*envp_list;
 	int		current_pid;
+
+	int		exit_status;
 } t_shell;
 
 extern t_shell	shell;
