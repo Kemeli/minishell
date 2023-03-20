@@ -39,7 +39,7 @@ int	ft_pwd()
 	return (1);
 }
 
-int	ft_cd(char **cmd, t_list *envp_list)
+int	ft_cd(char **cmd, t_list *envp_list) //setar oldpwd?
 {
 	char	*path;
 
@@ -59,23 +59,39 @@ int	ft_cd(char **cmd, t_list *envp_list)
 	return (1);
 }
 
-int	ft_exit(char **cmd)
+int	ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir)
 {
 	int	status;
+	int	i;
 
 	status = 0;
-	if (cmd[1] == NULL)
-		exit(status);
-	if (cmd[2])
+	if (exec->cmd[1] == NULL)
 	{
-		printf ("exit: invalid status"); //rever
-		exit(1);
+		free_exit (exec, redir, list, envp);
+		exit(0);
 	}
-	status = ft_atoi(cmd[1]);
+	if (exec->cmd[2])
+	{
+		printf ("minishell: exited with too many arguments\n"); //rever
+		free_exit (exec, redir, list, envp);
+		exit(42);
+	}
+	i = -1;
+	while (exec->cmd[1][++i])
+	{
+		if (!ft_isdigit (exec->cmd[1][i]))
+		{
+			printf ("minishell: exited with non numeric argument\n");
+			free_exit (exec, redir, list, envp);
+			exit(42);
+		}
+	}
+	status = ft_atoi(exec->cmd[1]);
+	free_exit (exec, redir, list, envp);
 	exit(status);
 }
 
-int	try_builtin_exec(t_exec *exec, t_list **envp_list)
+int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
 {
 	int	ret;
 
@@ -85,17 +101,17 @@ int	try_builtin_exec(t_exec *exec, t_list **envp_list)
 		if (!ft_strncmp(exec->cmd[0], "echo", 5))
 			ret = ft_echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", 4))
-			ret = ft_env(*envp_list);
+			ret = ft_env(*envp);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 3))
-			ret = ft_cd(exec->cmd, *envp_list);
+			ret = ft_cd(exec->cmd, *envp);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 4))
 			ret = ft_pwd();
 		else if (!ft_strncmp(exec->cmd[0], "export", 7))
-			ret = ft_export(exec->cmd, envp_list);
+			ret = ft_export(exec->cmd, envp);
 		else if (!ft_strncmp(exec->cmd[0], "exit", 5))
-			ret = ft_exit(exec->cmd);
+			ret = ft_exit(exec, list, *envp, redir);
 		else if (!ft_strncmp(exec->cmd[0], "unset", 6))
-			ret = ft_unset (exec->cmd, *envp_list);
+			ret = ft_unset (exec->cmd, *envp);
 	}
 	return (ret);
 }

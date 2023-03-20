@@ -142,7 +142,7 @@ int	sintax(t_token *list);
 * EXECUTE																	   *
 \******************************************************************************/
 
-void	start_exec(t_token *list, t_list *envp_list, t_exec *exec);
+void	start_exec(t_token *list, t_list *envp_list);
 void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
 void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
 char	**eof_matrix(t_token **aux);
@@ -157,7 +157,8 @@ void	close_fd(int **fd);
 * BUILTINS																	   *
 \******************************************************************************/
 
-int		try_builtin_exec(t_exec *exec, t_list **envp_list);
+// int		try_builtin_exec(t_exec *exec, t_list **envp_list);
+int		try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir);
 int		ft_env(t_list *envp_list);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
@@ -170,6 +171,7 @@ void	set_pwd(t_list *envp_list);
 void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_list(t_token *list);
+void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 
 void	free_shell(void);
 

@@ -30,8 +30,8 @@ void	print_list(t_token *list) //essa função vai sair
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
-	t_exec	*exec;
 	t_list	*envp_list = NULL;
+	char	**input;
 
 	if (argv == NULL && argc == 0) // oque faxzer com isso?
 		printf ("ARGS");
@@ -41,24 +41,17 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		list = NULL;
-		exec = ft_calloc(sizeof(t_exec), 1);
-		exec->input = get_input(envp_list);
-		if (exec->input)
+		input = get_input(envp_list);
+		if (input)
 		{
-			list = lexer(exec->input, list);
+			list = lexer(input, list);
 			// print_list(list); //tirar
 			if (list && sintax(list))
 			{
-				start_exec(list, envp_list, exec);
+				start_exec(list, envp_list);
 				free_list(list);
 			}
 		}
-		else
-		{
-			free (exec);
-			exit(0);
-		}
-		free (exec);
 	}
 	free_shell();
 }

@@ -1,18 +1,18 @@
 
 #include <minishell.h>
 
-static void	free_child (t_exec *exec, t_redirect *redirect, t_token *aux, t_list *envp_list)
+void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 {
 	if (exec->cmd)
 		free_matrix(exec->cmd);
 	if (exec->path)
 		free (exec->path);
-	free_matrix (exec->input);
+	if (exec->envp_ms)
+		free_matrix(exec->envp_ms);
 	free_int_mat(exec->fd);
-	free (redirect);
+	free (redir);
 	free_list (aux);
-	free_matrix(exec->envp_ms);
-	ft_lstclear(&envp_list, &free);
+	ft_lstclear(&envp, &free);
 	free (exec);
 }
 
@@ -42,7 +42,7 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 	int	is_builtin;
 
 	fd_redir(redir, exec, exec->ended_proc);
-	is_builtin = try_builtin_exec(exec, &envp);
+	is_builtin = try_builtin(exec, &envp, aux, redir);
 	if (exec->cmd && !exec->path)
 		exec->path = get_path(exec->cmd[0], envp);
 	if (exec->path && !is_builtin)
@@ -57,6 +57,6 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 		ft_putstr_fd(exec->cmd[0], 2);
 		ft_putstr_fd(": no such file or directory\n", 2);
 	}
-	free_child (exec, redir, aux, envp);
+	free_exit (exec, redir, aux, envp);
 	exit(127);
 }

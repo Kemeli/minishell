@@ -7,7 +7,7 @@ static void	end_parent(t_exec *exec)
 	close_fd(exec->fd);
 	free_int_mat(exec->fd);
 	free_matrix(exec->envp_ms);
-	free_matrix(exec->input);
+	// free_matrix(exec->input);
 }
 
 static void	free_parent_process(t_exec *exec, t_redirect *redirect)
@@ -40,7 +40,7 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 		aux = get_cmd_matrix(aux, exec);
 		is_builtin = 0;
 		if (exec->ended_proc == 0 && exec->to_process == 1)
-			is_builtin = try_builtin_exec(exec, &envp);
+			is_builtin = try_builtin(exec, &envp, list, redir);
 		if (!is_builtin)
 			exec_child(exec, redir, list, envp);
 		free_parent_process(exec, redir);
@@ -52,22 +52,24 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 	// waitpid(-1, NULL, 0);
 
 
-	int status = 0;
-	int exit_status = 0;
-	waitpid(exec->pid, &status, 0);
+	// exec->status = 0;
+	// exec->exit_status = 0;
+	waitpid(exec->pid, &exec->status, 0);
 
-	if (WIFEXITED(status)) {
-		exit_status = WEXITSTATUS(status);
-		shell.exit_status = exit_status;
+	if (WIFEXITED(exec->status)) {
+		exec->exit_status = WEXITSTATUS(exec->status);
+		shell.exit_status = exec->exit_status;
 	}
 
 	shell.current_pid = 0;
 }
 
-void	start_exec(t_token *list, t_list *envp_list, t_exec *exec)
+void	start_exec(t_token *list, t_list *envp_list)
 {
 	t_token	*aux;
+	t_exec	*exec;
 
+	exec = ft_calloc(sizeof(t_exec), 1);
 	exec->to_process = 1;
 	aux = list;
 	while (aux)
@@ -79,4 +81,5 @@ void	start_exec(t_token *list, t_list *envp_list, t_exec *exec)
 	aux = list;
 	start_fd(exec);
 	execute(list, exec, envp_list);
+	free (exec);
 }
