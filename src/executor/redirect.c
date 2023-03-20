@@ -4,7 +4,7 @@
 void	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 {
 	char	*file;
-
+	
 	if (aux->type == PIPE)
 		aux = (aux->next);
 	while (aux && aux->type != PIPE)

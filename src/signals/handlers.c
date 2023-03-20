@@ -21,9 +21,9 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	if (shell.current_pid != 0)
+	if (g_shell.current_pid != 0)
 	{
-		kill(shell.current_pid, SIGINT);
+		kill(g_shell.current_pid, SIGINT);
 		ft_putchar_fd('\n', STDERR_FILENO);
 		return ;
 	}

@@ -46,6 +46,10 @@ static char	*join_heredoc_input(char *input, char *read)
 	return (input);
 }
 
+void interrupt_handler() {
+	g_shell.stop_loop = 1;
+}
+
 static char *start_heredoc(t_token **aux)
 {
 	char	*read;
@@ -56,7 +60,8 @@ static char *start_heredoc(t_token **aux)
 	i = 0;
 	input = ft_calloc(sizeof (char *), 1);
 	eof = eof_matrix(aux);
-	while (1)
+	signal(SIGINT, interrupt_handler);
+	while (!g_shell.stop_loop)
 	{
 		read = readline(">");
 		if (!read)
@@ -70,6 +75,8 @@ static char *start_heredoc(t_token **aux)
 		else
 			input = join_heredoc_input(input, read);
 	}
+	set_listeners();
+	g_shell.stop_loop = !g_shell.stop_loop;
 	free_matrix (eof);
 	return (input);
 }

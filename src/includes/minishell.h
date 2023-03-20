@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/19 14:54:45 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/21 00:05:55 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ typedef struct s_shell
 	int		current_pid;
 
 	int		exit_status;
+	int		stop_loop;
 } t_shell;
 
-extern t_shell	shell;
+extern t_shell	g_shell;
 
 t_list	*make_envp_list(char **envp, t_list *envp_list);
 

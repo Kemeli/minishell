@@ -88,6 +88,7 @@ int	ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir)
 	}
 	status = ft_atoi(exec->cmd[1]);
 	free_exit (exec, redir, list, envp);
+	g_shell.exit_status = status;
 	exit(status);
 }
 

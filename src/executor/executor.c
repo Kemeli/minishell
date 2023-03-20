@@ -21,7 +21,7 @@ static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 static void	exec_child(t_exec *exec, t_redirect *redir, t_token *list, t_list *envp)
 {
 	exec->pid = fork();
-	shell.current_pid = exec->pid;
+	g_shell.current_pid = exec->pid;
 	if (exec->pid == 0)
 		child(exec, redir, list, envp);
 }
@@ -58,10 +58,11 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 
 	if (WIFEXITED(exec->status)) {
 		exec->exit_status = WEXITSTATUS(exec->status);
-		shell.exit_status = exec->exit_status;
+		g_shell.exit_status = exec->exit_status;
 	}
 
-	shell.current_pid = 0;
+	waitpid(-1, NULL, 0);
+	g_shell.current_pid = 0;
 }
 
 void	start_exec(t_token *list, t_list *envp_list)
