@@ -7,9 +7,14 @@ void	free_matrix(char **input)
 	i = 0;
 	while (input && input[i])
 	{
-		free(input[i]);
-		input[i] = NULL;
-		i++;
+		if (input && input[i][0] == '\0')
+			i++;
+		else if (input && input[i])
+		{
+			free(input[i]);
+			input[i] = NULL;
+			i++;
+		}
 	}
 	if (input)
 		free(input);

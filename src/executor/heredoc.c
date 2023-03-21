@@ -17,6 +17,7 @@ static char	**heredoc_matrix(char *input)
 	int		i;
 	char	**temp;
 	char	**here_matrix;
+	char	*dollar;
 
 	i = 0;
 	temp = ft_split(input, '\n');
@@ -26,11 +27,14 @@ static char	**heredoc_matrix(char *input)
 	i = 0;
 	while (temp[i])
 	{
-		here_matrix[i] = ft_strdup(handle_dollar(temp[i]));
+		dollar = handle_dollar(temp[i]);
+		if (dollar)
+			here_matrix[i] = ft_strdup(dollar);
+		free (dollar);
 		i++;
 	}
 	here_matrix[i] = NULL;
-	free_matrix (temp);
+	free (temp);	
 	return (here_matrix);
 }
 
