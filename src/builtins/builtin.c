@@ -38,13 +38,25 @@ int	ft_pwd(void)
 	return (1);
 }
 
-int	ft_cd(char **cmd, t_list *envp_list) //setar oldpwd?
+int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
 {
 	char	*path;
 
+	char	**oldpwd;
+	char	*temp;
+
+	oldpwd = ft_calloc (sizeof(char *), 3);
+	temp = getcwd(NULL, 0);
+	getcwd (temp, sizeof (temp));
+	oldpwd[0] = ft_strdup ("export");
+	oldpwd[1] = ft_strjoin("OLDPWD=", temp);
+	oldpwd[2] = NULL;
+	ft_export (oldpwd, envp_list);
+	// free_matrix (oldpwd);
+
 	if (cmd[1] == NULL)
 	{
-		path = get_env("HOME", envp_list);
+		path = get_env("HOME", *envp_list);
 		if (chdir(path))
 			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
 		free (path);
@@ -54,7 +66,7 @@ int	ft_cd(char **cmd, t_list *envp_list) //setar oldpwd?
 		if (chdir (cmd[1]) != 0)
 			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
 	}
-	set_pwd(envp_list);
+	set_pwd(*envp_list);
 	return (1);
 }
 
@@ -103,7 +115,7 @@ int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
 		else if (!ft_strncmp(exec->cmd[0], "env", 4))
 			ret = ft_env(*envp);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 3))
-			ret = ft_cd(exec->cmd, *envp);
+			ret = ft_cd(exec->cmd, envp);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 4))
 			ret = ft_pwd();
 		else if (!ft_strncmp(exec->cmd[0], "export", 7))

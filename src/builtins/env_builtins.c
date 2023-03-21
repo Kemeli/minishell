@@ -42,11 +42,15 @@ int	ft_unset(char **cmd, t_list *envp_list)
 static void	update_envp(t_list **envp, char *cmd)
 {
 	t_list	*node;
+	int		i;
 
+	i = 0;
 	node = *envp;
+	while (cmd[i] != '=')
+		i++;
 	while (node)
 	{
-		if (!ft_strncmp(cmd, node->content, ft_strlen(ft_strchr(cmd, '='))))
+		if (!ft_strncmp(cmd, node->content, i))
 		{
 			free (node->content);
 			node->content = ft_strdup(cmd);
@@ -58,7 +62,7 @@ static void	update_envp(t_list **envp, char *cmd)
 	ft_lstadd_back(envp, node);
 }
 
-int	ft_export(char **cmd, t_list **envp_list)
+int	ft_export(char **cmd, t_list **envp_list) //refatorar
 {
 	int		i;
 	int		j;
@@ -72,11 +76,18 @@ int	ft_export(char **cmd, t_list **envp_list)
 		if (ft_isalpha(cmd[i][j]) || !ft_strncmp(&cmd[i][j], "_", 2))
 			j++;
 		else
+		{
 			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
+			g_shell.exit_status = 2;
+			return (1);
+		}
 		while (cmd[i][j] && !ft_strchr("=", cmd[i][j]))
 		{
 			if (!is_env_char(cmd[i][j]))
+			{
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+				g_shell.exit_status = 2;
+			}
 			j++;
 		}
 		if (ft_strchr("=", cmd[i][j]) && !ft_strchr("\0", cmd[i][j]))
