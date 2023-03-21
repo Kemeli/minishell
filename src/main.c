@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/20 20:44:19 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/20 21:34:50 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ void	print_list(t_token *list)
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*list;
-	t_list	*envp_list;
 	char	**input;
 
 	(void) argv;
 	(void) argc;
-	g_shell.envp_list = make_envp_list(envp, envp_list);
+	g_shell.envp_list = make_envp_list(envp, g_shell.envp_list);
 	set_listeners();
 	while (1)
 	{
