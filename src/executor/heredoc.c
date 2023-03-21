@@ -45,8 +45,9 @@ static char	*join_heredoc_input(char *input, char *read)
 	return (input);
 }
 
-void	interrupt_handler(void)
+void	interrupt_handler(int sig)
 {
+	(void) sig;
 	g_shell.stop_loop = 1;
 }
 
@@ -86,9 +87,7 @@ void	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 	char	*input;
 	char	**input_matrix;
 	char	*file;
-	int		i;
 
-	i = 0;
 	file = ft_strdup("__heredoc");
 	redir->here_file = open (file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 	input = start_heredoc (aux);

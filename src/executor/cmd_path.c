@@ -34,7 +34,6 @@ static char	*check_acess(char *path, char **paths, char *slash_cmd)
 
 char	*get_path(char *cmd, t_list *envp_list)
 {
-	int		i;
 	char	*path;
 	char	**paths;
 	char	*slash_cmd;
@@ -47,7 +46,6 @@ char	*get_path(char *cmd, t_list *envp_list)
 		paths = ft_split(aux, ':');
 		free (aux);
 		slash_cmd = ft_strjoin("/", cmd);
-		i = 0;
 		if (!ft_strchr(cmd, '/'))
 			path = check_acess(path, paths, slash_cmd);
 		if (!path)
