@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/20 21:03:44 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/20 21:17:05 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 char	**envp_matrix(t_list *list_envp);
 void	start_fd(t_exec *exec);
 void	close_fd(int **fd);
+void	wait_processes(t_exec *exec);
 
 /******************************************************************************\
 * BUILTINS																	   *
@@ -177,7 +178,6 @@ void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_list(t_token *list);
 void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
-
 void	free_shell(void);
 
 /******************************************************************************\

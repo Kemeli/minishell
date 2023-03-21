@@ -14,6 +14,7 @@ SRC =		main.c \
 			executor/child.c \
 			executor/heredoc_utils.c \
 			executor/cmd_utils.c \
+			executor/cmd_path.c \
 			builtins/builtin.c \
 			builtins/env_builtins.c \
 			signals/handlers.c \
