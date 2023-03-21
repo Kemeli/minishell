@@ -32,16 +32,25 @@ int	ft_pwd(void)
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	getcwd(pwd, sizeof(pwd));
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
+		g_shell.exit_status = 42;
+		free (pwd);
+		return (0);
+	}
 	printf ("%s\n", pwd);
 	free (pwd);
 	return (1);
 }
 
-int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
+void	exit_status(char *message, int status)
 {
-	char	*path;
+	printf ("%s", message);
+	g_shell.exit_status = status;
+}
 
+void	set_oldpwd(t_list **envp_list)
+{
 	char	**oldpwd;
 	char	*temp;
 
@@ -52,19 +61,28 @@ int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
 	oldpwd[1] = ft_strjoin("OLDPWD=", temp);
 	oldpwd[2] = NULL;
 	ft_export (oldpwd, envp_list);
-	// free_matrix (oldpwd);
+	free (temp);
+	free_matrix (oldpwd);
+}
 
+int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
+{
+	char	*path;
+
+	set_oldpwd(envp_list);
 	if (cmd[1] == NULL)
 	{
 		path = get_env("HOME", *envp_list);
 		if (chdir(path))
-			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
+			exit_status ("minishell: cd: no such file or directory\n", 1);
 		free (path);
 	}
+	else if (cmd[2])
+		exit_status ("minishell: cd: too many arguments\n", 1);
 	else
 	{
 		if (chdir (cmd[1]) != 0)
-			ft_putstr_fd("minishell: cd: no such file or directory\n", 2); //colocar argumento?
+			exit_status ("minishell: cd: no such file or directory\n", 1); //colocar argumento?
 	}
 	set_pwd(*envp_list);
 	return (1);
@@ -92,7 +110,7 @@ int	ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir)
 	{
 		if (!ft_isdigit (exec->cmd[1][i]))
 		{
-			printf ("minishell: exited with non numeric argument\n");
+			printf ("minishell: exited with invalid argument\n");
 			free_exit (exec, redir, list, envp);
 			exit(42);
 		}

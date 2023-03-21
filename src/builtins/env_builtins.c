@@ -78,7 +78,7 @@ int	ft_export(char **cmd, t_list **envp_list) //refatorar
 		else
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]); //acaba aqui
-			g_shell.exit_status = 2;
+			g_shell.exit_status = 1;
 			return (1);
 		}
 		while (cmd[i][j] && !ft_strchr("=", cmd[i][j]))
@@ -86,7 +86,8 @@ int	ft_export(char **cmd, t_list **envp_list) //refatorar
 			if (!is_env_char(cmd[i][j]))
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
-				g_shell.exit_status = 2;
+				g_shell.exit_status = 1;
+				return (1);
 			}
 			j++;
 		}

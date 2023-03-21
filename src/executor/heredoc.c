@@ -48,7 +48,7 @@ static char	*join_heredoc_input(char *input, char *read)
 void	interrupt_handler(int sig)
 {
 	(void) sig;
-	g_shell.stop_loop = 1;
+	g_shell.stop_loop = !g_shell.stop_loop;
 }
 
 static char	*start_heredoc(t_token **aux)
@@ -77,7 +77,8 @@ static char	*start_heredoc(t_token **aux)
 			input = join_heredoc_input(input, read);
 	}
 	set_listeners();
-	g_shell.stop_loop = !g_shell.stop_loop;
+	if (g_shell.stop_loop == 1)
+		g_shell.stop_loop = 0;
 	free_matrix (eof);
 	return (input);
 }

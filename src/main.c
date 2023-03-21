@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/20 21:34:50 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/21 13:09:51 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	print_list(t_token *list)
 	}
 	printf("\n");
 }
+
 
 int	main(int argc, char **argv, char **envp)
 {

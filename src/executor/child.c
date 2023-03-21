@@ -8,6 +8,11 @@ void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 		free (exec->path);
 	if (exec->envp_ms)
 		free_matrix(exec->envp_ms);
+	if (redir->here_file)
+	{
+		close (redir->here_file);
+		unlink ("__heredoc");
+	}
 	free_int_mat(exec->fd);
 	free (redir);
 	free_list (aux);
@@ -34,6 +39,11 @@ static void	fd_redir(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
 	if (!redirect->infile && i > 0) //segundo loop, output pipe anterior
 		dup2 (exec->fd[i - 1][0], STDIN_FILENO);
 	close_fd(exec->fd);
+	if (redirect->here_file)
+	{
+		close (redirect->here_file);
+		unlink ("__heredoc");
+	}
 }
 
 void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)

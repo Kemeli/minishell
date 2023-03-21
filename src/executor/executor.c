@@ -2,15 +2,18 @@
 
 static void	end_parent(t_exec *exec)
 {
-	unlink ("__heredoc");
 	close_fd(exec->fd);
 	free_int_mat(exec->fd);
 	free_matrix(exec->envp_ms);
-	// free_matrix(exec->input);
 }
 
 static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 {
+	if (redirect->here_file)
+	{
+		close (redirect->here_file);
+		unlink ("__heredoc");
+	}
 	free_matrix (exec->cmd);
 	free (redirect);
 	if (exec->path)

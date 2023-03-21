@@ -53,7 +53,7 @@ char	*expander(char *input, t_envar *env, char *new_input, t_list *envp)
 	if (input[++env->i] && input[env->i] == '?')
 	{
 		env->status = ft_itoa (g_shell.exit_status);
-		env->stt_join = ft_strjoin (new_input, env->status); //n pode fazer isso leak
+		env->stt_join = ft_strjoin (new_input, env->status);
 		free(new_input);
 		new_input = ft_strdup(env->stt_join);
 		env->i += 1;

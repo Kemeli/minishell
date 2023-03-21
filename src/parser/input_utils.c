@@ -25,7 +25,7 @@ static char	*meta_separator(char *str, char *input, t_input_utils *in)
 {
 	if (input[in->i] == '<' || input[in->i] == '>')
 	{
-		if (in->i > 0 && !space_checker(input[in->i - 1])) //i>0 = não é o primeiro char
+		if (in->i > 0 && !space_checker(input[in->i - 1]))
 			str[in->j++] = SEPARATOR;
 		str[in->j] = input[in->i];
 		if (input[in->i + 1] && check_next_pos(input[in->i], input[in->i + 1]))
