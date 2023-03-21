@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static int	check_next_pos(char first, char second)

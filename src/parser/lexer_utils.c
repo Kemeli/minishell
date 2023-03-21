@@ -1,8 +1,6 @@
-
-
 #include <minishell.h>
 
-static int  ignore_invalid_input(char *input, int i)
+static int	ignore_invalid_input(char *input, int i)
 {
 	i++;
 	if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
@@ -38,7 +36,7 @@ char	*handle_dollar(char *input)
 			i++;
 		}
 		if (input[i] && ft_strchr ("$", input[i]))
-		   i = ignore_invalid_input(input, i);
+			i = ignore_invalid_input(input, i);
 	}
 	free (input);
 	return (ret);

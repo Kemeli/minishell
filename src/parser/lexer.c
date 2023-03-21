@@ -1,10 +1,9 @@
-
 #include <minishell.h>
 
 static int	is_builtin(char *cmd)
 {
-	const char *built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
-	int i;
+	const char	*built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
+	int			i;
 
 	i = 0;
 	while (i < 6)
@@ -66,7 +65,7 @@ static t_token	*get_list(t_token *new_token, t_token *list)
 		aux->next = new_token;
 		new_token->prev = aux;
 	}
-	return list;
+	return (list);
 }
 
 t_token	*lexer(char **input, t_token *list)
@@ -75,7 +74,7 @@ t_token	*lexer(char **input, t_token *list)
 	int		i;
 
 	i = -1;
-	while(input[++i])
+	while (input[++i])
 	{
 		input[i] = handle_quotes_dollar(input[i]);
 		if (input[i])

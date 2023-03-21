@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static char	**get_input_matrix(char *input)

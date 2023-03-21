@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
@@ -22,7 +21,7 @@ static char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 	free (trim);
 	if (!env->test)
 		return (sub);
-	free (sub); 
+	free (sub);
 	return (env->test);
 }
 
@@ -33,7 +32,7 @@ static char	*input_expander(char *new_input, t_envar *env)
 	free (new_input);
 	new_input = ft_strdup(env->temp);
 	free (env->temp);
-	if(!env->i)
+	if (!env->i)
 		env->i++;
 	return (new_input);
 }
@@ -72,7 +71,7 @@ char	*expander(char *input, t_envar *env, char *new_input, t_list *envp)
 char *get_expanded_var(char *input, t_list *envp, int hd)
 {
 	t_envar	*env;
-	char		*new_input;
+	char	*new_input;
 
 	if (input && !ft_strchr(input, '$'))
 		return (input);

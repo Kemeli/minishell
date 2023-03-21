@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 int	ft_echo(char **cmd)
@@ -28,7 +27,7 @@ int	ft_echo(char **cmd)
 	return (1);
 }
 
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	*pwd;
 

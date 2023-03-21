@@ -1,11 +1,10 @@
-
 #include <minishell.h>
 
 int	ft_env(t_list *envp_list)
 {
 	t_list	*aux;
 
-	aux =  envp_list;
+	aux = envp_list;
 	while (aux)
 	{
 		printf("%s\n", (char *)aux->content);
@@ -17,8 +16,8 @@ int	ft_env(t_list *envp_list)
 int	ft_unset(char **cmd, t_list *envp_list)
 {
 	t_list	*aux;
-	int	check;
-	int	i;
+	int		check;
+	int		i;
 
 	i = 1;
 	while (cmd[i])

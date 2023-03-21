@@ -1,5 +1,3 @@
-
-
 #include <minishell.h>
 
 char	*get_env(char *var, t_list *list_envp)
@@ -32,7 +30,7 @@ char	*get_env(char *var, t_list *list_envp)
 
 t_list	*make_envp_list(char **envp, t_list *envp_list)
 {
-	int	i;
+	int		i;
 	t_list	*new;
 
 	i = 0;
@@ -53,7 +51,6 @@ void	set_pwd(t_list *envp_list)
 	aux = envp_list;
 	while (aux && !ft_strncmp(aux->content, "PWD", 3))
 		aux = aux->next;
-
 	if (ft_strncmp(aux->content, "PWD", 3))
 	{
 		free (aux->content);

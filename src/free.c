@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 void	free_matrix(char **input)
@@ -34,7 +33,7 @@ void	free_list(t_token *list)
 {
 	t_token	*aux;
 
-	while(list != NULL)
+	while (list != NULL)
 	{
 		aux = list;
 		list = list->next;

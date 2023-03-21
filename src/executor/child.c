@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)

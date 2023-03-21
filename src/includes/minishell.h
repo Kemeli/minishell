@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/21 00:05:55 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/20 21:03:44 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <libft.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <libft.h>
+# include <stdlib.h>
 
 # include <unistd.h>
 # include <sys/wait.h>
@@ -27,7 +27,6 @@
 # define SEPARATOR -1
 # define SPACE ' '
 # define _XOPEN_SOURCE 700
-
 
 enum e_token_type
 {
@@ -46,7 +45,7 @@ enum e_token_type
 	APPEND_OUT = 12
 };
 
-typedef	struct s_input_utils
+typedef struct s_input_utils
 {
 	int		i;
 	int		j;
@@ -91,15 +90,15 @@ typedef struct s_exec
 	char	**input;
 	int		status;
 	int		exit_status;
-} t_exec;
+}	t_exec;
 
 typedef struct s_token
 {
-	char	*cmd;
-	int		type;
+	char			*cmd;
+	int				type;
 	struct s_token	*next;
 	struct s_token	*prev;
-} t_token;
+}	t_token;
 
 typedef struct s_shell
 {
@@ -108,7 +107,7 @@ typedef struct s_shell
 
 	int		exit_status;
 	int		stop_loop;
-} t_shell;
+}	t_shell;
 
 extern t_shell	g_shell;
 
@@ -137,7 +136,7 @@ char	*get_env(char *var, t_list *list_envp);
 \******************************************************************************/
 
 t_token	*lexer(char **input, t_token *list);
-int	sintax(t_token *list);
+int		sintax(t_token *list);
 
 /******************************************************************************\
 * EXECUTE																	   *
@@ -159,7 +158,12 @@ void	close_fd(int **fd);
 \******************************************************************************/
 
 // int		try_builtin_exec(t_exec *exec, t_list **envp_list);
-int		try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir);
+int		try_builtin(
+			t_exec *exec,
+			t_list **envp,
+			t_token *list,
+			t_redirect *redir
+			);
 int		ft_env(t_list *envp_list);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);

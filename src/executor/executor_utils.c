@@ -1,9 +1,10 @@
-
 #include <minishell.h>
 
 void	close_fd(int **fd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (fd[i])
 	{
 		close(fd[i][0]);
@@ -49,7 +50,7 @@ char	**envp_matrix(t_list *list_envp)
 		envp_mat[i] = ft_strdup(aux->content);
 		aux = aux->next;
 		i++;
-	}	
+	}
 	envp_mat[i] = NULL;
 	return (envp_mat);
 }

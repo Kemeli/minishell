@@ -1,11 +1,10 @@
-
 #include <minishell.h>
 
 static int	is_meta(int type)
 {
-	if (type == IN_REDIRECT || type == OUT_REDIRECT \
+	if (type == IN_REDIRECT || type == OUT_REDIRECT
 		|| type == HEREDOC || type == APPEND || type == PIPE)
-			return (1);
+		return (1);
 	return (0);
 }
 

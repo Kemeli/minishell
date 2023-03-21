@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static char	*check_executable(char *cmd)
@@ -36,17 +35,17 @@ static char	*check_acess(char *path, char **paths, char *slash_cmd)
 char	*get_path(char *cmd, t_list *envp_list)
 {
 	int		i;
-	char	*path = NULL;
+	char	*path;
 	char	**paths;
 	char	*slash_cmd;
 	char	*aux;
 
+	path = NULL;
 	aux = get_env("PATH", envp_list);
 	if (aux)
 	{
 		paths = ft_split(aux, ':');
 		free (aux);
-
 		slash_cmd = ft_strjoin("/", cmd);
 		i = 0;
 		if (!ft_strchr(cmd, '/'))
@@ -86,7 +85,7 @@ static t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 	t_token	*cmd_list;
 	int		i;
 	int		count;
-	
+
 	count = 1;
 	cmd_list = aux;
 	while (cmd_list->next && cmd_list->next->type == ARGUMENT)
@@ -114,13 +113,12 @@ t_token	*get_cmd_matrix(t_token *list, t_exec *exec)
 	t_token	*aux;
 
 	aux = list;
-
 	if (aux && aux->type == PIPE)
 		aux = aux->next;
 	while (aux && aux->type != SYS_CMD)
 	{
 		if (aux->type == BUILTIN || aux->type == PIPE)
-			break;
+			break ;
 		aux = aux->next;
 	}
 	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))

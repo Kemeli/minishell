@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static void	end_parent(t_exec *exec)
@@ -18,7 +17,12 @@ static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 		free (exec->path);
 }
 
-static void	exec_child(t_exec *exec, t_redirect *redir, t_token *list, t_list *envp)
+static void	exec_child(
+	t_exec *exec,
+	t_redirect *redir,
+	t_token *list,
+	t_list *envp
+)
 {
 	exec->pid = fork();
 	g_shell.current_pid = exec->pid;
@@ -50,17 +54,14 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 	end_parent (exec);
 	// waitpid(exec->pid, 0, 0);
 	// waitpid(-1, NULL, 0);
-
-
 	// exec->status = 0;
 	// exec->exit_status = 0;
 	waitpid(exec->pid, &exec->status, 0);
-
-	if (WIFEXITED(exec->status)) {
+	if (WIFEXITED(exec->status))
+	{
 		exec->exit_status = WEXITSTATUS(exec->status);
 		g_shell.exit_status = exec->exit_status;
 	}
-
 	waitpid(-1, NULL, 0);
 	g_shell.current_pid = 0;
 }

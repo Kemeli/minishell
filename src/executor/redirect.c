@@ -1,10 +1,9 @@
-
 #include <minishell.h>
 
 void	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 {
 	char	*file;
-	
+
 	if (aux->type == PIPE)
 		aux = (aux->next);
 	while (aux && aux->type != PIPE)
@@ -13,7 +12,7 @@ void	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 		if (aux->type == INFILE)
 		{
 			redir->infile = open(file, O_RDONLY, 0444);
-			if(redir->infile == -1)
+			if (redir->infile == -1)
 				perror (file);
 		}
 		else if (aux->type == APPEND_OUT)

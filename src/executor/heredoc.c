@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static void	print_heredoc(char **matrix, t_redirect *redirect)
@@ -24,7 +23,7 @@ static char	**heredoc_matrix(char *input)
 	while (temp[i])
 		i++;
 	here_matrix = ft_calloc (sizeof(char *), i + 1);
-	i= 0;
+	i = 0;
 	while (temp[i])
 	{
 		here_matrix[i] = ft_strdup(handle_dollar(temp[i]));
@@ -46,11 +45,12 @@ static char	*join_heredoc_input(char *input, char *read)
 	return (input);
 }
 
-void interrupt_handler() {
+void	interrupt_handler(void)
+{
 	g_shell.stop_loop = 1;
 }
 
-static char *start_heredoc(t_token **aux)
+static char	*start_heredoc(t_token **aux)
 {
 	char	*read;
 	char	*input;
@@ -65,11 +65,11 @@ static char *start_heredoc(t_token **aux)
 	{
 		read = readline(">");
 		if (!read)
-			break;
+			break ;
 		if (eof[i] && !ft_strncmp(read, eof[i], ft_strlen(eof[i])))
 		{
 			if (!eof[++i])
-				break;
+				break ;
 			free(read);
 		}
 		else

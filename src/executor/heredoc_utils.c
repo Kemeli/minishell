@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static char	**alloc_eof(t_token *aux)
