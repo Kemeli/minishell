@@ -14,22 +14,15 @@ static int	ignore_invalid_input(char *input, int i)
 	return (i);
 }
 
-char	*handle_dollar(char *input)
+char	*validate_dollar(char *new_input)
 {
-	int		i;
 	char	*ret;
 	char	*sub;
 	char	*temp;
-	char	*new_input;
+	int		i;
+
 	i = 0;
-
-	new_input = ft_strdup (input);
-	free (input);
-	input = NULL;
 	ret = NULL;
-	if (!ft_strchr (new_input, '$'))
-		return (new_input);
-
 	while (new_input[i])
 	{
 		while (new_input[i] && new_input[i] != '$') //talvez ' ' tb
@@ -47,6 +40,20 @@ char	*handle_dollar(char *input)
 		if (new_input[i] && ft_strchr ("$", new_input[i]))
 			i = ignore_invalid_input(new_input, i);
 	}
+	return (ret);
+}
+
+char	*handle_dollar(char *input)
+{
+	char	*ret;
+	char	*new_input;
+
+	new_input = ft_strdup (input);
+	free (input);
+	input = NULL;
+	if (!ft_strchr (new_input, '$'))
+		return (new_input);
+	ret = validate_dollar(new_input);
 	free (new_input);
 	return (ret);
 }
@@ -59,27 +66,25 @@ static char	*cut_quotes(char *str)
 	char	*temp;
 
 	i = 0;
-	if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+	if (!(ft_strchr(str, '\'') || ft_strchr(str, '\"')))
+		return (str);
+	new = ft_calloc (sizeof(char *), 1);
+	while (str[i])
 	{
-		new = ft_calloc (sizeof(char *), 1);
-		while (str[i])
+		while (str[i] && ft_strchr("\"\'", str[i]))
+			i++;
+		if (str && str[i])
 		{
-			while (str[i] && ft_strchr("\"\'", str[i]))
-				i++;
-			if (str && str[i])
-			{
-				chr = ft_substr(str, i, 1);
-				temp = ft_strjoin(new, chr);
-				free (chr);
-				free (new);
-				new = ft_strdup(temp);
-				free (temp);
-				i++;
-			}
+			chr = ft_substr(str, i, 1);
+			temp = ft_strjoin(new, chr);
+			free (chr);
+			free (new);
+			new = ft_strdup(temp);
+			free (temp);
+			i++;
 		}
-		return (new);
 	}
-	return (str);
+	return (new);
 }
 
 char	*handle_quotes_dollar(char *input)
