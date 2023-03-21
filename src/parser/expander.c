@@ -19,7 +19,7 @@ static char	*getenv_check(char *input, t_envar *env, t_list *list_envp)
 	}
 	env->test = get_env(trim, list_envp);
 	free (trim);
-	if (!env->test)
+	if (!env->test || !ft_strncmp(env->test, "", 2))
 		return (sub);
 	free (sub);
 	return (env->test);

@@ -5,6 +5,8 @@ static char	**get_input_matrix(char *input)
 	char	**input_matrix;
 	char	*handled_input;
 
+	if (!input)
+		return (NULL);
 	handled_input = input_separator(input);
 	input_matrix = ft_split(handled_input, SEPARATOR);
 	free(handled_input);
@@ -65,8 +67,8 @@ char	**get_input(t_list *list_envp)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		free_shell();
-		exit(0); //pq desse exit?
-		return (NULL); //pq o null depois do exit?
+		exit(0);
+		return (NULL);
 	}
 	if (!*temp_input)
 		return (NULL);
