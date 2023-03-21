@@ -20,22 +20,23 @@ char	*handle_dollar(char *input)
 	char	*ret;
 	char	*sub;
 	char	*temp;
-
+	char	*new_input;
 	i = 0;
+
+	new_input = ft_strdup (input);
+	free (input);
+	input = NULL;
 	ret = NULL;
-	if (!ft_strchr (input, '$'))
+	if (!ft_strchr (new_input, '$'))
+		return (new_input);
+
+	while (new_input[i])
 	{
-		ret = ft_strdup(input);
-		free (input);
-		return (ret);
-	}
-	while (input[i])
-	{
-		while (input[i] && input[i] != '$') //talvez ' ' tb
+		while (new_input[i] && new_input[i] != '$') //talvez ' ' tb
 		{
 			if (!ret)
 				ret = ft_calloc (sizeof (char *), 1);
-			sub = ft_substr (input, i, 1);
+			sub = ft_substr (new_input, i, 1);
 			temp = ft_strjoin (ret, sub);
 			free (ret);
 			ret = ft_strdup (temp);
@@ -43,12 +44,10 @@ char	*handle_dollar(char *input)
 			free (sub);
 			i++;
 		}
-		if (input[i] && ft_strchr ("$", input[i]))
-			i = ignore_invalid_input(input, i);
+		if (new_input[i] && ft_strchr ("$", new_input[i]))
+			i = ignore_invalid_input(new_input, i);
 	}
-	if (ret && ret[0] == '\0')
-		ret = NULL;
-	free (input);
+	free (new_input);
 	return (ret);
 }
 

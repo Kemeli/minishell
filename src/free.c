@@ -7,9 +7,9 @@ void	free_matrix(char **input)
 	i = 0;
 	while (input && input[i])
 	{
-		if (input && input[i][0] == '\0')
-			i++;
-		else if (input && input[i])
+		// if (input && input[i][0] == '\0')
+		// 	i++;
+		if (input && input[i])
 		{
 			free(input[i]);
 			input[i] = NULL;

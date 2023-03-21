@@ -1,9 +1,15 @@
 #include <minishell.h>
 
-int	ft_env(t_list *envp_list)
+int	ft_env(t_list *envp_list, char **cmd)
 {
 	t_list	*aux;
 
+	if (cmd && cmd[1])
+	{
+		printf ("minishell: ‘%s’: No such file or directory\n", cmd[1]);
+		g_shell.exit_status = 127;
+		return (1);
+	}
 	aux = envp_list;
 	while (aux)
 	{
@@ -18,8 +24,32 @@ int	ft_unset(char **cmd, t_list *envp_list)
 	t_list	*aux;
 	int		check;
 	int		i;
+	int		j;
 
 	i = 1;
+	j = 1;
+	while (cmd[i])
+	{
+		if (ft_isalpha(cmd[i][0] && cmd[i][0] == '_'))
+		{
+			while (!is_env_char(cmd[i][j]))
+				j++;
+			if (!is_env_char(cmd[i][j]))
+			{
+				printf("minishell: unset: `%s': not a valid identifier\n", cmd[i]);
+				g_shell.exit_status = 1;
+				return (1);
+			}
+		}
+		else
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", cmd[i]);
+			g_shell.exit_status = 1;
+			return (1);
+		}
+
+	}
+	i = 0;
 	while (cmd[i])
 	{
 		aux = envp_list;
@@ -69,7 +99,7 @@ int	ft_export(char **cmd, t_list **envp_list) //refatorar
 
 	i = 1;
 	if (!cmd[1])
-		ft_env(*envp_list);
+		ft_env(*envp_list, NULL);
 	while (cmd[i])
 	{
 		j = 0;

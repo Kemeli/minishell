@@ -158,14 +158,13 @@ void	wait_processes(t_exec *exec);
 * BUILTINS																	   *
 \******************************************************************************/
 
-// int		try_builtin_exec(t_exec *exec, t_list **envp_list);
 int		try_builtin(
 			t_exec *exec,
 			t_list **envp,
 			t_token *list,
 			t_redirect *redir
 			);
-int		ft_env(t_list *envp_list);
+int	ft_env(t_list *envp_list, char **cmd);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
 void	set_pwd(t_list *envp_list);

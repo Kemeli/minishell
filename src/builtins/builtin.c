@@ -131,7 +131,7 @@ int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
 		if (!ft_strncmp(exec->cmd[0], "echo", 5))
 			ret = ft_echo (exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "env", 4))
-			ret = ft_env(*envp);
+			ret = ft_env(*envp, exec->cmd);
 		else if (!ft_strncmp(exec->cmd[0], "cd", 3))
 			ret = ft_cd(exec->cmd, envp);
 		else if (!ft_strncmp(exec->cmd[0], "pwd", 4))

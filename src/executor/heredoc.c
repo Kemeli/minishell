@@ -81,9 +81,13 @@ static char	*start_heredoc(t_token **aux)
 			input = join_heredoc_input(input, read);
 	}
 	set_listeners();
-	if (g_shell.stop_loop == 1)
-		g_shell.stop_loop = 0;
 	free_matrix (eof);
+	if (g_shell.stop_loop == 1)
+	{
+		free (input);
+		g_shell.stop_loop = 0;
+		return (NULL);
+	}
 	return (input);
 }
 
@@ -96,11 +100,14 @@ void	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 	file = ft_strdup("__heredoc");
 	redir->here_file = open (file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 	input = start_heredoc (aux);
-	input = get_expanded_var (input, envp, 1);
-	input_matrix = heredoc_matrix (input);
-	print_heredoc (input_matrix, redir);
-	free (input);
-	free_matrix (input_matrix);
+	if (input)
+	{
+		input = get_expanded_var (input, envp, 1);
+		input_matrix = heredoc_matrix (input);
+		print_heredoc (input_matrix, redir);
+		free (input);
+		free_matrix (input_matrix);
+	}
 	close (redir->here_file);
 	open (file, O_RDONLY);
 	free (file);
