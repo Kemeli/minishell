@@ -39,3 +39,40 @@ char	**eof_matrix(t_token **aux)
 	eof_matrix[i] = NULL;
 	return (eof_matrix);
 }
+
+char	**heredoc_matrix(char *input)
+{
+	int		i;
+	char	**temp;
+	char	**here_matrix;
+	char	*dollar;
+
+	i = 0;
+	temp = ft_split(input, '\n');
+	while (temp[i])
+		i++;
+	here_matrix = ft_calloc (sizeof(char *), i + 1);
+	i = 0;
+	while (temp[i])
+	{
+		dollar = handle_dollar(temp[i]);
+		if (dollar)
+			here_matrix[i] = ft_strdup(dollar);
+		free (dollar);
+		i++;
+	}
+	here_matrix[i] = NULL;
+	free (temp);
+	return (here_matrix);
+}
+
+char	*join_heredoc_input(char *input, char *read)
+{
+	char	*temp;
+
+	temp = ft_strjoin(input, read);
+	free (input);
+	input = ft_strjoin(temp, "\n");
+	free(temp);
+	return (input);
+}

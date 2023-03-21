@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/20 21:17:05 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:45:09 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ int		sintax(t_token *list);
 void	start_exec(t_token *list, t_list *envp_list);
 void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
 void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
+char	**heredoc_matrix(char *input);
+char	*join_heredoc_input(char *input, char *read);
 char	**eof_matrix(t_token **aux);
 char	*get_path(char *cmd, t_list *envp_list);
 t_token	*get_cmd_matrix(t_token *list, t_exec *exec);
@@ -185,6 +187,8 @@ void	free_shell(void);
 
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
+void	handle_heredoc_sigint(int sig);
 void	set_listeners(void);
+void	set_ctrl_c_heredoc(void);
 
 #endif

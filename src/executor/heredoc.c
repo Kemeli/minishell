@@ -12,60 +12,14 @@ static void	print_heredoc(char **matrix, t_redirect *redirect)
 	}
 }
 
-static char	**heredoc_matrix(char *input)
-{
-	int		i;
-	char	**temp;
-	char	**here_matrix;
-	char	*dollar;
-
-	i = 0;
-	temp = ft_split(input, '\n');
-	while (temp[i])
-		i++;
-	here_matrix = ft_calloc (sizeof(char *), i + 1);
-	i = 0;
-	while (temp[i])
-	{
-		dollar = handle_dollar(temp[i]);
-		if (dollar)
-			here_matrix[i] = ft_strdup(dollar);
-		free (dollar);
-		i++;
-	}
-	here_matrix[i] = NULL;
-	free (temp);	
-	return (here_matrix);
-}
-
-static char	*join_heredoc_input(char *input, char *read)
-{
-	char	*temp;
-
-	temp = ft_strjoin(input, read);
-	free (input);
-	input = ft_strjoin(temp, "\n");
-	free(temp);
-	return (input);
-}
-
-void	interrupt_handler(int sig)
-{
-	(void) sig;
-	g_shell.stop_loop = !g_shell.stop_loop;
-}
-
-static char	*start_heredoc(t_token **aux)
+static char	*heredoc(char **eof)
 {
 	char	*read;
 	char	*input;
-	char	**eof;
 	int		i;
 
 	i = 0;
 	input = ft_calloc(sizeof (char *), 1);
-	eof = eof_matrix(aux);
-	signal(SIGINT, interrupt_handler);
 	while (!g_shell.stop_loop)
 	{
 		read = readline(">");
@@ -80,6 +34,17 @@ static char	*start_heredoc(t_token **aux)
 		else
 			input = join_heredoc_input(input, read);
 	}
+	return (input);
+}
+
+static char	*start_heredoc(t_token **aux)
+{
+	char	*input;
+	char	**eof;
+
+	eof = eof_matrix(aux);
+	set_ctrl_c_heredoc();
+	input = heredoc(eof);
 	set_listeners();
 	free_matrix (eof);
 	if (g_shell.stop_loop == 1)

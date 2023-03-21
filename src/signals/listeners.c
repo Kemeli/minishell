@@ -36,6 +36,17 @@ static void	set_ctrl_back_slash(void)
 		printf("Error installing SIGQUIT handler\n");
 }
 
+void	set_ctrl_c_heredoc(void)
+{
+	struct sigaction	handler;
+
+	handler.sa_flags = 0;
+	handler.sa_handler = &handle_heredoc_sigint;
+	sigemptyset(&handler.sa_mask);
+	if (sigaction(SIGINT, &handler, NULL))
+		printf("Error installing SIGINT heredoc handler\n");
+}
+
 void	set_listeners(void)
 {
 	set_ctrl_back_slash();

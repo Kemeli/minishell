@@ -33,6 +33,13 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+/* SIGINT = Ctrl + C */
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_shell.stop_loop = !g_shell.stop_loop;
+}
+
 /* SIGQUIT = Ctrl + \ */
 void	handle_sigquit(int sig)
 {
