@@ -54,3 +54,18 @@ char	**envp_matrix(t_list *list_envp)
 	envp_mat[i] = NULL;
 	return (envp_mat);
 }
+
+void	wait_processes(t_exec *exec)
+{
+	// waitpid(exec->pid, 0, 0);
+	// waitpid(-1, NULL, 0);
+	// exec->status = 0;
+	// exec->exit_status = 0;
+	waitpid(exec->pid, &exec->status, 0);
+	if (WIFEXITED(exec->status))
+	{
+		exec->exit_status = WEXITSTATUS(exec->status);
+		g_shell.exit_status = exec->exit_status;
+	}
+	waitpid(-1, NULL, 0);
+}

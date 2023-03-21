@@ -52,17 +52,7 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 		exec->ended_proc++;
 	}
 	end_parent (exec);
-	// waitpid(exec->pid, 0, 0);
-	// waitpid(-1, NULL, 0);
-	// exec->status = 0;
-	// exec->exit_status = 0;
-	waitpid(exec->pid, &exec->status, 0);
-	if (WIFEXITED(exec->status))
-	{
-		exec->exit_status = WEXITSTATUS(exec->status);
-		g_shell.exit_status = exec->exit_status;
-	}
-	waitpid(-1, NULL, 0);
+	wait_processes(exec);
 	g_shell.current_pid = 0;
 }
 
