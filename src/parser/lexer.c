@@ -2,9 +2,15 @@
 
 static int	is_builtin(char *cmd)
 {
-	const char	*built[6] = {"echo", "pwd", "export", "unset" , "env", "exit"};
-	int			i;
+	char	*built[6];
+	int		i;
 
+	built[0] = "echo";
+	built[1] = "pwd";
+	built[2] = "export";
+	built[3] = "unset";
+	built[4] = "env";
+	built[5] = "exit";
 	i = 0;
 	while (i < 6)
 	{

@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/21 19:45:09 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:08:00 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int		try_builtin(
 			t_token *list,
 			t_redirect *redir
 			);
-int	ft_env(t_list *envp_list, char **cmd);
+int		ft_env(t_list *envp_list, char **cmd);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
 void	set_pwd(t_list *envp_list);

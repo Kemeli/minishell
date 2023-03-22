@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 21:42:09 by kmatos-s          #+#    #+#             */
-/*   Updated: 2023/03/07 21:02:00 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:25:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # define ERROR "Error\n"
 # define READ 0
 # define WRITE 1
-#ifndef VERBOSE
-# define VERBOSE 0
-#endif
+# ifndef VERBOSE
+#  define VERBOSE 0
+# endif
 
 /******************************************************************************\
 * COLORS																	   *

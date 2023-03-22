@@ -68,7 +68,7 @@ char	*expander(char *input, t_envar *env, char *new_input, t_list *envp)
 	return (new_input);
 }
 
-char *get_expanded_var(char *input, t_list *envp, int hd)
+char	*get_expanded_var(char *input, t_list *envp, int hd)
 {
 	t_envar	*env;
 	char	*new_input;
