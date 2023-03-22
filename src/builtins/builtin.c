@@ -31,8 +31,9 @@ int	ft_pwd(void)
 {
 	char	*pwd;
 
-	pwd = getcwd(NULL, 0);
-	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	pwd = NULL;
+	pwd = getcwd(pwd, BUFFER);
+	if (pwd == NULL)
 	{
 		g_shell.exit_status = 42;
 		free (pwd);
@@ -53,42 +54,44 @@ int	status(char *msg1, char *msg2, char *msg3, int status)
 	return (0);
 }
 
-void	set_oldpwd(t_list **envp_list)
+void	set_oldpwd(t_list **envp_list, char *temp)
 {
 	char	**oldpwd;
-	char	*temp;
 
 	oldpwd = ft_calloc (sizeof(char *), 3);
-	temp = getcwd(NULL, 0);
-	getcwd (temp, sizeof (temp));
 	oldpwd[0] = ft_strdup ("export");
 	oldpwd[1] = ft_strjoin("OLDPWD=", temp);
 	oldpwd[2] = NULL;
 	ft_export (oldpwd, envp_list);
-	free (temp);
 	free_matrix (oldpwd);
 }
 
 int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
 {
 	char	*path;
+	char	*temp;
+	int		ret;
 
-	set_oldpwd(envp_list);
+	ret = 1;
+	temp = NULL;
+	temp = getcwd (temp, BUFFER);
 	if (cmd[1] == NULL)
 	{
 		path = get_env("HOME", *envp_list);
 		if (chdir(path))
-			status("minishell: ", "cd: ", "no such file or directory", 1);
+			ret = status("minishell: ", "cd: ", "no such file or directory", 1);
 		free (path);
 	}
 	else if (cmd[2])
-		status("minishell: ", "cd: ", "too many arguments", 1);
-	else
+		ret = status("minishell: ", "cd: ", "too many arguments", 1);
+	else if (chdir (cmd[1]) != 0)
+		ret = status("minishell: ", "cd: ", "no such file or directory", 1);
+	if (ret != 0)
 	{
-		if (chdir (cmd[1]) != 0)
-			status("minishell: ", "cd: ", "no such file or directory", 1); //colocar argumento?
+		set_oldpwd(envp_list, temp);
+		set_pwd(*envp_list);
 	}
-	set_pwd(*envp_list);
+	free (temp);
 	return (1);
 }
 

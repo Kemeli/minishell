@@ -45,20 +45,19 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 
 void	set_pwd(t_list *envp_list)
 {
-	t_list	*aux;
+
+	char	**pwd;
 	char	*temp;
 
-	aux = envp_list;
-	while (aux && !ft_strncmp(aux->content, "PWD", 3))
-		aux = aux->next;
-	if (ft_strncmp(aux->content, "PWD", 3))
-	{
-		free (aux->content);
-		temp = getcwd(NULL, 0);
-		getcwd(temp, sizeof(temp));
-		aux->content = ft_strjoin ("PWD=", temp);
-		free (temp);
-	}
+	temp = NULL;
+	temp = getcwd (temp, BUFFER);
+	pwd = ft_calloc (sizeof(char *), 3);
+	pwd[0] = ft_strdup ("export");
+	pwd[1] = ft_strjoin("PWD=", temp);
+	pwd[2] = NULL;
+	ft_export (pwd, &envp_list);
+	free (temp);
+	free_matrix (pwd);
 }
 
 int	is_env_char(int c)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/21 21:08:00 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:14:01 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define SEPARATOR -1
 # define SPACE ' '
 # define _XOPEN_SOURCE 700
+# define BUFFER 4096
 
 enum e_token_type
 {
