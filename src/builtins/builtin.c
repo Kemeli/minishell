@@ -43,10 +43,14 @@ int	ft_pwd(void)
 	return (1);
 }
 
-void	exit_status(char *message, int status)
+int	status(char *msg1, char *msg2, char *msg3, int status)
 {
-	printf ("%s", message);
+	printf ("%s", msg1);
+	printf ("%s", msg2);
+	printf ("%s", msg3);
+	printf ("\n");
 	g_shell.exit_status = status;
+	return (0);
 }
 
 void	set_oldpwd(t_list **envp_list)
@@ -74,15 +78,15 @@ int	ft_cd(char **cmd, t_list **envp_list) //setar oldpwd?
 	{
 		path = get_env("HOME", *envp_list);
 		if (chdir(path))
-			exit_status ("minishell: cd: no such file or directory\n", 1);
+			status("minishell: ", "cd: ", "no such file or directory", 1);
 		free (path);
 	}
 	else if (cmd[2])
-		exit_status ("minishell: cd: too many arguments\n", 1);
+		status("minishell: ", "cd: ", "too many arguments", 1);
 	else
 	{
 		if (chdir (cmd[1]) != 0)
-			exit_status ("minishell: cd: no such file or directory\n", 1); //colocar argumento?
+			status("minishell: ", "cd: ", "no such file or directory", 1); //colocar argumento?
 	}
 	set_pwd(*envp_list);
 	return (1);

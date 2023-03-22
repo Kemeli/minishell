@@ -170,6 +170,7 @@ int		ft_env(t_list *envp_list, char **cmd);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
 void	set_pwd(t_list *envp_list);
+int		status(char *msg1, char *msg2, char *msg3, int status);
 
 /******************************************************************************\
 * FREE																		   *
