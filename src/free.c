@@ -7,8 +7,6 @@ void	free_matrix(char **input)
 	i = 0;
 	while (input && input[i])
 	{
-		// if (input && input[i][0] == '\0')
-		// 	i++;
 		if (input && input[i])
 		{
 			free(input[i]);
@@ -19,6 +17,20 @@ void	free_matrix(char **input)
 	if (input)
 		free(input);
 	input = NULL;
+}
+
+void	free_input_matrix(char **input, int i)
+{
+	int counter = i;
+	i = 0;
+	while (counter >= 0)
+	{
+		if (input[i])
+			free(input[i]);
+		i++;
+		counter--;
+	}
+	free (input);
 }
 
 void	free_int_mat(int **input)

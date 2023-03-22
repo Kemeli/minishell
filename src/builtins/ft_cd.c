@@ -48,7 +48,7 @@ int	ft_cd(char **cmd, t_list **envp_list)
 	else if (cmd[2])
 		ret = status("minishell: ", "cd: ", "too many arguments", 1);
 	else if (chdir (cmd[1]) != 0)
-		ret = status("minishell: ", "cd: ", "no such file or directory", 1);
+		ret = status("minishell: ", "cd: ", "no such directory", 1);
 	if (ret != 0)
 	{
 		set_oldpwd(envp_list, temp);

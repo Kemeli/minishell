@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/22 18:32:19 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:05:07 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int		check_valid_envar(char **cmd, char *msg1, char *msg3, int exp);
 
 void	free_int_mat(int **input);
 void	free_matrix(char **input);
+void	free_input_matrix(char **input, int i);
 void	free_list(t_token *list);
 void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 void	free_shell(void);

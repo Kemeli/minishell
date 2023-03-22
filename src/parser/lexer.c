@@ -93,6 +93,6 @@ t_token	*lexer(char **input, t_token *list)
 				check_cmd_type(new);
 		}
 	}
-	free_matrix (input);
+	free_input_matrix (input, i);
 	return (list);
 }
