@@ -1,23 +1,5 @@
 #include <minishell.h>
 
-void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
-{
-	if (exec->cmd)
-		free_matrix(exec->cmd);
-	if (exec->path)
-		free (exec->path);
-	if (exec->envp_ms)
-		free_matrix(exec->envp_ms);
-	unlink ("__heredoc");
-	free_int_mat(exec->fd);
-	free (redir);
-	free_list (aux);
-	ft_lstclear(&envp, &free);
-	free (exec);
-	close (0);
-	close (1);
-	close (2);
-}
 
 static void	change_fd(int file, int std_fd)
 {

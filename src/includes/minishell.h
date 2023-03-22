@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/22 14:14:01 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:32:19 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,15 @@ int		try_builtin(
 			t_token *list,
 			t_redirect *redir
 			);
+int		ft_cd(char **cmd, t_list **envp_list);
+int		ft_echo(char **cmd);
 int		ft_env(t_list *envp_list, char **cmd);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
-void	set_pwd(t_list *envp_list);
+int		ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir);
+int		ft_pwd(void);
 int		status(char *msg1, char *msg2, char *msg3, int status);
+int		check_valid_envar(char **cmd, char *msg1, char *msg3, int exp);
 
 /******************************************************************************\
 * FREE																		   *

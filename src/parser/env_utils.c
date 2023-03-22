@@ -43,23 +43,6 @@ t_list	*make_envp_list(char **envp, t_list *envp_list)
 	return (envp_list);
 }
 
-void	set_pwd(t_list *envp_list)
-{
-
-	char	**pwd;
-	char	*temp;
-
-	temp = NULL;
-	temp = getcwd (temp, BUFFER);
-	pwd = ft_calloc (sizeof(char *), 3);
-	pwd[0] = ft_strdup ("export");
-	pwd[1] = ft_strjoin("PWD=", temp);
-	pwd[2] = NULL;
-	ft_export (pwd, &envp_list);
-	free (temp);
-	free_matrix (pwd);
-}
-
 int	is_env_char(int c)
 {
 	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '$')

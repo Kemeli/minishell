@@ -5,7 +5,7 @@ SRC =		main.c \
 			parser/expander.c \
 			parser/input_utils.c \
 			parser/sintax.c \
-			parser/env.c \
+			parser/env_utils.c \
 			parser/lexer_utils.c \
 			executor/executor.c \
 			executor/redirect.c \
@@ -16,7 +16,13 @@ SRC =		main.c \
 			executor/cmd_utils.c \
 			executor/cmd_path.c \
 			builtins/builtin.c \
-			builtins/env_builtins.c \
+			builtins/ft_cd.c \
+			builtins/ft_echo.c \
+			builtins/ft_env.c \
+			builtins/ft_exit.c \
+			builtins/ft_export.c \
+			builtins/ft_pwd.c \
+			builtins/ft_unset.c \
 			signals/handlers.c \
 			signals/listeners.c \
 			free.c \
