@@ -84,11 +84,11 @@ char	*get_expanded_var(char *input, t_list *envp, int hd)
 		if (input[env->i] == '\'' && !env->db_quotes && !hd)
 			env->sp_quotes = !env->sp_quotes;
 		if (input[env->i] != '$' || env->sp_quotes)
-			new_input = cpy_bytes(env, new_input, input); //leak?
+			new_input = cpy_bytes(env, new_input, input);
 		else if (input[env->i] == '$' && !env->sp_quotes)
 			new_input = expander (input, env, new_input, envp);
 	}
 	free(env);
 	free (input);
-	return (new_input); //rever
+	return (new_input);
 }

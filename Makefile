@@ -7,6 +7,7 @@ SRC =		main.c \
 			parser/sintax.c \
 			parser/env_utils.c \
 			parser/lexer_utils.c \
+			parser/dollar_char.c\
 			executor/executor.c \
 			executor/redirect.c \
 			executor/heredoc.c \

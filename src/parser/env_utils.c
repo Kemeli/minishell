@@ -20,12 +20,12 @@ char	*get_env(char *var, t_list *list_envp)
 			expanded = ft_substr (temp, ft_strlen(var) + 1, ft_strlen(temp));
 			free (join);
 			free (temp);
-			return (expanded); //talvez break aqui
+			return (expanded);
 		}
 		aux = aux->next;
 	}
 	free (join);
-	return (expanded); //rever
+	return (expanded);
 }
 
 t_list	*make_envp_list(char **envp, t_list *envp_list)
