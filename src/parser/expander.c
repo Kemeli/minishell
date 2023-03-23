@@ -56,6 +56,8 @@ char	*expander(char *input, t_envar *env, char *new_input, t_list *envp)
 		env->stt_join = ft_strjoin (new_input, env->status);
 		free(new_input);
 		new_input = ft_strdup(env->stt_join);
+		free (env->stt_join);
+		free (env->status);
 		env->i += 1;
 	}
 	else

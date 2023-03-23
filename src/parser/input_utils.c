@@ -39,7 +39,6 @@ static char	*meta_separator(char *str, char *input, t_input_utils *in)
 
 char	*input_separator(char *input, t_input_utils *in)
 {
-	in = ft_calloc(sizeof(t_input_utils), 1);
 	in->str = ft_calloc (sizeof(char *), ft_strlen(input));
 	while (input[in->i])
 	{
@@ -52,7 +51,7 @@ char	*input_separator(char *input, t_input_utils *in)
 			if ((input[in->i] == '<' || input[in->i] == '>'
 					|| input[in->i] == '|'))
 				in->str = meta_separator(in->str, input, in);
-			else if (input[in->i] == SPACE && !in->db_quotes && !in->sp)
+			else if (input[in->i] == SPACE && !in->db_quotes && !in->sp_quotes)
 				in->str[in->j] = SEPARATOR;
 			else
 				in->str[in->j] = input[in->i];

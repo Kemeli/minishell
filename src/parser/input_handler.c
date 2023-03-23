@@ -6,9 +6,10 @@ static char	**get_input_matrix(char *input)
 	char			*handled_input;
 	t_input_utils	*in;
 
+	in = ft_calloc(sizeof(t_input_utils), 1);
 	if (!input)
 		return (NULL);
-	handled_input = input_separator(input);
+	handled_input = input_separator(input, in);
 	input_matrix = ft_split(handled_input, SEPARATOR);
 	free(handled_input);
 	free(in);

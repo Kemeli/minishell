@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/23 01:48:08 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/23 12:43:55 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_list	*make_envp_list(char **envp, t_list *envp_list);
 \******************************************************************************/
 char	**get_input(t_list *list_envp);
 int		opened_quotes(char *input);
-char	*input_separator(char *input);
+char	*input_separator(char *input, t_input_utils *in);
 char	*handle_dollar(char *input);
 char	*handle_quotes_dollar(char *input);
 
