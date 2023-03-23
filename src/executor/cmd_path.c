@@ -26,7 +26,7 @@ static char	*check_acess(char *path, char **paths, char *slash_cmd)
 		if (!access (path, F_OK))
 			return (path);
 		i++;
-		free (path); //talvez jogar esse free p cima
+		free (path);
 		path = NULL;
 	}
 	return (NULL);

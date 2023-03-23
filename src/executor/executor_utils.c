@@ -57,10 +57,6 @@ char	**envp_matrix(t_list *list_envp)
 
 void	wait_processes(t_exec *exec)
 {
-	// waitpid(exec->pid, 0, 0);
-	// waitpid(-1, NULL, 0);
-	// exec->status = 0;
-	// exec->exit_status = 0;
 	waitpid(exec->pid, &exec->status, 0);
 	if (WIFEXITED(exec->status))
 	{

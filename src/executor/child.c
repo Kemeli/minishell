@@ -1,13 +1,12 @@
 #include <minishell.h>
 
-
 static void	change_fd(int file, int std_fd)
 {
 	dup2(file, std_fd);
 	close (file);
 }
 
-static void	fd_redir(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
+static void	fd_redir(t_redirect *redirect, t_exec *exec, int i)
 {
 	if (redirect->here_file)
 		change_fd(redirect->here_file, STDIN_FILENO);
@@ -17,7 +16,7 @@ static void	fd_redir(t_redirect *redirect, t_exec *exec, int i) //mudar nome i
 		change_fd(redirect->outfile, STDOUT_FILENO);
 	if (!redirect->outfile && exec->to_process > 1)
 		dup2 (exec->fd[i][1], STDOUT_FILENO);
-	if (!redirect->infile && i > 0) //segundo loop, output pipe anterior
+	if (!redirect->infile && i > 0)
 		dup2 (exec->fd[i - 1][0], STDIN_FILENO);
 	close_fd(exec->fd);
 }
@@ -36,7 +35,7 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
 			perror(exec->cmd[0]);
 	}
-	else if (exec->cmd && !is_builtin) //talvez uma função que faça isso
+	else if (exec->cmd && !is_builtin)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(exec->cmd[0], 2);

@@ -43,7 +43,7 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 	while (exec->to_process >= 1)
 	{
 		redir = ft_calloc(sizeof(t_redirect), 1);
-		redirector(aux, redir, envp); //atualiza aux em cmd_handler
+		redirector(aux, redir, envp);
 		aux = get_cmd_matrix(aux, exec);
 		is_builtin = 0;
 		if (exec->ended_proc == 0 && exec->to_process == 1)

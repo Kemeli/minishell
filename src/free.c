@@ -21,7 +21,9 @@ void	free_matrix(char **input)
 
 void	free_input_matrix(char **input, int i)
 {
-	int counter = i;
+	int	counter;
+
+	counter = i;
 	i = 0;
 	while (counter >= 0)
 	{

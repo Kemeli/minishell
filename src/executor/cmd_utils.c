@@ -64,7 +64,7 @@ t_token	*get_cmd_matrix(t_token *list, t_exec *exec)
 		aux = aux->next;
 	}
 	if (aux && (aux->type == SYS_CMD || aux->type == BUILTIN))
-		aux = cmd_matrix(aux, exec); //dar free
+		aux = cmd_matrix(aux, exec);
 	while (aux && aux->type != PIPE)
 		aux = aux->next;
 	return (aux);

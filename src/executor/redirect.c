@@ -16,9 +16,9 @@ void	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 				perror (file);
 		}
 		else if (aux->type == APPEND_OUT)
-			redir->outfile = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644); //verificar permissões
+			redir->outfile = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (aux->type == OUTFILE)
-			redir->outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644); //verificar permissões
+			redir->outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (aux->next && aux->type == HEREDOC)
 			heredoc_handler(redir, envp, &aux);
 		if (aux)
