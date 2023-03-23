@@ -3,7 +3,8 @@
 
 int	ft_env(t_list *envp_list, char **cmd)
 {
-	t_list	*aux;
+	char	**matrix;
+	int		i;
 
 	if (cmd && cmd[1])
 	{
@@ -11,11 +12,18 @@ int	ft_env(t_list *envp_list, char **cmd)
 		g_shell.exit_status = 127;
 		return (1);
 	}
-	aux = envp_list;
-	while (aux)
+	i = 0;
+	matrix = envp_matrix(envp_list);
+	while (matrix[i])
 	{
-		printf("%s\n", (char *)aux->content);
-		aux = aux->next;
+		if (matrix[i][0] == '\0')
+		{
+			i++;
+			continue ;
+		}
+		printf("%s\n", matrix[i]);
+		i++;
 	}
+	free_matrix (matrix);
 	return (1);
 }
