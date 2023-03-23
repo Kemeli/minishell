@@ -44,9 +44,7 @@ void	handle_heredoc_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	if (g_shell.current_pid != 0)
-		ft_putchar_fd('\n', STDERR_FILENO);
-	else
-		rl_on_new_line();
-	rl_redisplay();
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
 }
