@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/22 20:05:07 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/23 01:48:08 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ typedef struct s_input_utils
 {
 	int		i;
 	int		j;
-	int		open_quotes;
+	int		db_quotes;
+	int		sp_quotes;
+	char	*str;
 }	t_input_utils;
 
 typedef struct s_envar

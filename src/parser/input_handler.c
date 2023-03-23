@@ -2,14 +2,16 @@
 
 static char	**get_input_matrix(char *input)
 {
-	char	**input_matrix;
-	char	*handled_input;
+	char			**input_matrix;
+	char			*handled_input;
+	t_input_utils	*in;
 
 	if (!input)
 		return (NULL);
 	handled_input = input_separator(input);
 	input_matrix = ft_split(handled_input, SEPARATOR);
 	free(handled_input);
+	free(in);
 	return (input_matrix);
 }
 
