@@ -63,3 +63,22 @@ int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
 	}
 	return (ret);
 }
+
+int	env_built(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
+{
+	int	ret;
+
+	ret = 0;
+	if (exec->cmd && exec->cmd[0])
+	{
+		if (!ft_strncmp(exec->cmd[0], "cd", 3))
+			ret = ft_cd(exec->cmd, envp);
+		else if (!ft_strncmp(exec->cmd[0], "export", 7))
+			ret = ft_export(exec->cmd, envp);
+		else if (!ft_strncmp(exec->cmd[0], "exit", 5))
+			ret = ft_exit(exec, list, *envp, redir);
+		else if (!ft_strncmp(exec->cmd[0], "unset", 6))
+			ret = ft_unset (exec->cmd, *envp);
+	}
+	return (ret);
+}

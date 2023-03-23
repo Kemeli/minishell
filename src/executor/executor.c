@@ -47,7 +47,7 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 		aux = get_cmd_matrix(aux, exec);
 		is_builtin = 0;
 		if (exec->ended_proc == 0 && exec->to_process == 1)
-			is_builtin = try_builtin(exec, &envp, list, redir);
+			is_builtin = env_built(exec, &envp, list, redir);
 		if (!is_builtin)
 			exec_child(exec, redir, list, envp);
 		free_parent_process(exec, redir);
