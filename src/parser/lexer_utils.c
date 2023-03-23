@@ -53,6 +53,16 @@ char	*handle_quotes_dollar(char *input)
 	i = 0;
 	if (input && ft_strchr("$", input[0]))
 		input = handle_dollar(input);
+	if (input[0] == '\'' && input[1] == '\'' && input[2] == '\0')
+	{
+		free (input);
+		return (NULL);
+	}
+	if (input[0] == '\"' && input[1] == '\"' && input[2] == '\0')
+	{
+		free (input);
+		return (NULL);
+	}
 	if (input && (ft_strchr(input, '\'') || ft_strchr(input, '\"')))
 		input = cut_quotes (input, i);
 	return (input);
