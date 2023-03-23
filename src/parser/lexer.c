@@ -70,6 +70,7 @@ static t_token	*get_list(t_token *new_token, t_token *list)
 			aux = aux->next;
 		aux->next = new_token;
 		new_token->prev = aux;
+		new_token->next = NULL;
 	}
 	return (list);
 }

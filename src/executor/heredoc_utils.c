@@ -27,14 +27,18 @@ char	**eof_matrix(t_token **aux)
 	eof_matrix = alloc_eof(*aux);
 	if ((*aux)->type == HEREDOC)
 		(*aux) = (*aux)->next;
-	while (*aux)
+	while (*aux && ((*aux)->type == HERE_ARG || (*aux)->type == HEREDOC))
 	{
 		if ((*aux)->type == HERE_ARG)
 		{
 			eof_matrix[i] = ft_strdup((*aux)->cmd);
 			i++;
 		}
-		(*aux) = (*aux)->next;
+		if ((*aux)->next && ((*aux)->next->type == HERE_ARG
+			|| (*aux)->next->type == HEREDOC))
+			(*aux) = (*aux)->next;
+		else
+			break;
 	}
 	eof_matrix[i] = NULL;
 	return (eof_matrix);
