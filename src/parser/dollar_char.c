@@ -23,10 +23,10 @@ static char	*cpy_bytes(char *temp, char *ret, char *new_input, int i)
 		ret = ft_calloc (sizeof (char *), 1);
 	sub = ft_substr (new_input, i, 1);
 	temp = ft_strjoin (ret, sub);
-	free (ret);
+	free_null (&ret);
 	ret = ft_strdup (temp);
-	free (temp);
-	free (sub);
+	free_null (&temp);
+	free_null (&sub);
 	return (ret);
 }
 
@@ -40,9 +40,9 @@ static char	*single_dollar(t_dollar *dollar, char *input, int i)
 		if (!dollar->ret)
 			dollar->ret = ft_calloc (sizeof(char *), 1);
 		dollar->temp = ft_strjoin(dollar->ret, "$");
-		free (dollar->ret);
+		free_null (&dollar->ret);
 		dollar->ret = ft_strdup (dollar->temp);
-		free (dollar->temp);
+		free_null (&dollar->temp);
 		dollar->key = 1;
 	}
 	return (dollar->ret);
@@ -68,7 +68,8 @@ static char	*validate_dollar(char *input, t_dollar *dollar, int i)
 			i = ignore_invalid_input(input, i);
 		if (input[i] && input[i] == '$' && sp_quotes && !dollar->key)
 			dollar->ret = cpy_bytes(dollar->temp, dollar->ret, input, i);
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (dollar->ret);
 }
@@ -83,12 +84,11 @@ char	*handle_dollar(char *input)
 	i = 0;
 	dollar = ft_calloc(sizeof (t_dollar), 1);
 	new_input = ft_strdup (input);
-	free (input);
-	input = NULL;
+	free_null (&input);
 	if (!ft_strchr (new_input, '$'))
 		return (new_input);
 	ret = validate_dollar(new_input, dollar, i);
-	free (new_input);
+	free_null (&new_input);
 	free (dollar);
 	return (ret);
 }

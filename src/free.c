@@ -64,3 +64,9 @@ void	free_list(t_token *list)
 	free(list);
 	list = NULL;
 }
+
+void	free_null(char **str)
+{
+	free (*str);
+	*str = NULL;
+}

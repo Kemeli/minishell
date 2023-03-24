@@ -65,7 +65,7 @@ debug:
 	@$(CC) -D_XOPEN_SOURCE=700 -g $(INCLUDES) $(addprefix src/,$(SRC)) $(LIBFT) -lreadline -o $(NAME)
 
 runrl:	$(NAME)
-	make
+	make re
 	@valgrind --suppressions=./local.supp --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell
 
 .PHONY: all clean fclean re debug runrl

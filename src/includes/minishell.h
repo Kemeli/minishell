@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/24 12:39:31 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:59:39 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct s_dollar
 	char	*temp;
 	char	*ret;
 }	t_dollar;
+
+typedef struct s_cut_quotes
+{
+	char	*new;
+	int		db_quotes;
+	int		sp_quotes;
+}	t_cut_quotes;
 
 typedef struct s_input_utils
 {
@@ -197,6 +204,7 @@ void	free_input_matrix(char **input, int i);
 void	free_list(t_token *list);
 void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
 void	free_shell(void);
+void	free_null(char **str);
 
 /******************************************************************************\
 * SIGNALS																	   *
