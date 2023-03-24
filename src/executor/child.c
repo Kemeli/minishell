@@ -16,7 +16,7 @@ static void	fd_redir(t_redirect *redirect, t_exec *exec, int i)
 		change_fd(redirect->outfile, STDOUT_FILENO);
 	if (!redirect->outfile && exec->to_process > 1)
 		dup2 (exec->fd[i][1], STDOUT_FILENO);
-	if (!redirect->infile && i > 0)
+	if (!redirect->infile && i > 0 && !redirect->here_file)
 		dup2 (exec->fd[i - 1][0], STDIN_FILENO);
 	close_fd(exec->fd);
 }
