@@ -1,12 +1,22 @@
 #include <minishell.h>
 
+int	is_env_dollar(int c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '_')
+	{
+		return (1);
+	}
+	return (0);
+}
+
+
 static int	ignore_invalid_input(char *input, int i)
 {
 	i++;
 	if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
 	{
 		i++;
-		while (input[i] && is_env_char(input[i]))
+		while (input[i] && is_env_dollar(input[i]))
 			i++;
 	}
 	else if (input[i] && ft_isdigit(input[i]))
