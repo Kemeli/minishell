@@ -51,7 +51,7 @@ char	*handle_quotes_dollar(char *input)
 	int	i;
 
 	i = 0;
-	if (input && ft_strchr("$", input[0]))
+	if (input && ft_strchr(input, '$'))
 		input = handle_dollar(input);
 	if (input && input[0] == '\'' && input[1] == '\'' && input[2] == '\0')
 	{

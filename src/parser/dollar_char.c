@@ -69,8 +69,12 @@ static char	*validate_dollar(char *new_input)
 		if (new_input[i] && ft_strchr ("$", new_input[i]))
 		{
 			i++;
-			if (!new_input[i] || new_input[i] == ' ')
+			if (!new_input[i] || new_input[i] == ' ' 
+				|| new_input[i] == '\'' || new_input[i] == '\"')
+			{
 				ret = single_dollar (temp, ret);
+				i++;
+			}
 			else
 				i = ignore_invalid_input(new_input, i);
 		}
