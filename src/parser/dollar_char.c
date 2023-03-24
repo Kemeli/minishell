@@ -82,11 +82,11 @@ char	*handle_dollar(char *input)
 	t_dollar	*dollar;
 
 	i = 0;
-	dollar = ft_calloc(sizeof (t_dollar), 1);
 	new_input = ft_strdup (input);
 	free_null (&input);
 	if (!ft_strchr (new_input, '$'))
 		return (new_input);
+	dollar = ft_calloc(sizeof (t_dollar), 1);
 	ret = validate_dollar(new_input, dollar, i);
 	free_null (&new_input);
 	free (dollar);

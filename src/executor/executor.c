@@ -14,6 +14,10 @@ static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 		close (redirect->here_file);
 		unlink ("__heredoc");
 	}
+	if (redirect->outfile)
+		close(redirect->outfile);
+	if (redirect->infile)
+		close(redirect->infile);
 	free_matrix (exec->cmd);
 	free (redirect);
 	if (exec->path)
