@@ -29,6 +29,13 @@ static void	set_oldpwd(t_list **envp_list, char *temp)
 	free_matrix (oldpwd);
 }
 
+int	cd_error (void)
+{
+	perror ("minishell: cd");
+	g_shell.exit_status = 1;
+	return (0);
+}
+
 int	ft_cd(char **cmd, t_list **envp_list)
 {
 	char	*path;
@@ -42,13 +49,13 @@ int	ft_cd(char **cmd, t_list **envp_list)
 	{
 		path = get_env("HOME", *envp_list);
 		if (chdir(path))
-			ret = status("minishell: ", "cd: ", "no such file or directory", 1);
+			cd_error();
 		free (path);
 	}
 	else if (cmd[2])
-		ret = status("minishell: ", "cd: ", "too many arguments", 1);
+		ret = cd_error();
 	else if (chdir (cmd[1]) != 0)
-		ret = status("minishell: ", "cd: ", "no such directory", 1);
+		ret = cd_error();
 	if (ret != 0)
 	{
 		set_oldpwd(envp_list, temp);
