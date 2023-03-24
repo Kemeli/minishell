@@ -32,10 +32,11 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 	if (exec->path && !is_builtin)
 	{
 		exec->envp_ms = envp_matrix(envp);
-		if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
-			perror(exec->cmd[0]);
+		// if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
+		// 	perror(exec->cmd[0]);
+		execve(exec->path, exec->cmd, exec->envp_ms);
 	}
-	else if (exec->cmd && !is_builtin)
+	if (exec->cmd && !is_builtin)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(exec->cmd[0], 2);

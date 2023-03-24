@@ -7,7 +7,7 @@ static char	*slash_cmd_handle(char *cmd)
 	char	*temp;
 
 	temp = ft_strrchr(cmd, '/');
-	if (temp)
+	if (temp && temp[1] != '\0')
 	{
 		check_slash = ft_strdup(temp);
 		absolut_cmd = ft_strtrim(check_slash, "/");

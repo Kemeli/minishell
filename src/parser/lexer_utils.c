@@ -17,7 +17,7 @@ char	*cpy_character(char *str, char *new, int i)
 	return (new);
 }
 
-static	int ignore_adjacent_quotes(char *str, int i, t_cut_quotes *cut)
+static int	ignore_adjacent_quotes(char *str, int i, t_cut_quotes *cut)
 {
 	if (str[i] == '\"' && !cut->sp_quotes)
 	{
