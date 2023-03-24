@@ -10,9 +10,9 @@ static void	fd_redir(t_redirect *redirect, t_exec *exec, int i)
 {
 	if (redirect->here_file)
 		change_fd(redirect->here_file, STDIN_FILENO);
-	if (redirect->infile)
+	if (redirect->infile && redirect->infile != -1)
 		change_fd(redirect->infile, STDIN_FILENO);
-	if (redirect->outfile)
+	if (redirect->outfile && redirect->outfile != -1)
 		change_fd(redirect->outfile, STDOUT_FILENO);
 	if (!redirect->outfile && exec->to_process > 1)
 		dup2 (exec->fd[i][1], STDOUT_FILENO);

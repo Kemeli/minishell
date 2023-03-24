@@ -64,6 +64,4 @@ void	wait_processes(t_exec *exec)
 		g_shell.exit_status = exec->exit_status;
 	}
 	waitpid(-1, NULL, 0);
-	waitpid(-1, NULL, 0);
-	waitpid(-1, NULL, 0); //será?
 }
