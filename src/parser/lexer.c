@@ -92,7 +92,7 @@ t_token	*lexer(char **input, t_token *list)
 			check_redirect_type(new);
 			if (!new->type)
 				check_cmd_type(new);
-			else
+			if (!new->type)
 				new->type = '\0';
 		}
 	}

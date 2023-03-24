@@ -42,5 +42,8 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 		ft_putstr_fd(": no such file or directory\n", 2);
 	}
 	free_exit (exec, redir, aux, envp);
-	exit(127);
+	if (!is_builtin)
+		exit(127);
+	else
+		exit(g_shell.exit_status);
 }
