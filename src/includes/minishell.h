@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/23 15:44:04 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:39:31 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ enum e_token_type
 	INFILE = 11,
 	APPEND_OUT = 12
 };
+
+typedef struct s_dollar
+{
+	int		key;
+	char	*temp;
+	char	*ret;
+}	t_dollar;
 
 typedef struct s_input_utils
 {

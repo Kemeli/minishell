@@ -64,6 +64,10 @@ char	*handle_quotes_dollar(char *input)
 		return (NULL);
 	}
 	if (input && (ft_strchr(input, '\'') || ft_strchr(input, '\"')))
+	{
 		input = cut_quotes (input, i);
+		if (input[0] == '\0')
+			return (NULL);
+	}
 	return (input);
 }

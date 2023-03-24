@@ -1,22 +1,13 @@
 #include <minishell.h>
 
-int	is_env_dollar(int c)
-{
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '_')
-	{
-		return (1);
-	}
-	return (0);
-}
-
-
 static int	ignore_invalid_input(char *input, int i)
 {
 	i++;
 	if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
 	{
 		i++;
-		while (input[i] && is_env_dollar(input[i]))
+		while (input[i] && (ft_isalpha(input[i])
+				|| ft_isdigit(input[i]) || input[i] == '_'))
 			i++;
 	}
 	else if (input[i] && ft_isdigit(input[i]))
@@ -39,60 +30,65 @@ static char	*cpy_bytes(char *temp, char *ret, char *new_input, int i)
 	return (ret);
 }
 
-static char	*single_dollar(char *temp, char *ret)
+static char	*single_dollar(t_dollar *dollar, char *input, int i)
 {
-	if (!ret)
-		ret = ft_calloc (sizeof(char *), 1);
-	temp = ft_strjoin(ret, "$");
-	free (ret);
-	ret = ft_strdup (temp);
-	free (temp);
-	return (ret);
+	i++;
+	dollar->key = 0;
+	if (!input[i] || input[i] == ' '
+		|| input[i] == '\"' || input[i] == '$')
+	{
+		if (!dollar->ret)
+			dollar->ret = ft_calloc (sizeof(char *), 1);
+		dollar->temp = ft_strjoin(dollar->ret, "$");
+		free (dollar->ret);
+		dollar->ret = ft_strdup (dollar->temp);
+		free (dollar->temp);
+		dollar->key = 1;
+	}
+	return (dollar->ret);
 }
 
-static char	*validate_dollar(char *new_input)
+static char	*validate_dollar(char *input, t_dollar *dollar, int i)
 {
-	char	*ret;
-	char	*temp;
-	int		i;
+	int		sp_quotes;
 
-	i = 0;
-	ret = NULL;
-	temp = NULL;
-	while (new_input[i])
+	sp_quotes = 0;
+	while (input && input[i])
 	{
-		while (new_input[i] && new_input[i] != '$')
+		while (input[i] && (input[i] != '$'))
 		{
-			ret = cpy_bytes(temp, ret, new_input, i);
+			if (input[i] == '\'')
+				sp_quotes = !sp_quotes;
+			dollar->ret = cpy_bytes(dollar->temp, dollar->ret, input, i);
 			i++;
 		}
-		if (new_input[i] && ft_strchr ("$", new_input[i]))
-		{
-			i++;
-			if (!new_input[i] || new_input[i] == ' ' 
-				|| new_input[i] == '\'' || new_input[i] == '\"')
-			{
-				ret = single_dollar (temp, ret);
-				i++;
-			}
-			else
-				i = ignore_invalid_input(new_input, i);
-		}
+		if (input[i] && input[i] == '$')
+			dollar->ret = single_dollar (dollar, input, i);
+		if (input[i] && input[i] == '$' && !sp_quotes && !dollar->key)
+			i = ignore_invalid_input(input, i);
+		if (input[i] && input[i] == '$' && sp_quotes && !dollar->key)
+			dollar->ret = cpy_bytes(dollar->temp, dollar->ret, input, i);
+		i++;
 	}
-	return (ret);
+	return (dollar->ret);
 }
 
 char	*handle_dollar(char *input)
 {
-	char	*ret;
-	char	*new_input;
+	char		*ret;
+	char		*new_input;
+	int			i;
+	t_dollar	*dollar;
 
+	i = 0;
+	dollar = ft_calloc(sizeof (t_dollar), 1);
 	new_input = ft_strdup (input);
 	free (input);
 	input = NULL;
 	if (!ft_strchr (new_input, '$'))
 		return (new_input);
-	ret = validate_dollar(new_input);
+	ret = validate_dollar(new_input, dollar, i);
 	free (new_input);
+	free (dollar);
 	return (ret);
 }

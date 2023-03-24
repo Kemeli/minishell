@@ -43,7 +43,7 @@ char	*input_separator(char *input, t_input_utils *in)
 	while (input[in->i])
 	{
 		if (input[in->i] == '\'')
-			in->sp_quotes = !in->sp_quotes; // 0 - 1 - 0
+			in->sp_quotes = !in->sp_quotes;
 		if (input[in->i] == '\"')
 			in->db_quotes = !in->db_quotes;
 		if (!in->db_quotes && !in->sp_quotes)
@@ -58,11 +58,10 @@ char	*input_separator(char *input, t_input_utils *in)
 		}
 		else if (input[in->i] == '\'' || input[in->i] == '\"')
 			in->str[in->j] = input[in->i];
-		else 
+		else
 			in->str[in->j] = input[in->i];
 		in->i++;
 		in->j++;
 	}
-	in->str[in->j] = '\0';
 	return (in->str);
 }
