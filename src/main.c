@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/24 14:52:02 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:38:23 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ int	main(int argc, char **argv, char **envp)
 			list = lexer(input, list);
 			// print_list(list);
 			if (list && sintax(list))
-			{
 				start_exec(list, g_shell.envp_list);
-				free_list(list);
-			}
+			if (list)
+				free_list (list);
 		}
 	}
 	free_shell();

@@ -25,5 +25,6 @@ int	ft_echo(char **cmd)
 	}
 	if (new_line)
 		printf("\n");
+	g_shell.exit_status = 0;
 	return (1);
 }

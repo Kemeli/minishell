@@ -47,7 +47,7 @@ static char	*check_handle_pipe(char *input)
 	char	*rest_of_input;
 	char	*join_input;
 
-	if (input[ft_strlen(input) - 1] == '|')
+	if (input[ft_strlen(input) - 1] == '|' && input[1])
 	{
 		rest_of_input = readline(">");
 		join_input = ft_strjoin(input, rest_of_input);
