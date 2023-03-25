@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/24 14:59:39 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/25 03:08:17 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ int		sintax(t_token *list);
 \******************************************************************************/
 
 void	start_exec(t_token *list, t_list *envp_list);
-void	redirector(t_token *aux, t_redirect *redirect, t_list *envp);
-void	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
+int		redirector(t_token *aux, t_redirect *redir, t_list *envp);
+int	heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
 char	**heredoc_matrix(char *input);
 char	*join_heredoc_input(char *input, char *read);
 char	**eof_matrix(t_token **aux);

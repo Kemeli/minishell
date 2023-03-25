@@ -56,24 +56,27 @@ static char	*start_heredoc(t_token **aux)
 	return (input);
 }
 
-void	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
+int	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 {
 	char	*input;
 	char	**input_matrix;
 	char	*file;
 
-	file = ft_strdup("__heredoc");
-	redir->here_file = open (file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 	input = start_heredoc (aux);
 	if (input)
 	{
+		file = ft_strdup("__heredoc");
+		redir->here_file = open (file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 		input = get_expanded_var (input, envp, 1);
 		input_matrix = heredoc_matrix (input);
 		print_heredoc (input_matrix, redir);
 		free (input);
 		free_matrix (input_matrix);
+		close (redir->here_file);
+		open (file, O_RDONLY);
+		free (file);
 	}
-	close (redir->here_file);
-	open (file, O_RDONLY);
-	free (file);
+	if (!input)
+		return (0);
+	return (1);
 }

@@ -9,17 +9,18 @@ static void	end_parent(t_exec *exec)
 
 static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 {
-	if (redirect->here_file)
+	if (redirect->here_file != 0 && redirect->here_file != -1)
 	{
 		close (redirect->here_file);
 		unlink ("__heredoc");
 	}
-	if (redirect->outfile)
+	if (redirect->outfile && redirect->outfile != -1)
 		close(redirect->outfile);
-	if (redirect->infile)
+	if (redirect->infile && redirect->infile != -1)
 		close(redirect->infile);
 	free_matrix (exec->cmd);
 	free (redirect);
+	redirect = NULL;
 	if (exec->path)
 		free (exec->path);
 }
@@ -47,7 +48,11 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 	while (exec->to_process >= 1)
 	{
 		redir = ft_calloc(sizeof(t_redirect), 1);
-		redirector(aux, redir, envp);
+		if (!redirector(aux, redir, envp))
+		{
+			free(redir);
+			break ;
+		}
 		aux = get_cmd_matrix(aux, exec);
 		is_builtin = 0;
 		if (exec->ended_proc == 0 && exec->to_process == 1)
