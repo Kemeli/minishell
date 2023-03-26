@@ -29,9 +29,19 @@ static void	set_oldpwd(t_list **envp_list, char *temp)
 	free_matrix (oldpwd);
 }
 
-int	cd_error (void)
+int	cd_error (char *msg, char *cmd)
 {
-	perror ("minishell: cd");
+	char *new_msg;
+	if (cmd)
+	{
+		new_msg = ft_strjoin(msg, cmd);
+		perror (new_msg);
+		free (new_msg);
+	}
+	else if (!msg)
+		ft_putstr_fd("minishell: cd: HOME not available\n", 1);
+	else if (!cmd)
+		ft_putstr_fd (msg, 1);
 	g_shell.exit_status = 1;
 	return (0);
 }
@@ -49,13 +59,13 @@ int	ft_cd(char **cmd, t_list **envp_list)
 	{
 		path = get_env("HOME", *envp_list);
 		if (chdir(path))
-			cd_error();
+			cd_error(NULL, NULL);
 		free (path);
 	}
 	else if (cmd[2])
-		ret = cd_error();
+		ret = cd_error("minishell: cd: too many arguments\n", NULL);
 	else if (chdir (cmd[1]) != 0)
-		ret = cd_error();
+		ret = cd_error("minishell: cd: ", cmd[1]);
 	if (ret != 0)
 	{
 		set_oldpwd(envp_list, temp);
