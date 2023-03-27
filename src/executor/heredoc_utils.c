@@ -47,11 +47,13 @@ char	**eof_matrix(t_token **aux)
 char	**heredoc_matrix(char *input)
 {
 	int		i;
+	int		j;
 	char	**temp;
 	char	**here_matrix;
 	char	*dollar;
 
 	i = 0;
+	j = -1;
 	temp = ft_split(input, '\n');
 	while (temp[i])
 		i++;
@@ -61,10 +63,11 @@ char	**heredoc_matrix(char *input)
 	{
 		dollar = handle_dollar(temp[i]);
 		if (dollar)
-			here_matrix[i] = ft_strdup(dollar);
+			here_matrix[++j] = ft_strdup(dollar);
 		free (dollar);
 		i++;
 	}
+	j++;
 	here_matrix[i] = NULL;
 	free (temp);
 	return (here_matrix);

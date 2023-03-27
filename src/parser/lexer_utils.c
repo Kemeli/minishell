@@ -42,7 +42,7 @@ static int	ignore_adjacent_quotes(char *str, int i, t_cut_quotes *cut)
 	return (i);
 }
 
-static char	*cut_quotes(char *str)
+char	*cut_quotes(char *str)
 {
 	t_cut_quotes	*cut;
 	char			*new;

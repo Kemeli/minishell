@@ -29,7 +29,9 @@ static char	*heredoc(char **eof)
 		{
 			if (!eof[++i])
 				break ;
+			free (input);
 			free(read);
+			input = ft_calloc(sizeof (char *), 1);
 		}
 		else
 			input = join_heredoc_input(input, read);
@@ -61,7 +63,9 @@ int	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 	char	*input;
 	char	**input_matrix;
 	char	*file;
+	int		i;
 
+	i = -1;
 	input = start_heredoc (aux);
 	if (input)
 	{
@@ -70,6 +74,8 @@ int	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 				(file, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0777);
 		input = get_expanded_var (input, envp, 1);
 		input_matrix = heredoc_matrix (input);
+		while (input_matrix[++i])
+			input_matrix[i] = cut_quotes(input_matrix[i]);
 		print_heredoc (input_matrix, redir);
 		free (input);
 		free_matrix (input_matrix);
