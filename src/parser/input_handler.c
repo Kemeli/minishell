@@ -75,6 +75,8 @@ char	**get_input(t_list *list_envp)
 	}
 	if (!*temp_input)
 		return (NULL);
+	if (is_strblank(temp_input))
+		return (NULL);
 	add_history(temp_input);
 	input = check_handle_pipe(temp_input);
 	if (check_opened_quotes(input))

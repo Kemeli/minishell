@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/27 21:24:02 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/27 19:38:40 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int		opened_quotes(char *input);
 char	*input_separator(char *input, t_input_utils *in);
 char	*handle_dollar(char *input);
 char	*handle_quotes_dollar(char *input);
+int		is_strblank(char *str);
 
 /******************************************************************************\
 * ENVIRONMENTAL VARIABLE													   *
