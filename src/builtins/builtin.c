@@ -19,6 +19,8 @@ int	check_valid_envar(char **cmd, char *msg1, char *msg3, int exp)
 	i = 0;
 	j = 0;
 	ret = 1;
+	if (cmd[1][0] == '\0')
+		ret = status(msg1, cmd[1], msg3, 1);
 	while (cmd && cmd[++i] && cmd[i][j])
 	{
 		if (ft_isalpha(cmd[i][j]) || cmd[i][j] == '_')

@@ -31,21 +31,24 @@ static void	check_cmd_type(t_token *token)
 		token->type = ARGUMENT;
 	else if (is_builtin(token->cmd))
 		token->type = BUILTIN;
-	else
+	else if (token->cmd[0] != '\0')
 		token->type = SYS_CMD;
 }
 
 static void	check_redirect_type(t_token *token)
 {
-	if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
+	int	len;
+
+	len = ft_strlen(token->cmd);
+	if (!ft_strncmp(token->cmd, "<", len) && token->cmd[0] != '\0')
 		token->type = IN_REDIRECT;
-	else if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
+	else if (!ft_strncmp(token->cmd, ">", len) && token->cmd[0] != '\0')
 		token->type = OUT_REDIRECT;
-	else if (!ft_strncmp(token->cmd, "|", ft_strlen(token->cmd)))
+	else if (!ft_strncmp(token->cmd, "|", len) && token->cmd[0] != '\0')
 		token->type = PIPE;
-	else if (!ft_strncmp(token->cmd, "<<", ft_strlen(token->cmd)))
+	else if (!ft_strncmp(token->cmd, "<<", len) && token->cmd[0] != '\0')
 		token->type = HEREDOC;
-	else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
+	else if (!ft_strncmp(token->cmd, ">>", len) && token->cmd[0] != '\0')
 		token->type = APPEND;
 	else if (token->prev && token->prev->type == IN_REDIRECT)
 		token->type = INFILE;
@@ -93,7 +96,7 @@ t_token	*lexer(char **input, t_token *list)
 			if (!new->type)
 				check_cmd_type(new);
 			if (!new->type)
-				new->type = '\0';
+				new->type = 0;
 		}
 	}
 	free_input_matrix (input, i);
