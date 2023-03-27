@@ -26,7 +26,7 @@ static void	exit_error(
 		t_token *list,
 		t_list *envp)
 {
-	printf ("minishell: exited with invalid argument\n");
+	ft_putstr_fd ("minishell: exited with invalid argument\n", 2);
 	free_exit (exec, redir, list, envp);
 	exit (42);
 }

@@ -6,7 +6,7 @@ static int	ignore_invalid_input(char *input, int i)
 	if (input[i] && (ft_isalpha(input[i]) || !ft_strncmp(&input[i], "_", 2)))
 	{
 		i++;
-		while (input[i] && (ft_isalpha(input[i])
+		while (input[i] && input[i] != '=' && (ft_isalpha(input[i])
 				|| ft_isdigit(input[i]) || input[i] == '_'))
 			i++;
 	}
@@ -68,7 +68,7 @@ static char	*validate_dollar(char *input, t_dollar *dollar, int i)
 			i = ignore_invalid_input(input, i);
 		if (input[i] && input[i] == '$' && sp_quotes && !dollar->key)
 			dollar->ret = cpy_bytes(dollar->temp, dollar->ret, input, i);
-		if (input[i])
+		if (input[i] && input[i] != '=')
 			i++;
 	}
 	return (dollar->ret);

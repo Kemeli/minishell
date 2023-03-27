@@ -8,8 +8,7 @@ int	ft_env(t_list *envp_list, char **cmd)
 
 	if (cmd && cmd[1])
 	{
-		printf ("minishell: ‘%s’: invalid parameter\n", cmd[1]);
-		g_shell.exit_status = 127;
+		status ("minishell: env: ‘", cmd[1], "’: invalid parameter", 127);
 		return (1);
 	}
 	i = 0;

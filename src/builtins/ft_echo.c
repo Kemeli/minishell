@@ -24,7 +24,7 @@ int	ft_echo(char **cmd)
 		}
 	}
 	if (new_line)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	g_shell.exit_status = 0;
 	return (1);
 }
