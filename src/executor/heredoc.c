@@ -39,7 +39,7 @@ static char	*heredoc(char **eof)
 	return (input);
 }
 
-static char	*start_heredoc(t_token **aux)
+static char	*start_heredoc(t_token **aux, t_redirect *redir)
 {
 	char	*input;
 	char	**eof;
@@ -53,6 +53,7 @@ static char	*start_heredoc(t_token **aux)
 	{
 		free (input);
 		g_shell.stop_loop = 0;
+		redir->here_sig = -1;
 		return (NULL);
 	}
 	return (input);
@@ -66,7 +67,7 @@ int	heredoc_handler(t_redirect *redir, t_list *envp, t_token **aux)
 	int		i;
 
 	i = -1;
-	input = start_heredoc (aux);
+	input = start_heredoc (aux, redir);
 	if (input)
 	{
 		file = ft_strdup("__heredoc");

@@ -47,6 +47,8 @@ int	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 			if (!heredoc_handler(redir, envp, &aux))
 			{
 				free (file_name);
+				if (redir->here_sig == -1)
+					return (-1);
 				return (0);
 			}
 		}

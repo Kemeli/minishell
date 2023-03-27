@@ -79,7 +79,7 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 		redir = ft_calloc(sizeof(t_redirect), 1);
 		exec->valid_redir = redirector(aux, redir, envp);
 		aux = get_cmd_matrix(aux, exec);
-		if (exec->valid_redir)
+		if (exec->valid_redir && exec->valid_redir != -1)
 		{
 			exec->is_built = 0;
 			if (exec->ended_proc == 0 && exec->to_process == 1)
@@ -88,6 +88,8 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 				exec_child(exec, redir, list, envp);
 		}
 		free_parent_process(exec, redir);
+		if (exec->valid_redir == -1)
+			break ;
 		exec->to_process--;
 		exec->ended_proc++;
 	}
