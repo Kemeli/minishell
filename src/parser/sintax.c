@@ -24,17 +24,17 @@ int	sintax(t_token *list)
 	aux = list;
 	check_sintax = 1;
 	if (aux->type == PIPE)
-		check_sintax = error_sintax (aux->cmd);
+		return (error_sintax (aux->cmd));
 	while (aux && check_sintax)
 	{
 		if (aux->type == PIPE && !aux->next)
-			check_sintax = error_sintax (aux->cmd);
+			return (error_sintax (aux->cmd));
 		else if (aux->type == PIPE)
 			aux = aux->next;
 		if (aux && aux->next && is_meta(aux->type) && is_meta(aux->next->type))
-			check_sintax = error_sintax (aux->next->cmd);
+			return (error_sintax (aux->next->cmd));
 		else if (aux && is_meta(aux->type) && !aux->next)
-			check_sintax = error_sintax (aux->cmd);
+			return (error_sintax (aux->cmd));
 		aux = aux->next;
 	}
 	return (check_sintax);
