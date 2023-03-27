@@ -46,8 +46,10 @@ static char	*check_handle_pipe(char *input)
 {
 	char	*rest_of_input;
 	char	*join_input;
+	char	*trimmed_input;
 
-	if (input[ft_strlen(input) - 1] == '|' && input[1])
+	trimmed_input = ft_strtrim(input, " ");
+	if (trimmed_input[ft_strlen(trimmed_input) - 1] == '|' && trimmed_input[1])
 	{
 		rest_of_input = readline(">");
 		join_input = ft_strjoin(input, rest_of_input);
@@ -56,6 +58,7 @@ static char	*check_handle_pipe(char *input)
 		input = ft_strdup(join_input);
 		free (join_input);
 	}
+	free(trimmed_input);
 	return (input);
 }
 
