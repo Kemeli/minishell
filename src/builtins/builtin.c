@@ -2,10 +2,10 @@
 
 int	status(char *msg1, char *msg2, char *msg3, int status)
 {
-	printf ("%s", msg1);
-	printf ("%s", msg2);
-	printf ("%s", msg3);
-	printf ("\n");
+	ft_putstr_fd (msg1, 2);
+	ft_putstr_fd (msg2, 2);
+	ft_putstr_fd (msg3, 2);
+	ft_putstr_fd ("\n", 2);
 	g_shell.exit_status = status;
 	return (0);
 }

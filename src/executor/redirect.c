@@ -2,7 +2,7 @@
 
 int	file_error(char *file)
 {
-	ft_putstr_fd ("minishell: ", 1);
+	ft_putstr_fd ("minishell: ", 2);
 	perror (file);
 	free (file);
 	return (0);

@@ -10,7 +10,9 @@ static int	is_meta(int type)
 
 static int	error_sintax(char *cmd)
 {
-	printf ("minishell: syntax error near unexpected token `%s'\n", cmd);
+	ft_putstr_fd ("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd (cmd, 2);
+	ft_putstr_fd ("'\n", 2);
 	return (0);
 }
 

@@ -61,7 +61,8 @@ void	wait_processes(t_exec *exec)
 	if (WIFEXITED(exec->status))
 	{
 		exec->exit_status = WEXITSTATUS(exec->status);
-		g_shell.exit_status = exec->exit_status;
+		if (!exec->is_built)
+			g_shell.exit_status = exec->exit_status;
 	}
 	waitpid(-1, NULL, 0);
 	waitpid(-1, NULL, 0);

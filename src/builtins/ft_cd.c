@@ -40,9 +40,9 @@ int	cd_error(char *msg, char *cmd)
 		free (new_msg);
 	}
 	else if (!msg)
-		ft_putstr_fd("minishell: cd: HOME not available\n", 1);
+		ft_putstr_fd("minishell: cd: HOME not available\n", 2);
 	else if (!cmd)
-		ft_putstr_fd (msg, 1);
+		ft_putstr_fd (msg, 2);
 	g_shell.exit_status = 1;
 	return (0);
 }
