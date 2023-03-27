@@ -7,7 +7,8 @@ int	ft_unset(char **cmd, t_list *envp_list)
 	int		check;
 	int		i;
 
-	if (!check_valid_envar(cmd, "unset: `", "': not a valid identifier", 0))
+	if (!check_valid_envar(cmd, "minishell: unset: `",
+			"': not a valid identifier", 0))
 		return (1);
 	i = 0;
 	while (cmd[i])

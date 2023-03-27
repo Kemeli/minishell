@@ -41,7 +41,6 @@ static void	exec_child(
 static void	execute(t_token *list, t_exec *exec, t_list *envp)
 {
 	t_redirect	*redir;
-	int			is_builtin;
 	t_token		*aux;
 
 	aux = list;
@@ -54,10 +53,10 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 			break ;
 		}
 		aux = get_cmd_matrix(aux, exec);
-		is_builtin = 0;
+		exec->is_built = 0;
 		if (exec->ended_proc == 0 && exec->to_process == 1)
-			is_builtin = env_built(exec, &envp, list, redir);
-		if (!is_builtin)
+			exec->is_built = env_built(exec, &envp, list, redir);
+		if (!exec->is_built)
 			exec_child(exec, redir, list, envp);
 		free_parent_process(exec, redir);
 		exec->to_process--;

@@ -35,10 +35,10 @@ char	**eof_matrix(t_token **aux)
 			i++;
 		}
 		if ((*aux)->next && ((*aux)->next->type == HERE_ARG
-			|| (*aux)->next->type == HEREDOC))
+				|| (*aux)->next->type == HEREDOC))
 			(*aux) = (*aux)->next;
 		else
-			break;
+			break ;
 	}
 	eof_matrix[i] = NULL;
 	return (eof_matrix);

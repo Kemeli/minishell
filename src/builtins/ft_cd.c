@@ -29,9 +29,10 @@ static void	set_oldpwd(t_list **envp_list, char *temp)
 	free_matrix (oldpwd);
 }
 
-int	cd_error (char *msg, char *cmd)
+int	cd_error(char *msg, char *cmd)
 {
-	char *new_msg;
+	char	*new_msg;
+	
 	if (cmd)
 	{
 		new_msg = ft_strjoin(msg, cmd);

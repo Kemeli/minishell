@@ -1,55 +1,58 @@
 #include <minishell.h>
 
+int	file_error(char *file)
+{
+	ft_putstr_fd ("minishell: ", 1);
+	perror (file);
+	free (file);
+	return (0);
+}
+
+int	open_file(t_token *node, char *file_name, t_redirect *redir)
+{
+	if (node->type == INFILE)
+	{
+		redir->infile = open(file_name, O_RDONLY, 0444);
+		if (redir->infile == -1)
+			return (file_error (file_name));
+	}
+	else if (node->type == APPEND_OUT)
+	{
+		redir->outfile = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (redir->outfile == -1)
+			return (file_error (file_name));
+	}
+	else if (node->type == OUTFILE)
+	{
+		redir->outfile = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (redir->outfile == -1)
+			return (file_error (file_name));
+	}
+	return (1);
+}
+
 int	redirector(t_token *aux, t_redirect *redir, t_list *envp)
 {
-	char	*file;
+	char	*file_name;
 
 	if (aux->type == PIPE)
 		aux = (aux->next);
 	while (aux && aux->type != PIPE)
 	{
-		file = ft_strdup(aux->cmd);
-		if (aux->type == INFILE)
-		{
-			redir->infile = open(file, O_RDONLY, 0444);
-			if (redir->infile == -1)
-			{
-				perror (file);
-				free (file);
-				return (0);
-			}
-		}
-		else if (aux->type == APPEND_OUT)
-		{
-			redir->outfile = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (redir->outfile == -1)
-			{
-				perror (file);
-				free (file);
-				return (0);
-			}
-		}
-		else if (aux->type == OUTFILE)
-		{
-			redir->outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (redir->outfile == -1)
-			{
-				perror (file);
-				free (file);
-				return (0);
-			}
-		}
-		else if (aux->next && aux->type == HEREDOC)
+		file_name = ft_strdup(aux->cmd);
+		if (!open_file(aux, file_name, redir))
+			return (0);
+		if (aux->next && aux->type == HEREDOC)
 		{
 			if (!heredoc_handler(redir, envp, &aux))
 			{
-				free (file);
+				free (file_name);
 				return (0);
 			}
 		}
 		if (aux)
 			aux = (aux->next);
-		free (file);
+		free (file_name);
 	}
 	return (1);
 }

@@ -49,12 +49,11 @@ void	handle_heredoc_sigint(int sig)
 //     rl_redisplay();
 // }
 
-
 void    handle_sigquit(int sig)
 {
-    (void)sig;
-    ft_putstr_fd("\r                                              \r", 1);
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
+	(void)sig;
+	ft_putstr_fd("\r                                              \r", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }

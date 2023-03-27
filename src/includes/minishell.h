@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/25 03:08:17 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/27 13:48:03 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_exec
 	char	**input;
 	int		status;
 	int		exit_status;
+	int		is_built;
 }	t_exec;
 
 typedef struct s_token
