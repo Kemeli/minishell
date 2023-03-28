@@ -63,28 +63,3 @@ char	*cut_quotes(char *str)
 	return (new);
 }
 
-char	*handle_quotes_dollar(char *input)
-{
-	if (input && ft_strchr(input, '$'))
-		input = handle_dollar(input);
-	// if (input && input[0] == '\'' && input[1] == '\'' && input[2] == '\0')
-	// {
-	// 	free (input);
-	// 	return (NULL);
-	// }
-	// if (input && input[0] == '\"' && input[1] == '\"' && input[2] == '\0')
-	// {
-	// 	free (input);
-	// 	return (NULL);
-	// }
-	if (input && (ft_strchr(input, '\'') || ft_strchr(input, '\"')))
-	{
-		input = cut_quotes (input);
-		// if (input[0] == '\0')
-		// {
-		// 	free (input);
-		// 	// return (NULL);
-		// }
-	}
-	return (input);
-}

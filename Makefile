@@ -6,7 +6,7 @@ SRC =		main.c \
 			parser/input_utils.c \
 			parser/sintax.c \
 			parser/env_utils.c \
-			parser/lexer_utils.c \
+			parser/quotes.c \
 			parser/dollar_char.c\
 			parser/is_strblank.c\
 			executor/executor.c \

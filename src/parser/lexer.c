@@ -86,7 +86,7 @@ t_token	*lexer(char **input, t_token *list)
 	i = -1;
 	while (input[++i])
 	{
-		input[i] = handle_quotes_dollar(input[i]);
+		input[i] = handle_dollar(input[i]);
 		if (input[i])
 		{
 			new = ft_calloc(sizeof(t_token), 1);
@@ -97,6 +97,8 @@ t_token	*lexer(char **input, t_token *list)
 				check_cmd_type(new);
 			if (!new->type)
 				new->type = 0;
+			if (ft_strchr(new->cmd, '\'') || ft_strchr(new->cmd, '\"'))
+				new->cmd = cut_quotes(new->cmd);
 		}
 	}
 	free_input_matrix (input, i);
