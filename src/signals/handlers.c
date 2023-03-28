@@ -24,10 +24,10 @@ void	handle_sigint(int sig)
 	if (g_shell.current_pid != 0)
 	{
 		kill(g_shell.current_pid, SIGINT);
-		ft_putchar_fd('\n', STDERR_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return ;
 	}
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -41,19 +41,9 @@ void	handle_heredoc_sigint(int sig)
 }
 
 /* SIGQUIT = Ctrl + \ */
-// void	handle_sigquit(int sig)
-// {
-// 	(void)sig;
-//     rl_replace_line("", 0);
-//     rl_on_new_line();
-//     rl_redisplay();
-// }
-
-void    handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("\r                                              \r", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	ft_putchar_fd(8, STDOUT_FILENO);
+	ft_putchar_fd(8, STDOUT_FILENO);
 }
