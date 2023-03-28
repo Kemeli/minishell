@@ -41,7 +41,7 @@ char	*get_path(char *cmd, t_list *envp_list)
 
 	path = NULL;
 	aux = get_env("PATH", envp_list);
-	if (aux)
+	if (aux && cmd)
 	{
 		paths = ft_split(aux, ':');
 		free (aux);

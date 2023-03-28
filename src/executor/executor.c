@@ -19,6 +19,7 @@ static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 	if (redirect->infile && redirect->infile != -1)
 		close(redirect->infile);
 	free_matrix (exec->cmd);
+	exec->cmd = NULL;
 	free (redirect);
 	redirect = NULL;
 	if (exec->path)
@@ -37,36 +38,6 @@ static void	exec_child(
 	if (exec->pid == 0)
 		child(exec, redir, list, envp);
 }
-
-// static void	execute(t_token *list, t_exec *exec, t_list *envp)
-// {
-// 	t_redirect	*redir;
-// 	int			is_builtin;
-// 	t_token		*aux;
-
-// 	aux = list;
-// 	while (exec->to_process >= 1)
-// 	{
-// 		redir = ft_calloc(sizeof(t_redirect), 1);
-// 		if (!redirector(aux, redir, envp))
-// 		{
-// 			free(redir);
-// 			break ;
-// 		}
-// 		aux = get_cmd_matrix(aux, exec);
-// 		is_builtin = 0;
-// 		if (exec->ended_proc == 0 && exec->to_process == 1)
-// 			is_builtin = env_built(exec, &envp, list, redir);
-// 		if (!is_builtin)
-// 			exec_child(exec, redir, list, envp);
-// 		free_parent_process(exec, redir);
-// 		exec->to_process--;
-// 		exec->ended_proc++;
-// 	}
-// 	end_parent (exec);
-// 	wait_processes(exec);
-// 	g_shell.current_pid = 0;
-// }
 
 static void	execute(t_token *list, t_exec *exec, t_list *envp)
 {

@@ -22,7 +22,7 @@ static char	*slash_cmd_handle(char *cmd)
 	return (cmd);
 }
 
-static t_token	*cmd_matrix(t_token *aux, t_exec *exec)
+static	t_token	*cmd_matrix(t_token *aux, t_exec *exec)
 {
 	t_token	*cmd_list;
 	int		i;
