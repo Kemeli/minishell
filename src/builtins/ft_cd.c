@@ -59,7 +59,7 @@ int	ft_cd(char **cmd, t_list **envp_list)
 	if (cmd[1] == NULL)
 	{
 		path = get_env("HOME", *envp_list);
-		if (chdir(path))
+		if (!path || chdir(path))
 			cd_error(NULL, NULL);
 		free (path);
 	}
