@@ -30,11 +30,14 @@ int	ft_export(char **cmd, t_list **envp_list)
 	int		j;
 
 	i = 1;
+	if (!cmd[1])
+	{
+		ft_env(*envp_list, NULL);
+		return (1);
+	}
 	if (!check_valid_envar(cmd, "minishell: export: `",
 			"': not a valid identifier", 1))
 		return (1);
-	if (!cmd[1])
-		ft_env(*envp_list, NULL);
 	while (cmd[i])
 	{
 		j = 0;
