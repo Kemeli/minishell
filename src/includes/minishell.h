@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/27 19:38:40 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2023/03/28 02:49:07 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,6 @@ void	free_null(char **str);
 \******************************************************************************/
 
 void	handle_sigint(int sig);
-void	handle_sigquit(int sig);
 void	handle_heredoc_sigint(int sig);
 void	set_listeners(void);
 void	set_ctrl_c_heredoc(void);

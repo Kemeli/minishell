@@ -30,7 +30,7 @@ static void	set_ctrl_back_slash(void)
 	struct sigaction	handler;
 
 	handler.sa_flags = 0;
-	handler.sa_handler = &handle_sigquit;
+	handler.sa_handler = SIG_IGN;
 	sigemptyset(&handler.sa_mask);
 	if (sigaction(SIGQUIT, &handler, NULL))
 		printf("Error installing SIGQUIT handler\n");

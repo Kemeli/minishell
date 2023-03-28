@@ -39,11 +39,3 @@ void	handle_heredoc_sigint(int sig)
 	(void)sig;
 	g_shell.stop_loop = !g_shell.stop_loop;
 }
-
-/* SIGQUIT = Ctrl + \ */
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	ft_putchar_fd(8, STDOUT_FILENO);
-	ft_putchar_fd(8, STDOUT_FILENO);
-}
