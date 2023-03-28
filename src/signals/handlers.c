@@ -21,6 +21,7 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	g_shell.exit_status = 130;
 	if (g_shell.current_pid != 0)
 	{
 		kill(g_shell.current_pid, SIGINT);
