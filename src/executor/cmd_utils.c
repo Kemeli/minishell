@@ -55,6 +55,13 @@ t_token	*get_cmd_matrix(t_token *list, t_exec *exec)
 	t_token	*aux;
 
 	aux = list;
+	while (aux)
+	{
+		if (ft_strchr(aux->cmd, '\'') || ft_strchr(aux->cmd, '\"'))
+			aux->cmd = cut_quotes(aux->cmd);
+		aux = aux->next;
+	}
+	aux = list;
 	if (aux && aux->type == PIPE)
 		aux = aux->next;
 	while (aux && aux->type != SYS_CMD)

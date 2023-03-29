@@ -3,15 +3,15 @@
 
 int	ft_env(t_list *envp_list, char **cmd)
 {
-	char	**matrix;
-	int		i;
+	 char	**matrix;
+	 int		i;
 
+	i = 0;
 	if (cmd && cmd[1])
 	{
 		status ("minishell: env: ‘", cmd[1], "’: invalid parameter", 127);
 		return (1);
 	}
-	i = 0;
 	matrix = envp_matrix(envp_list);
 	while (matrix[i])
 	{
