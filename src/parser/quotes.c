@@ -62,4 +62,3 @@ char	*cut_quotes(char *str)
 	free (cut);
 	return (new);
 }
-

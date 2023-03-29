@@ -6,7 +6,7 @@ static void	change_fd(int file, int std_fd)
 	close (file);
 }
 
-static void	fd_redir(t_redirect *redirect, t_exec *exec, int i)
+static void	fd_redir(t_redir *redirect, t_exec *exec, int i)
 {
 	if (redirect->here_file)
 		change_fd(redirect->here_file, STDIN_FILENO);
@@ -21,7 +21,7 @@ static void	fd_redir(t_redirect *redirect, t_exec *exec, int i)
 	close_fd(exec->fd);
 }
 
-void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
+void	child(t_exec *exec, t_redir *redir, t_token *aux, t_list *envp)
 {
 	int	is_builtin;
 
@@ -32,8 +32,6 @@ void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 	if (exec->path && !is_builtin)
 	{
 		exec->envp_ms = envp_matrix(envp);
-		// if (execve(exec->path, exec->cmd, exec->envp_ms) == -1)
-		// 	perror(exec->cmd[0]);
 		execve(exec->path, exec->cmd, exec->envp_ms);
 	}
 	if (exec->cmd && !is_builtin)

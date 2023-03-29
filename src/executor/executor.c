@@ -7,7 +7,7 @@ static void	end_parent(t_exec *exec)
 	free_matrix(exec->envp_ms);
 }
 
-static void	free_parent_process(t_exec *exec, t_redirect *redirect)
+static void	free_parent_process(t_exec *exec, t_redir *redirect)
 {
 	if (redirect->here_file != 0 && redirect->here_file != -1)
 	{
@@ -28,7 +28,7 @@ static void	free_parent_process(t_exec *exec, t_redirect *redirect)
 
 static void	exec_child(
 	t_exec *exec,
-	t_redirect *redir,
+	t_redir *redir,
 	t_token *list,
 	t_list *envp
 )
@@ -39,15 +39,14 @@ static void	exec_child(
 		child(exec, redir, list, envp);
 }
 
-static void	execute(t_token *list, t_exec *exec, t_list *envp)
+static void	execute(t_token *list, t_exec *exec, t_list *envp, t_redir *redir)
 {
-	t_redirect	*redir;
 	t_token		*aux;
 
 	aux = list;
 	while (exec->to_process >= 1)
 	{
-		redir = ft_calloc(sizeof(t_redirect), 1);
+		redir = ft_calloc(sizeof(t_redir), 1);
 		exec->valid_redir = redirector(aux, redir, envp);
 		aux = get_cmd_matrix(aux, exec);
 		if (exec->valid_redir && exec->valid_redir != -1)
@@ -71,12 +70,14 @@ static void	execute(t_token *list, t_exec *exec, t_list *envp)
 
 void	start_exec(t_token *list, t_list *envp_list)
 {
-	t_token	*aux;
-	t_exec	*exec;
+	t_token		*aux;
+	t_exec		*exec;
+	t_redir		*redir;
 
 	exec = ft_calloc(sizeof(t_exec), 1);
 	exec->to_process = 1;
 	aux = list;
+	redir = NULL;
 	while (aux)
 	{
 		if (aux->type == PIPE)
@@ -85,6 +86,6 @@ void	start_exec(t_token *list, t_list *envp_list)
 	}
 	aux = list;
 	start_fd(exec);
-	execute(list, exec, envp_list);
+	execute(list, exec, envp_list, redir);
 	free (exec);
 }

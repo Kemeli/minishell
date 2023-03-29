@@ -8,7 +8,7 @@ int	file_error(char *file)
 	return (0);
 }
 
-int	open_file(t_token *node, char *file_name, t_redirect *redir)
+int	open_file(t_token *node, char *file_name, t_redir *redir)
 {
 	if (node->type == INFILE)
 	{
@@ -31,7 +31,7 @@ int	open_file(t_token *node, char *file_name, t_redirect *redir)
 	return (1);
 }
 
-int	redirector(t_token *aux, t_redirect *redir, t_list *envp)
+int	redirector(t_token *aux, t_redir *redir, t_list *envp)
 {
 	char	*file_name;
 

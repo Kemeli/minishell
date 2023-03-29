@@ -37,9 +37,10 @@ static int	check_opened_quotes(char *input)
 			key_d = 0;
 		i++;
 	}
-	if (key_s || key_d)
-		return (1);
-	return (0);
+	if (!key_s && !key_d)
+		return (0);
+	ft_putstr_fd("error: opened quotes\n", 2);
+	return (1);
 }
 
 static char	*check_handle_pipe(char *input)
@@ -83,10 +84,7 @@ char	**get_input(t_list *list_envp)
 	add_history(temp_input);
 	input = check_handle_pipe(temp_input);
 	if (check_opened_quotes(input))
-	{
-		ft_putstr_fd("error: opened quotes\n", 2);
 		return (NULL);
-	}
 	input = get_expanded_var(input, list_envp, 0);
 	input_matrix = get_input_matrix(input);
 	free (input);

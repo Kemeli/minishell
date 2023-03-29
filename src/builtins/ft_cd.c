@@ -32,7 +32,7 @@ static void	set_oldpwd(t_list **envp_list, char *temp)
 int	cd_error(char *msg, char *cmd)
 {
 	char	*new_msg;
-	
+
 	if (cmd)
 	{
 		new_msg = ft_strjoin(msg, cmd);

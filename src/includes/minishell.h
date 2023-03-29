@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:24:02 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/28 20:46:53 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:15:48 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_redirect
 	int	fd_pipe;
 	int	here_file;
 	int	here_sig;
-}	t_redirect;
+}	t_redir;
 
 typedef struct s_exec
 {
@@ -165,14 +165,14 @@ int		sintax(t_token *list);
 \******************************************************************************/
 
 void	start_exec(t_token *list, t_list *envp_list);
-int		redirector(t_token *aux, t_redirect *redir, t_list *envp);
-int		heredoc_handler(t_redirect *redirect, t_list *envp, t_token **aux);
+int		redirector(t_token *aux, t_redir *redir, t_list *envp);
+int		heredoc_handler(t_redir *redirect, t_list *envp, t_token **aux);
 char	**heredoc_matrix(char *input);
 char	*join_heredoc_input(char *input, char *read);
 char	**eof_matrix(t_token **aux);
 char	*get_path(char *cmd, t_list *envp_list);
 t_token	*get_cmd_matrix(t_token *list, t_exec *exec);
-void	child(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
+void	child(t_exec *exec, t_redir *redir, t_token *aux, t_list *envp);
 char	**envp_matrix(t_list *list_envp);
 void	start_fd(t_exec *exec);
 void	close_fd(int **fd);
@@ -186,15 +186,15 @@ int		try_builtin(
 			t_exec *exec,
 			t_list **envp,
 			t_token *list,
-			t_redirect *redir
+			t_redir *redir
 			);
-int		env_built(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir);
+int		env_built(t_exec *exec, t_list **envp, t_token *list, t_redir *redir);
 int		ft_cd(char **cmd, t_list **envp_list);
 int		ft_echo(char **cmd);
 int		ft_env(t_list *envp_list, char **cmd);
 int		ft_unset(char **cmd, t_list *envp_list);
 int		ft_export(char **cmd, t_list **envp_list);
-int		ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir);
+int		ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redir *redir);
 int		ft_pwd(void);
 int		status(char *msg1, char *msg2, char *msg3, int status);
 int		check_valid_envar(char **cmd, char *msg1, char *msg3, int exp);
@@ -207,7 +207,7 @@ void	free_int_mat(int **input);
 void	free_matrix(char **input);
 void	free_input_matrix(char **input, int i);
 void	free_list(t_token *list);
-void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp);
+void	free_exit(t_exec *exec, t_redir *redir, t_token *aux, t_list *envp);
 void	free_shell(void);
 void	free_null(char **str);
 

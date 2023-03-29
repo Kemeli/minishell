@@ -14,13 +14,11 @@ int	check_valid_envar(char **cmd, char *msg1, char *msg3, int exp)
 {
 	int		i;
 	int		j;
-	int		ret;
 
 	i = 0;
 	j = 0;
-	ret = 1;
 	if (cmd[1][0] == '\0')
-		ret = status(msg1, cmd[1], msg3, 1);
+		return (status(msg1, cmd[1], msg3, 1));
 	while (cmd && cmd[++i] && cmd[i][j])
 	{
 		if (ft_isalpha(cmd[i][j]) || cmd[i][j] == '_')
@@ -36,12 +34,12 @@ int	check_valid_envar(char **cmd, char *msg1, char *msg3, int exp)
 			j++;
 		}
 		if (!is_env_char(cmd[i][j]) && cmd[i][j] != '\0')
-			ret = status(msg1, cmd[i], msg3, 1);
+			return (status(msg1, cmd[i], msg3, 1));
 	}
-	return (ret);
+	return (1);
 }
 
-int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
+int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redir *redir)
 {
 	int	ret;
 
@@ -66,7 +64,7 @@ int	try_builtin(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
 	return (ret);
 }
 
-int	env_built(t_exec *exec, t_list **envp, t_token *list, t_redirect *redir)
+int	env_built(t_exec *exec, t_list **envp, t_token *list, t_redir *redir)
 {
 	int	ret;
 

@@ -1,7 +1,7 @@
 
 #include <minishell.h>
 
-void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
+void	free_exit(t_exec *exec, t_redir *redir, t_token *aux, t_list *envp)
 {
 	if (exec->cmd)
 		free_matrix(exec->cmd);
@@ -22,7 +22,7 @@ void	free_exit(t_exec *exec, t_redirect *redir, t_token *aux, t_list *envp)
 
 static void	exit_error(
 		t_exec *exec,
-		t_redirect *redir,
+		t_redir *redir,
 		t_token *list,
 		t_list *envp)
 {
@@ -31,7 +31,7 @@ static void	exit_error(
 	exit (42);
 }
 
-int	ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redirect *redir)
+int	ft_exit(t_exec *exec, t_token *list, t_list *envp, t_redir *redir)
 {
 	int	status;
 	int	i;
