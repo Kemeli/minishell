@@ -1,23 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handlers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/30 20:13:25 by kdaiane-          #+#    #+#             */
+/*   Updated: 2023/03/30 20:13:27 by kdaiane-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-/*******************************************************************************
-** SIGNAL HANDLERS
-********************************************************************************
-**
-** These handlers are used by the sigaction function to handle user
-** interactions like ctrl-c ctrl-\.
-**
-** In these handlers we SHOULD NOT use functions that are not listed in the
-** async-signal-safe.
-**
-** https://man7.org/linux/man-pages/man7/signal-safety.7.html
-**
-** So for example, if you want to print something please make use of the write
-** function instead of the printf function.
-**
-******************************************************************************/
-
-/* SIGINT = Ctrl + C */
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -34,7 +28,6 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-/* SIGINT = Ctrl + C */
 void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;

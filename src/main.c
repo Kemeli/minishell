@@ -6,27 +6,13 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:25:47 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/30 14:01:14 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:15:14 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 t_shell	g_shell;
-
-// Essa função vai sair
-void	print_list(t_token *list)
-{
-	t_token	*aux;
-
-	aux = list;
-	while (aux)
-	{
-		printf("cmd: %s, type: %d\n", aux->cmd, aux->type);
-		aux = aux->next;
-	}
-	printf("\n");
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -44,7 +30,6 @@ int	main(int argc, char **argv, char **envp)
 		if (input)
 		{
 			list = lexer(input, list);
-			// print_list(list);
 			if (list && sintax(list))
 				start_exec(list, g_shell.envp_list);
 			if (list)

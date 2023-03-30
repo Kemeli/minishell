@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/30 20:10:30 by kdaiane-          #+#    #+#             */
+/*   Updated: 2023/03/30 20:16:10 by kdaiane-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 int	status(char *msg1, char *msg2, char *msg3, int status)
@@ -29,7 +41,8 @@ int	check_valid_envar(char **cmd, char *msg1, char *msg3, int exp)
 			j++;
 		if (!is_env_char(cmd[i][j]) && cmd[i][j] != '\0' && !exp)
 			return (status(msg1, cmd[i], msg3, 1));
-		if (!is_env_char(cmd[i][j]) && exp && cmd[i][j] != '=' && cmd[i][j] != '\0')
+		if (!is_env_char(cmd[i][j]) && exp
+			&& cmd[i][j] != '=' && cmd[i][j] != '\0')
 			return (status(msg1, cmd[i], msg3, 1));
 		j = 0;
 	}
