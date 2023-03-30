@@ -1,4 +1,3 @@
-
 SRC =		main.c \
 			parser/lexer.c \
 			parser/input_handler.c \

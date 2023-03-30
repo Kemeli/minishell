@@ -6,7 +6,7 @@
 /*   By: kdaiane- < kdaiane-@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:13:08 by kdaiane-          #+#    #+#             */
-/*   Updated: 2023/03/30 20:13:09 by kdaiane-         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:32:35 by kdaiane-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	is_meta(int type)
 
 static int	error_sintax(char *cmd)
 {
-	ft_putstr_fd ("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd ("minishell: syntax error near token `", 2);
 	ft_putstr_fd (cmd, 2);
 	ft_putstr_fd ("'\n", 2);
 	return (0);
