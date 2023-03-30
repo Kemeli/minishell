@@ -39,10 +39,9 @@ void	child(t_exec *exec, t_redir *redir, t_token *aux, t_list *envp)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(exec->cmd[0], 2);
 		ft_putstr_fd(": no such file or directory\n", 2);
+		free_exit (exec, redir, aux, envp);
+		exit(127);
 	}
 	free_exit (exec, redir, aux, envp);
-	if (!is_builtin)
-		exit(127);
-	else
-		exit(g_shell.exit_status);
+	exit(g_shell.exit_status);
 }

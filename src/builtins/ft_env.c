@@ -3,8 +3,8 @@
 
 int	ft_env(t_list *envp_list, char **cmd)
 {
-	 char	**matrix;
-	 int		i;
+	char	**matrix;
+	int		i;
 
 	i = 0;
 	if (cmd && cmd[1])
@@ -20,7 +20,7 @@ int	ft_env(t_list *envp_list, char **cmd)
 			i++;
 			continue ;
 		}
-		printf("%s\n", matrix[i]);
+		ft_putendl_fd(matrix[i], 1);
 		i++;
 	}
 	free_matrix (matrix);
