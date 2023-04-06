@@ -6,6 +6,8 @@ run:
 
 ```git clone git@github.com:Kemeli/minishell.git minishell```
 
+```make``` 
+
 ```./minishell```  
 
 and enjoy it!
